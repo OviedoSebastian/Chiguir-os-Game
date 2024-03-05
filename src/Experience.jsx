@@ -1,23 +1,29 @@
 import { OrbitControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
+import { Plane } from "@react-three/drei";
 
 const Experience = () => {
-    const boxRef = useRef(null);
-    
+
+    const planeRef = useRef(null);
+    const cameraRef = useRef(null);
+
     useFrame((state, delta)=>{
-        boxRef.current.rotation.x += 1 * delta;
+        // planeRef.current.rotation.x += 1 * delta;
     })
 
     return (
         <>
             <ambientLight />
             <directionalLight position={[10, 10, 5]} />
-            <OrbitControls makeDefault />
-            <mesh ref={boxRef}>
-                <boxGeometry args={[1, 1, 1]} />
+            
+            <mesh ref={planeRef}> 
+                <Plane args={[10, 100]} />
                 <meshStandardMaterial color={"purple"} />
             </mesh>
+            
+            {/* Control de movimiento de la camara */}
+            <OrbitControls enableZoom enablePan enableRotate />
         </>
 
     )
