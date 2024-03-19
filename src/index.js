@@ -6,13 +6,7 @@ import { Canvas } from "@react-three/fiber";
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-    <Canvas
-        camera={
-            {
-                position: [0, -5, 6]
-            }
-        }
-    >
+    <Canvas>
         <Experience />
     </Canvas>
 
