@@ -8,7 +8,7 @@ const Experience = () => {
 
     // Rutas de las texturas
     const PATH_materialfabric = "/assets/texture/fabric/";
-    const PATH_containerside = "/assets/texture/containerside/";
+    const PATH_containerside = "/assets/texture/containerSide/";
     const PATH_brick = "/assets/texture/bricks/";
 
 
