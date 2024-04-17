@@ -4,9 +4,12 @@ import { RepeatWrapping } from "three";
 export default function World(props) {
 
     const {nodes, materials} = useGLTF("/assets/models/world/GameWorld.glb");
+
+
+    // CONFIGURAR LAS TEXTURAS DEL PISO
     const PATH = "/assets/texture/floor/";
 
-    const propsTexture = useTexture({
+    const propsTextureFloor = useTexture({
         map: PATH + "leafy_grass_diff_1k.jpg",
         displacementMap: PATH + "leafy_grass_disp_1k.png",
         maskMap: PATH + "leafy_grass_mask_1k.png",
@@ -14,32 +17,69 @@ export default function World(props) {
         roughnessMap: PATH + "leafy_grass_rough_1k.jpg",
     });
 
-    // REPETICION DE LA TEXTURAS PARA SU AJUSTE EN EL MAPA
-    propsTexture.map.repeat.set(4, 64);
-    propsTexture.map.wrapS = propsTexture.map.wrapT = RepeatWrapping;
-
-    propsTexture.displacementMap.repeat.set(4, 64);
-    propsTexture.displacementMap.wrapS = propsTexture.displacementMap.wrapT = RepeatWrapping;
     
-    propsTexture.maskMap.repeat.set(4, 64);
-    propsTexture.maskMap.wrapS = propsTexture.maskMap.wrapT = RepeatWrapping;
+    propsTextureFloor.map.repeat.set(4, 64);
+    propsTextureFloor.map.wrapS = propsTextureFloor.map.wrapT = RepeatWrapping;
 
-    propsTexture.NormalMap.repeat.set(4, 64);
-    propsTexture.NormalMap.wrapS = propsTexture.NormalMap.wrapT = RepeatWrapping;
+    propsTextureFloor.displacementMap.repeat.set(4, 64);
+    propsTextureFloor.displacementMap.wrapS = propsTextureFloor.displacementMap.wrapT = RepeatWrapping;
+    
+    propsTextureFloor.maskMap.repeat.set(4, 64);
+    propsTextureFloor.maskMap.wrapS = propsTextureFloor.maskMap.wrapT = RepeatWrapping;
 
-    propsTexture.roughnessMap.repeat.set(4, 64);
-    propsTexture.roughnessMap.wrapS = propsTexture.roughnessMap.wrapT = RepeatWrapping;
-    // FIN DEL AJUSTE
+    propsTextureFloor.NormalMap.repeat.set(4, 64);
+    propsTextureFloor.NormalMap.wrapS = propsTextureFloor.NormalMap.wrapT = RepeatWrapping;
+
+    propsTextureFloor.roughnessMap.repeat.set(4, 64);
+    propsTextureFloor.roughnessMap.wrapS = propsTextureFloor.roughnessMap.wrapT = RepeatWrapping;
+
+
+    // CONFIGURAR LAS TEXTURAS DE LAS PAREDES
+    const PATH2 = "/assets/texture/walls/";
+
+    const propsTextureWall = useTexture({
+        map: PATH2 + "grey_diff.jpg",
+        displacementMap: PATH2 + "grey_disp.png",
+        maskMap: PATH2 + "grey_ao.jpg",
+        NormalMap: PATH2 + "grey_nor.jpg",
+        roughnessMap: PATH2 + "grey_rough.jpg",
+    });
+
+    
+    propsTextureWall.map.repeat.set(4, 64);
+    propsTextureWall.map.wrapS = propsTextureWall.map.wrapT = RepeatWrapping;
+
+    propsTextureWall.displacementMap.repeat.set(4, 64);
+    propsTextureWall.displacementMap.wrapS = propsTextureWall.displacementMap.wrapT = RepeatWrapping;
+    
+    propsTextureWall.maskMap.repeat.set(4, 64);
+    propsTextureWall.maskMap.wrapS = propsTextureWall.maskMap.wrapT = RepeatWrapping;
+
+    propsTextureWall.NormalMap.repeat.set(4, 64);
+    propsTextureWall.NormalMap.wrapS = propsTextureWall.NormalMap.wrapT = RepeatWrapping;
+
+    propsTextureWall.roughnessMap.repeat.set(4, 64);
+    propsTextureWall.roughnessMap.wrapS = propsTextureWall.roughnessMap.wrapT = RepeatWrapping;
+
+
+
 
     
     return (
 
         <group {...props} dispose={null}>
             <group>
-                <mesh geometry={nodes.walls.geometry} />
+
+                {/*  PAREDES */}
+                <mesh geometry={nodes.walls.geometry}>
+                    <meshStandardMaterial {...propsTextureWall} />
+                </mesh> 
+
+                {/* PISO */}
                 <mesh geometry={nodes.floor.geometry}>
-                    <meshStandardMaterial {...propsTexture} />
+                    <meshStandardMaterial {...propsTextureFloor} />
                 </mesh>
+
             </group>
         </group>
 
