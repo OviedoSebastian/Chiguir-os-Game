@@ -3,7 +3,7 @@ import { RepeatWrapping } from "three";
 
 export default function World(props) {
 
-    const {nodes, materials} = useGLTF("/assets/models/world/GameWorld.glb");
+    const {nodes, materials} = useGLTF("/assets/models/world/WorldSquidGames.glb");
 
 
     // CONFIGURAR LAS TEXTURAS DEL PISO
@@ -71,12 +71,12 @@ export default function World(props) {
             <group>
 
                 {/*  PAREDES */}
-                <mesh geometry={nodes.walls.geometry}>
+                <mesh geometry={nodes.Walls.geometry}>
                     <meshStandardMaterial {...propsTextureWall} />
                 </mesh> 
 
                 {/* PISO */}
-                <mesh geometry={nodes.floor.geometry}>
+                <mesh geometry={nodes.Floor.geometry}>
                     <meshStandardMaterial {...propsTextureFloor} />
                 </mesh>
 
