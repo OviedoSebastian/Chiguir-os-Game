@@ -71,38 +71,38 @@ const Experience = () => {
             </mesh> */}
 
             {/* Figuras de la tarea */}
-            <mesh position={[0, 2, 10]} ref={boxRef}>
+            <mesh position={[0, 5, 0]} ref={boxRef}>
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial {...propsFabricTexture} />
             </mesh>
         
-            <mesh position={[4, 2.6, -30]} ref={boxnormaleRef}>
+            <mesh position={[0, 5, -10]} ref={boxnormaleRef}>
                 <torusGeometry args={[1, 0.4, 16, 100]} />
                 <meshNormalMaterial  />
             </mesh>
 
-            <mesh position={[2, 2, 15]} ref={boxlambertRef}>
+            <mesh position={[0, 5, -5]} ref={boxlambertRef}>
                 <boxGeometry args={[1, 1, 1]} />
                 <meshLambertMaterial {...propsBricksTexture}/>
             </mesh>
 
-            <mesh position={[-2, 2.6, -1]} ref={boxmatcapRef}>
+            <mesh position={[0, 5, 5]} ref={boxmatcapRef}>
                 <tetrahedronGeometry args={[1, 5]} />
                 <meshMatcapMaterial {...propsContainerTexture}/> 
             </mesh>
 
-            <mesh position={[-8, 2.5, -50]} ref={boxphongRef}>
+            <mesh position={[0, 5, -15]} ref={boxphongRef}>
                 <boxGeometry args={[1, 1, 1]} />
                 <meshPhongMaterial {...propsContainerTexture}/>
             </mesh>
 
-            <mesh position={[-6, 2, 5]} ref={boxphysicalgRef}>
+            <mesh position={[0, 5, 15]} ref={boxphysicalgRef}>
                 <boxGeometry args={[1, 1, 1]} />
                 <meshStandardMaterial {...propsBricksTexture}/>
                 {/* <meshPhysicalMaterial color = {"orange"}/> */}
             </mesh>
 
-            <mesh position={[6, 2.3, 20]} ref={boxtoongRef}>
+            <mesh position={[0, 5, 10]} ref={boxtoongRef}>
                 <sphereGeometry args={[1, 64, 64]} />
                 <meshToonMaterial {...propsFabricTexture}/>
             </mesh>
