@@ -1,4 +1,24 @@
+import { useHelper } from "@react-three/drei"
+import { useControls } from "leva"
+import { useMemo, useRef } from "react"
+import { PointLightHelper } from "three"
+
 const Lights = () => {
+    const pointLightRef = useRef(null)
+    useHelper(pointLightRef, PointLightHelper)
+    const optionSpotLight = useMemo(()=>{
+        return {
+            intensitySL: {value: 100, min: 0, max: 100, step: 1},
+            colorSL: {value: "blue"}
+        }
+    },[])
+    
+
+
+
+
+    const {intensitySL, colorSL} = useControls("SpotLight", optionSpotLight)
+
     return <>
         <ambientLight color={"white"} intensity={0.8} />
         <directionalLight 
@@ -7,9 +27,10 @@ const Lights = () => {
         />
 
         <pointLight
+            ref={pointLightRef}
             position={[0, 2, 0]}
-            color={"blue"}
-            intensity={100}
+            color={colorSL}
+            intensity={intensitySL}
         />
 
         <spotLight 
