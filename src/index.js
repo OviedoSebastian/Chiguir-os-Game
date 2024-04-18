@@ -8,7 +8,10 @@ const root = createRoot(document.getElementById("root"));
 root.render(
     
     <Canvas
-    camera={{position: [0, 0, 20]}}>
+    // camera={{position: [0, 0, 20]}}
+        shadows= {true}
+    
+    >
         <Experience />
     </Canvas>
 
