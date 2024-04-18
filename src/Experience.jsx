@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { RepeatWrapping } from "three";
 import World from "./world/World";
 import Lights from "./lights/Lights";
+import Environments from "./enviroments/Environments";
+import { Perf } from "r3f-perf";
 
 const Experience = () => {
 
@@ -64,6 +66,9 @@ const Experience = () => {
         <>
             <Lights/>
             <World />
+            <Environments/>
+            <Perf position="top-left"/>
+            
 
             {/* Figuras de la tarea */}
             <mesh position={[0, 5, 0]} ref={boxRef}>
