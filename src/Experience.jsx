@@ -1,8 +1,9 @@
-import { OrbitControls, useTexture } from "@react-three/drei";
+import { OrbitControls, useTexture, Stars } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { RepeatWrapping } from "three";
 import World from "./world/World";
+import Lights from "./lights/Lights";
 
 const Experience = () => {
 
@@ -38,7 +39,6 @@ const Experience = () => {
 
 
     const boxRef = useRef(null);
-    // const boxdistanceRef = useRef(null);
     const boxnormaleRef = useRef(null);
     const boxlambertRef = useRef(null);
     const boxmatcapRef = useRef(null);
@@ -57,18 +57,13 @@ const Experience = () => {
         boxtoongRef.current.rotation.y = Math.cos(clock.getElapsedTime());
     });
 
+    <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+
 
     return (
         <>
-            <ambientLight />
-            <directionalLight position={[10, 10, 5]} />
+            <Lights/>
             <World />
-
-            {/* Al agregar el distance material el proyecto muere */}
-            {/* <mesh position={[4, 0, 1]} ref={boxdistanceRef}>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshDistanceMaterial color = {"white"}/>
-            </mesh> */}
 
             {/* Figuras de la tarea */}
             <mesh position={[0, 5, 0]} ref={boxRef}>
