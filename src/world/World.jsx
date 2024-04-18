@@ -1,9 +1,10 @@
 import { useGLTF, useTexture } from "@react-three/drei"
 import { RepeatWrapping } from "three";
+import { color } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function World(props) {
 
-    const {nodes, materials} = useGLTF("/assets/models/world/WorldSquidGames.glb");
+    const {nodes, materials} = useGLTF("/assets/models/world/WorldWithFenceChiguiro.glb");
 
 
     // CONFIGURAR LAS TEXTURAS DEL PISO
@@ -76,9 +77,28 @@ export default function World(props) {
                 </mesh> 
 
                 {/* PISO */}
-                <mesh geometry={nodes.Floor.geometry}>
+                <mesh receiveShadow={true} geometry={nodes.Floor.geometry}>
                     <meshStandardMaterial {...propsTextureFloor} />
                 </mesh>
+
+                {/* FENCE */}
+                <mesh castShadow= {true} geometry={nodes.WoodenFence.geometry}>
+                    <meshStandardMaterial
+                     color = {"aqua"}
+                     metalness={0}
+                     roughness={0.5}
+                    />
+                </mesh>
+
+                {/* CHIGUIRO */}
+                <mesh castShadow= {true} geometry={nodes.Chiguiro.geometry}>
+                    <meshStandardMaterial
+                     color = {"#663919"}
+                     metalness={0}
+                     roughness={0.5}
+                    />
+                </mesh>
+                
 
             </group>
         </group>
