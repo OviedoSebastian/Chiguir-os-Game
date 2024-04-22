@@ -1,0 +1,55 @@
+@font-face {
+    font-family: 'FontSquidGames';
+    src: url('../../../public/assets/fonts/FontSquidGames.ttf') format('truetype');
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    user-select: none;
+}
+
+.logo-univalle img{
+    width: 114px;
+    height: 159px;
+    margin-bottom: 4rem;
+}
+
+.title-squid-games{
+    font-size: 28px;
+    font-weight: bold;
+    color: red;
+    font-family: 'FontSquidGames', Arial, sans-serif;
+    text-align: center;
+}
+
+.button-start > button {
+    color: white;
+    background-color: red;
+    font-weight: bold;
+    width: 96px;
+    height: 32px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 4rem;
+}
+
+.button-start > button:hover {
+    background-color: #FF5757;
+}
+
+.button-start > button:active {
+    background-color: #920A0A; 
+}
+
+.button-start > button:disabled {
+    background-color: #fde6e7;
+    cursor: not-allowed;
+}
