@@ -1,22 +1,15 @@
-import { CapsuleCollider, CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 
 export default function AvatarEngineer() {
-    const avatarBodyRef = useRef();
     const avatarRef = useRef();
     const { avatar, setAvatar } = useAvatar();
     const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Engineer.glb');
 
     const { actions } = useAnimations(animations, avatarRef)
-
-    // useEffect(() => {
-    //     setAvatar({
-    //         ref: avatarRef.current,
-    //         body: avatarBodyRef.current
-    //     })
-    // }, [avatarBodyRef.current, avatarRef.current])
+    // console.log(actions);
+    // actions["Jump"].setPlaybackRate(2);
 
     useEffect(() => {
         actions[avatar.animation]?.reset().fadeIn(0.5).play();
@@ -26,10 +19,11 @@ export default function AvatarEngineer() {
         }
 
     }, [actions, avatar.animation]);
+    
 
     return (
         
-        <group ref={avatarRef} name="Scene" position-y={-0.65}>
+        <group ref={avatarRef} name="Scene" position-y={-0.82}>
             <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
                 <skinnedMesh
                     name="Engineer_eyes"
