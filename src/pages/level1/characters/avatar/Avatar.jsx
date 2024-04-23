@@ -1,4 +1,3 @@
-import { CapsuleCollider, CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useEffect, useRef } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
@@ -11,12 +10,6 @@ export default function Avatar() {
 
     const { actions } = useAnimations(animations, avatarRef)
 
-    // useEffect(() => {
-    //     setAvatar({
-    //         ref: avatarRef.current,
-    //         body: avatarBodyRef.current
-    //     })
-    // }, [avatarBodyRef.current, avatarRef.current])
 
     useEffect(() => {
         actions[avatar.animation]?.reset().fadeIn(0.5).play();
