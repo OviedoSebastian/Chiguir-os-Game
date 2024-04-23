@@ -29,8 +29,6 @@ export default function Avatar() {
 
     return (
         
-
-        // <RigidBody ref={avatarBodyRef} position={[0, 1, -3]} colliders={false}>
         <group ref={avatarRef} name="Scene" position-y={-0.65}>
             <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.001}>
                 <skinnedMesh
@@ -90,6 +88,5 @@ export default function Avatar() {
                 <primitive object={nodes.mixamorigHips} />
             </group>
       </group>
-        // </RigidBody>
     )
 }
