@@ -1,7 +1,13 @@
 import "./stylesLogin.css";
+import { useNavigate } from "react-router-dom";
+
 export default function Login() {
+
+    // Inicializa el manejo de rutas del proyecto
+    const navigate = useNavigate();
+
     const onHandleButtonStart = () => {
-        console.log("Iniciar Juego");
+        navigate('/level1');
     }
 
     return (
