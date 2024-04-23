@@ -10,7 +10,7 @@ export default function World(props) {
                 <RigidBody colliders="trimesh" type="fixed">
                     <mesh onClick={(e) => e.stopPropagation()} geometry={nodes.Walls.geometry} material={materials.wallMaterial} />
                 </RigidBody>
-                <RigidBody type="fixed">
+                <RigidBody colliders="trimesh" type="fixed">
                     <mesh onClick={(e) => e.stopPropagation()} receiveShadow={true} geometry={nodes.Floor.geometry} material={materials.floorMaterial} />
                 </RigidBody>
                 <RigidBody type="fixed" colliders={false}>
