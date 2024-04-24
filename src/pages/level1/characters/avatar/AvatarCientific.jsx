@@ -2,11 +2,11 @@ import { useEffect, useRef } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 
-export default function Avatar() {
-    const avatarBodyRef = useRef();
+export default function AvatarCientific() {
+
     const avatarRef = useRef();
     const { avatar, setAvatar } = useAvatar();
-    const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Avatar1.glb');
+    const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Cientific.glb');
 
     const { actions } = useAnimations(animations, avatarRef)
 
@@ -22,8 +22,8 @@ export default function Avatar() {
 
     return (
         
-        <group ref={avatarRef} name="Scene" position-y={-0.65}>
-            <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.001}>
+        <group ref={avatarRef} name="Scene" position-y={-0.82}>
+            <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
                 <skinnedMesh
                     name="Caot_botons"
                     geometry={nodes.Caot_botons.geometry}
