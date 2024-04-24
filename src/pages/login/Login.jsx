@@ -7,19 +7,29 @@ export default function Login() {
     const navigate = useNavigate();
 
     const onHandleButtonStart = () => {
-        navigate('/level1');
+        navigate('/chooselevel');
     }
 
+    const onHandleButtonaboutgame = () => {
+        navigate('/level1');
+    }
     return (
         <div className="container">
             <div className="logo-univalle">
-                <img src="/assets/images/logo-univalle.png" alt="Logo Universidad del Valle" />
+                <img src="/assets/images/gameIcon.webp" alt="Game Icon" />
             </div>
-            <div className="title-squid-games">
-                Bienvenido a<br/>Squid Games
+            <div className="title-selection">
+                Universidad en Crisis: ¡Supervivencia al Límite!
             </div>
             <div onClick={onHandleButtonStart} className="button-start">
                 <button>Iniciar</button>
+            </div>
+            <div onClick={onHandleButtonaboutgame} className="button-start">
+                <button>Información del juego</button>
+            </div>
+
+            <div className="footer-copyright">
+                &copy; 2024 CHUIGUIR'OS. Todos los derechos reservados.
             </div>
         </div>
     );
