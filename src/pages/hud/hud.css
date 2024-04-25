@@ -1,0 +1,53 @@
+/* HUD.css */
+.hud-container {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .hud-icons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .life-icon {
+    font-size: 75px;
+    margin-right: 10px;
+  }
+  
+  .health-bar-container {
+    width: 200px;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .health-bar {
+    height: 100%;
+    background-color: #ff6e59;
+    border-radius: 5px;
+  }
+  
+  .vidas-perdidas-container {
+    margin-top: 10px; /* Agrega un margen superior entre las vidas perdidas y la barra de vida */
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+  }
+  
+  .vida-perdida {
+    font-size: 25px;
+    margin-bottom: 5px;
+    opacity: 0.5;
+  }
+.vida-text {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    right: 0;
+    text-align: center; 
+}

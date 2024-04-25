@@ -1,6 +1,6 @@
 import { KeyboardControls, OrbitControls } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import WelcomeText from "./abstractions/WelcomeText";
 import RedMen from "./characters/redMen/RedMen";
 import Lights from "./lights/Lights";
@@ -13,18 +13,27 @@ import AvatarCientific from "./characters/avatar/AvatarCientific";
 import AvatarEngineer from "./characters/avatar/AvatarEngineer";
 import useMovements from "../../utils/key-movements";
 import Ecctrl, { EcctrlAnimation } from "ecctrl";
+import CharacterHud from "../hud/CharacterHud"
 
 export default function Level1() {
+
     const map = useMovements();
 
+    const actualizarVida = (nuevaVida) => {
+        setVida(nuevaVida);
+    };
+    const [vida, setVida] = useState(50);
+    const vidasPerdidas = 2;
 
     return (
+        
         <KeyboardControls map={map} >
             <Canvas
                 camera={{
                     position: [0, 1, 0]
                 }}
             >
+
                 {/* <Perf position="top-left" /> */}
                 <Suspense fallback={null}>
                     <Lights />
@@ -46,10 +55,12 @@ export default function Level1() {
                             <AvatarCientific />
                         </Ecctrl>
                     </Physics>
-                    <WelcomeText position={[0, 1, -2]} />
+                    
                 </Suspense>
+                <WelcomeText />
                 <Controls />
             </Canvas>
+            <CharacterHud vida={vida} vidasPerdidas={vidasPerdidas} actualizarVida={actualizarVida} />
         </KeyboardControls>
 
     )
