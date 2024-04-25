@@ -6,15 +6,29 @@
     font-family: 'FontPixelSplitter', Arial;
 }
 
+.container::before {
+    content: ""; /* Crea un elemento vacío */
+    position: absolute; /* Establece la posición absoluta en relación con el contenedor */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../../public/assets/images/imagecanchas.webp'); /* Cambia la ruta a tu imagen de fondo */
+    background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+    background-position: center; /* Centra la imagen de fondo */
+    opacity: 0.5;
+    z-index: -1; /* Coloca la capa detrás del contenido del contenedor */
+    user-select: none; 
+}
 .container{
+    
+    position: relative; /* Establece la posición relativa para que ::before se posicione correctamente */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.9);
-    user-select: none;
+    height: 100vh; /* Establece la altura del contenedor para que ocupe toda la altura de la ventana */
+   /* background-color: azure; */
 }
 
 .logo-univalle img{
@@ -64,6 +78,7 @@
 }
 
 .button-level > button {
+    font-family: 'FontPixelSplitter', Arial, sans-serif;
     color: white;
     background-color: #ff4226;
     font-weight: bold;
@@ -91,5 +106,5 @@
     width: 100%;
     text-align: center;
     font-size: 12px; /* Tamaño pequeño */
-    color: rgba(0, 0, 0, 0.5); /* Color traslúcido */
+    color: white; /* Color traslúcido */
 }
