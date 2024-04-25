@@ -7,9 +7,10 @@ export default function World(props) {
     return (
         <group {...props} dispose={null}>
             <group>
-                <RigidBody colliders="trimesh" type="fixed">
+                {/* No necesito las paredes */}
+                {/* <RigidBody colliders="trimesh" type="fixed">
                     <mesh onClick={(e) => e.stopPropagation()} geometry={nodes.Walls.geometry} material={materials.wallMaterial} />
-                </RigidBody>
+                </RigidBody> */}
                 <RigidBody colliders="trimesh" type="fixed">
                     <mesh onClick={(e) => e.stopPropagation()} receiveShadow={true} geometry={nodes.Floor.geometry} material={materials.floorMaterial} />
                 </RigidBody>
