@@ -12,7 +12,7 @@ Repositorio en el cual se van a almacenar las diferentes asignaciones que vayan 
 
 ### Clonar repositorio
 ```
-git clone https://github.com/OviedoSebastian/RTF_PRACTICES.git
+git clone https://github.com/OviedoSebastian/Chiguir-os-Game.git
 ```
 
 
