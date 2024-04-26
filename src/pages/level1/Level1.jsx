@@ -5,7 +5,6 @@ import WelcomeText from "./abstractions/WelcomeText";
 import RedMen from "./characters/redMen/RedMen";
 import Lights from "./lights/Lights";
 import Environments from "./staging/Environments";
-import { Girl } from "./characters/girl/Girl";
 import { Canvas } from "@react-three/fiber";
 import World from "./world/World";
 import Controls from "./controls/Controls";
@@ -33,15 +32,12 @@ export default function Level1() {
                     position: [0, 1, 0]
                 }}
             >
-
                 {/* <Perf position="top-left" /> */}
                 <Suspense fallback={null}>
                     <Lights />
                     <Environments />
                     <Physics debug={false}>
                         <World />
-                        <Girl />
-                        <RedMen />
                         <Ecctrl
                             capsuleHalfHeight={0.5}
                             floatingDis={0.2}
@@ -49,10 +45,10 @@ export default function Level1() {
                             camMaxDis={-4}
                             maxVelLimit={5} 
                             jumpVel={1} 
-                            position={[0,6,0]}
+                            position={[12, 2, -11.5]}
                         >
-                            {/* <AvatarEngineer /> */}
-                            <AvatarCientific />
+                            <AvatarEngineer />
+                            {/* <AvatarCientific /> */}
                         </Ecctrl>
                     </Physics>
                     
