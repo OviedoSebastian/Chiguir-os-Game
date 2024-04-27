@@ -24,7 +24,8 @@ export default function Login() {
                 <img src="/assets/images/gameIcon.webp" alt="Game Icon" />
             </div>
             <div className="title-selection">
-                Universidad en Crisis: ¡Supervivencia al Límite!
+                Universidad en Crisis<br></br>
+                ¡Supervivencia al Límite!
             </div>
             <div onClick={onHandleButtonStart} className="button-start">
                 <button>Iniciar</button>
