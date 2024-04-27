@@ -41,11 +41,15 @@
 .title-squid-games{
     font-size: 28px;
     font-weight: bold;
-    /* color: red; */
+    color: white;
     font-family: 'FontPixelSplitter', Arial, sans-serif;
     text-align: center;
 }
-
+.title-selection{
+    color: white;
+    font-size: large;
+    text-align: center;
+}
 .button-start > button {
     font-family: 'FontPixelSplitter', Arial, sans-serif;
     color: white;
