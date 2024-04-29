@@ -1,36 +1,153 @@
-import { useGLTF } from "@react-three/drei"
-import { CuboidCollider, CylinderCollider, RigidBody } from "@react-three/rapier"
+import { useGLTF, useTexture } from "@react-three/drei"
+import { RigidBody } from "@react-three/rapier";
+import { RepeatWrapping } from "three";
+import { color } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function World(props) {
-    const { nodes, materials } = useGLTF("/assets/models/world/WorldSquidGames.glb")
 
+    const {nodes, materials} = useGLTF("/assets/models/world/ColiseoSinAsientos.glb");
+
+    
     return (
-        <group {...props} dispose={null}>
-            <group>
-                <RigidBody colliders="trimesh" type="fixed">
-                    <mesh onClick={(e) => e.stopPropagation()} geometry={nodes.Walls.geometry} material={materials.wallMaterial} />
-                </RigidBody>
-                <RigidBody colliders="trimesh" type="fixed">
-                    <mesh onClick={(e) => e.stopPropagation()} receiveShadow={true} geometry={nodes.Floor.geometry} material={materials.floorMaterial} />
-                </RigidBody>
-                <RigidBody type="fixed" colliders={false}>
-                        <mesh
-                            onClick={(e) => e.stopPropagation()}
-                            castShadow={true}
-                            geometry={nodes.WoodenFence.geometry}
-                            material={materials.woodMaterial}>
-                            <CuboidCollider args={[0.2, 0.5, 47.5]} position={[-3.8, 0.5, -47]} />
-                            <CuboidCollider args={[0.2, 0.5, 47.5]} position={[4.2, 0.5, -47]} />
-                        </mesh>
-                </RigidBody>
-                <RigidBody colliders={false} type="fixed" >
-                    <mesh onClick={(e) => e.stopPropagation()} geometry={nodes.Tree.geometry} material={materials.treeMaterial} position={[0, 0, -96]} />
-                    <CylinderCollider args={[1, 0.5]} position={[0, 1, -96]} />
-                </RigidBody>
-            </group>
+      <RigidBody type="fixed" colliders="trimesh">
+            <group {...props} dispose={null}>
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.ParedesAfuera.geometry}
+            material={materials['Material.001']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Piso.geometry}
+            material={materials['Material.001']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.PisoColiseo.geometry}
+            material={materials.cancha}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Canchas.geometry}
+            material={materials['WHITE.005']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo_1.geometry}
+            material={materials['Material.003']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo_2.geometry}
+            material={materials['MaterialEscaleras.001']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo_3.geometry}
+            material={nodes.Coliseo_3.material}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo_4.geometry}
+            material={materials.Entrada1}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo_5.geometry}
+            material={materials['MaterialBarandilla.001']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo_6.geometry}
+            material={materials['BarandilaMaterial.001']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo_7.geometry}
+            material={materials.Escaleritas2}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo_8.geometry}
+            material={materials['header-univalle1']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo006.geometry}
+            material={materials['Material.003']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo006_1.geometry}
+            material={nodes.Coliseo006_1.material}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo006_2.geometry}
+            material={materials.Material}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo006_3.geometry}
+            material={materials.TarimaColiseo1}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo006_4.geometry}
+            material={materials['Material.001']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo008.geometry}
+            material={materials['Material.003']}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo008_1.geometry}
+            material={nodes.Coliseo008_1.material}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo008_2.geometry}
+            material={materials.Material}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Coliseo008_3.geometry}
+            material={materials['Material.002']}
+          />
+          {/* <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Sillas.geometry}
+            material={materials['sillas']}
+          /> */}
         </group>
-    );
+    </RigidBody>
+
+    )
+    
 }
 
-useGLTF.preload("/assets/models/world/WorldSquidGames.glb");
-
+useGLTF.preload("/assets/models/world/ColiseoSinAsientos.glb");

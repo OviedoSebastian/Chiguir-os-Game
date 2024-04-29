@@ -1,7 +1,9 @@
 import "./stylesLogin.css";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Login() {
+
 
     // Inicializa el manejo de rutas del proyecto
     const navigate = useNavigate();
@@ -11,8 +13,11 @@ export default function Login() {
     }
 
     const onHandleButtonaboutgame = () => {
-        navigate('/level1');
+        navigate('/level');
     }
+    
+
+
     return (
         <div className="container">
             <div className="logo-univalle">
