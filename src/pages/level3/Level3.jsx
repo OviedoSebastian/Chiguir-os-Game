@@ -46,8 +46,8 @@ export default function Level3() {
                             jumpVel={1} 
                             position={[0, 2, 0]}
                         >
-                            {/* <AvatarEngineer /> */}
-                            <AvatarCientific />
+                            <AvatarEngineer />
+                            {/* <AvatarCientific /> */}
                         </Ecctrl>
                     </Physics>
                     
