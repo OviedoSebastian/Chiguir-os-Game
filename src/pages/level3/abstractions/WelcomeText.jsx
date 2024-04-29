@@ -9,7 +9,7 @@ const WelcomeText = (props) => {
             rotationIntensity={0.01}
             floatIntensity={0.5}
             floatingRange={[1, 4]}
-            position={[0.5, 2, 7]}
+            position={[0.5, 1, 0]}
 
         >
         <Center
