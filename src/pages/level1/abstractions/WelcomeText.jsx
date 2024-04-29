@@ -1,7 +1,7 @@
 import { Center, Float, Text3D } from "@react-three/drei";
 
 const WelcomeText = (props) => {
-    const text = "Nivel 1";
+    const text = "Nivel 1: Plazoleta de Ingenio Infinito";
 
     return (
         <Float
@@ -12,7 +12,7 @@ const WelcomeText = (props) => {
 
         >
         <Center
-            position={[5.9, 0, -11.5]}
+            position={[8, 0, -11.5]}
         >
             <Text3D
                 font={"/assets/fonts/PixelSplitter.json"}
@@ -21,7 +21,7 @@ const WelcomeText = (props) => {
                 bevelThickness={0.01}
                 height={0.1}
                 letterSpacing={0.05}
-                size={0.2}
+                size={0.08}
             >
                 <meshNormalMaterial />
                 {text}

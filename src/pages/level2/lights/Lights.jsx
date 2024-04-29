@@ -3,9 +3,10 @@ import { Color } from "three";
 const Lights = () => {
     return <>
         <ambientLight
-            intensity={0.5}
+        color={"black"}
+            intensity={-1000}
         />
-        <directionalLight
+        {/* <directionalLight
             castShadow={true}
             position={[2, 10, 0]}
             color={new Color("#FFF700")}
@@ -16,7 +17,7 @@ const Lights = () => {
             shadow-camera-right = {10}
             shadow-camera-top = {10}
             shadow-camera-bottom = {-10}
-        />
+        /> */}
     </>
 }
 export default Lights;

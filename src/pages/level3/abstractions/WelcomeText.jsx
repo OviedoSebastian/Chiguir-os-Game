@@ -1,14 +1,15 @@
 import { Center, Float, Text3D } from "@react-three/drei";
 
 const WelcomeText = (props) => {
-    const text = "Squid Games";
+    const text = "Nivel 3: Cancha 8 7u7";
 
     return (
         <Float
-            speed={1.5}
+            speed={10}
             rotationIntensity={0.01}
             floatIntensity={0.5}
-            floatingRange={[1, 2]}
+            floatingRange={[1, 4]}
+            position={[0.5, 2, 7]}
 
         >
         <Center
