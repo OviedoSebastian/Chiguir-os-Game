@@ -26,3 +26,5 @@ luego para ver de forma visual el proyecto en su navegador (inicializar el ambie
 npm run dev
 ```
 
+
+[Enlace de despliegue del videojuego](https://rtf-practices.vercel.app/)
