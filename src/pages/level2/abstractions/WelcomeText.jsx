@@ -1,14 +1,15 @@
 import { Center, Float, Text3D } from "@react-three/drei";
 
 const WelcomeText = (props) => {
-    const text = "Squid Games";
+    const text = "Nivel 2: Coliseo del Conocimiento Eterno";
 
     return (
         <Float
-            speed={1.5}
+            speed={10}
             rotationIntensity={0.01}
             floatIntensity={0.5}
-            floatingRange={[1, 2]}
+            floatingRange={[1, 4]}
+            position={[0.5, 2, 7]}
 
         >
         <Center
@@ -21,7 +22,7 @@ const WelcomeText = (props) => {
                 bevelThickness={0.01}
                 height={0.1}
                 letterSpacing={0.05}
-                size={0.2}
+                size={0.1}
             >
                 <meshNormalMaterial />
                 {text}
