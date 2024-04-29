@@ -1,36 +1,59 @@
-import { useGLTF } from "@react-three/drei"
-import { CuboidCollider, CylinderCollider, RigidBody } from "@react-three/rapier"
+import { useGLTF, useTexture } from "@react-three/drei";
+import { RigidBody } from "@react-three/rapier";
+import { RepeatWrapping } from "three";
+import { color } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function World(props) {
-    const { nodes, materials } = useGLTF("/assets/models/world/WorldSquidGames.glb")
+  const { nodes, materials } = useGLTF("/assets/models/world/Bosque.glb");
 
-    return (
-        <group {...props} dispose={null}>
-            <group>
-                <RigidBody colliders="trimesh" type="fixed">
-                    <mesh onClick={(e) => e.stopPropagation()} geometry={nodes.Walls.geometry} material={materials.wallMaterial} />
-                </RigidBody>
-                <RigidBody colliders="trimesh" type="fixed">
-                    <mesh onClick={(e) => e.stopPropagation()} receiveShadow={true} geometry={nodes.Floor.geometry} material={materials.floorMaterial} />
-                </RigidBody>
-                <RigidBody type="fixed" colliders={false}>
-                        <mesh
-                            onClick={(e) => e.stopPropagation()}
-                            castShadow={true}
-                            geometry={nodes.WoodenFence.geometry}
-                            material={materials.woodMaterial}>
-                            <CuboidCollider args={[0.2, 0.5, 47.5]} position={[-3.8, 0.5, -47]} />
-                            <CuboidCollider args={[0.2, 0.5, 47.5]} position={[4.2, 0.5, -47]} />
-                        </mesh>
-                </RigidBody>
-                <RigidBody colliders={false} type="fixed" >
-                    <mesh onClick={(e) => e.stopPropagation()} geometry={nodes.Tree.geometry} material={materials.treeMaterial} position={[0, 0, -96]} />
-                    <CylinderCollider args={[1, 0.5]} position={[0, 1, -96]} />
-                </RigidBody>
-            </group>
-        </group>
-    );
+  return (
+    <RigidBody type="fixed" colliders="trimesh">
+      <group {...props} dispose={null}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.BOSQUE_1.geometry}
+          material={materials.Piso}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.BOSQUE_2.geometry}
+          material={materials.HojaOscura}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.BOSQUE_3.geometry}
+          material={materials.HojaClara}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.BOSQUE_4.geometry}
+          material={materials.Tronco}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.BOSQUE_5.geometry}
+          material={materials.Hojas}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.BOSQUE_6.geometry}
+          material={materials.TroncoP}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.BOSQUE_7.geometry}
+          material={materials.Muro}
+        />
+      </group>
+    </RigidBody>
+  );
 }
 
-useGLTF.preload("/assets/models/world/WorldSquidGames.glb");
-
+useGLTF.preload("/assets/models/world/Bosque.glb");
