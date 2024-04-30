@@ -7,7 +7,11 @@ export default function SelectLevel() {
     const navigate = useNavigate();
 
     const onHandleButtonStart = (level) => {
-        navigate(`/level${level}`);
+        navigate(`/level${level}`,{
+            state:{
+                firsTime: true
+            }
+        });
     }
 
     return (

@@ -1,9 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
+import Ecctrl, { EcctrlAnimation } from "ecctrl";
+
 
 export default function AvatarEngineer() {
     const avatarRef = useRef();
+    const rigidBodyAvatarRef = useRef();
     const { avatar, setAvatar } = useAvatar();
     const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Engineer.glb');
 
@@ -20,9 +23,27 @@ export default function AvatarEngineer() {
 
     }, [actions, avatar.animation]);
     
+    useEffect(()=>{
+        setAvatar({
+            ...avatar,
+            avatarRef: avatarRef?.current,
+            rigidBodyAvatarRef: rigidBodyAvatarRef?.current
+
+        })
+
+    }, [avatarRef?.current, rigidBodyAvatarRef?.current]);
 
     return (
-        
+        <Ecctrl
+            ref={rigidBodyAvatarRef}
+            capsuleHalfHeight={0.5}
+            floatingDis={0.2}
+            camInitDis={-3}
+            camMaxDis={-4}
+            maxVelLimit={5} 
+            jumpVel={1} 
+            position={[12, 2, -11.5]}
+        >
         <group ref={avatarRef} name="Scene" position-y={-0.82}>
             <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
                 <skinnedMesh
@@ -94,5 +115,6 @@ export default function AvatarEngineer() {
             <primitive object={nodes.mixamorigHips} />
         </group>
       </group>
+      </Ecctrl>
     )
 }

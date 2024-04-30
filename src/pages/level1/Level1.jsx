@@ -1,6 +1,6 @@
 import { KeyboardControls, OrbitControls } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import WelcomeText from "./abstractions/WelcomeText";
 import Lights from "./lights/Lights";
 import Environments from "./staging/Environments";
@@ -10,10 +10,15 @@ import Controls from "./controls/Controls";
 import AvatarCientific from "./characters/avatar/AvatarCientific";
 import AvatarEngineer from "./characters/avatar/AvatarEngineer";
 import useMovements from "../../utils/key-movements";
-import Ecctrl, { EcctrlAnimation } from "ecctrl";
 import CharacterHud from "../hud/CharacterHud"
+import { useLocation } from "react-router-dom";
+import { socket } from "../../socket/socket-manager";
 
 export default function Level1() {
+
+    // Recupera valores enviados desde el router
+    const location = useLocation();
+    console.log(location.state);
 
     const map = useMovements();
 
@@ -22,6 +27,10 @@ export default function Level1() {
     };
     const [vida, setVida] = useState(50);
     const vidasPerdidas = 2;
+
+    useEffect(()=> {
+        socket.emit("player-connected")
+    }, []);
 
     return (
         
@@ -35,20 +44,11 @@ export default function Level1() {
                 <Suspense fallback={null}>
                     <Lights />
                     <Environments />
+
                     <Physics debug={false}>
                         <World />
-                        <Ecctrl
-                            capsuleHalfHeight={0.5}
-                            floatingDis={0.2}
-                            camInitDis={-3}
-                            camMaxDis={-4}
-                            maxVelLimit={5} 
-                            jumpVel={1} 
-                            position={[12, 2, -11.5]}
-                        >
-                            <AvatarEngineer />
-                            {/* <AvatarCientific /> */}
-                        </Ecctrl>
+                        <AvatarEngineer />
+                        {/* <AvatarCientific /> */}
                     </Physics>
                     
                 </Suspense>

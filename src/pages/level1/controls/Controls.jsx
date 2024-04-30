@@ -2,6 +2,7 @@ import { OrbitControls, useKeyboardControls } from "@react-three/drei";
 import { useAvatar } from "../../../context/AvatarContext";
 import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import { socket } from "../../../socket/socket-manager";
 
 export default function Controls() {
 
@@ -61,6 +62,7 @@ export default function Controls() {
       runSound.currentTime = 0;
       //runSound.volume = Math.random()
       runSound.play()
+
     } else {
       runSound.pause()
     }
@@ -80,6 +82,12 @@ export default function Controls() {
     const { forward, backward, leftward, rightward } = get()
     if (forward || backward || leftward || rightward) {
       setPlay(true)
+
+      socket.emit("moving-player",{
+        position: avatar.rigidBodyAvatarRef?.translation(),
+        rotation: avatar.rigidBodyAvatarRef?.rotation(),
+      })
+
     } else {
       setPlay(false)
     }

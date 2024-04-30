@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
+import Ecctrl, { EcctrlAnimation } from "ecctrl";
+
 
 
 export default function AvatarCientific() {
@@ -22,7 +24,16 @@ export default function AvatarCientific() {
     }, [actions, avatar.animation]);
 
     return (
-        
+        <Ecctrl
+            ref={rigidBodyAvatarRef}
+            capsuleHalfHeight={0.5}
+            floatingDis={0.2}
+            camInitDis={-3}
+            camMaxDis={-4}
+            maxVelLimit={5} 
+            jumpVel={1} 
+            position={[12, 2, -11.5]}
+        >
         <group ref={avatarRef} name="Scene" position-y={-0.82}>
             <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
                 <skinnedMesh
@@ -82,5 +93,6 @@ export default function AvatarCientific() {
                 <primitive object={nodes.mixamorigHips} />
             </group>
       </group>
+      </Ecctrl>
     )
 }
