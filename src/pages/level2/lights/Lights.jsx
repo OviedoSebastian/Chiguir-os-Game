@@ -1,23 +1,18 @@
+import { SpotLight } from "@react-three/drei";
 import { Color } from "three";
 
 const Lights = () => {
-    return <>
-        <ambientLight
-        color={"black"}
-            intensity={-1000}
-        />
-        {/* <directionalLight
-            castShadow={true}
-            position={[2, 10, 0]}
-            color={new Color("#FFF700")}
-            intensity={2}
-            shadow-mapSize = {[2048, 2048]}
-            shadow-camera-far = {50}
-            shadow-camera-left = {-10}
-            shadow-camera-right = {10}
-            shadow-camera-top = {10}
-            shadow-camera-bottom = {-10}
-        /> */}
+  return (
+    <>
+      <ambientLight color={"white"} intensity={0.4} />
+      <SpotLight
+        distance={5}
+        angle={0.15}
+        attenuation={5}
+        anglePower={5} // Diffuse-cone anglePower (default: 5)
+        position={[0, 15,10]}
+      />
     </>
-}
+  );
+};
 export default Lights;

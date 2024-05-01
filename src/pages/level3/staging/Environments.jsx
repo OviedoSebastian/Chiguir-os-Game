@@ -3,7 +3,7 @@ import { Environment } from "@react-three/drei";
 export default function Environments() {
     return (
         <Environment
-            files={"/assets/hdris/sky.hdr"}
+            files={"/assets/hdris/night1.hdr"}
             preset={null}
             background={false}
             ground={{

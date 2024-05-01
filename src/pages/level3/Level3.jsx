@@ -13,7 +13,7 @@ import useMovements from "../../utils/key-movements";
 import Ecctrl, { EcctrlAnimation } from "ecctrl";
 import CharacterHud from "../hud/CharacterHud"
 
-export default function Level3() {
+export default function Level2() {
 
     const map = useMovements();
 
@@ -44,10 +44,10 @@ export default function Level3() {
                             camMaxDis={-4}
                             maxVelLimit={5} 
                             jumpVel={1} 
-                            position={[0, 2, 0]}
+                            position={[1, 2, 8]}
                         >
-                            <AvatarEngineer />
-                            {/* <AvatarCientific /> */}
+                            {/* <AvatarEngineer /> */}
+                            <AvatarCientific />
                         </Ecctrl>
                     </Physics>
                     
