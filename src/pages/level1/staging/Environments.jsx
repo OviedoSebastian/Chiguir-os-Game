@@ -5,7 +5,12 @@ export default function Environments() {
         <Environment
             files={"/assets/hdris/sky.hdr"}
             preset={null}
-            background={true}
+            background={false}
+            ground={{
+                height: 20,
+                scale: 300,
+                radius: 500
+            }}
         />
     )
 }

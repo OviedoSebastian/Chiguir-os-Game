@@ -44,7 +44,7 @@ export default function Level2() {
                             camMaxDis={-4}
                             maxVelLimit={5} 
                             jumpVel={1} 
-                            position={[1, 2, 8]}
+                            position={[0, 10, 0]}
                         >
                             {/* <AvatarEngineer /> */}
                             <AvatarCientific />

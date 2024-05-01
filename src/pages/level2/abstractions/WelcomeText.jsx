@@ -1,7 +1,7 @@
 import { Center, Float, Text3D } from "@react-three/drei";
 
 const WelcomeText = (props) => {
-    const text = "Nivel 2: Coliseo del Conocimiento Eterno";
+    const text = "Nivel 4: Bosque de los conocimientos perdidos";
 
     return (
         <Float
@@ -9,7 +9,7 @@ const WelcomeText = (props) => {
             rotationIntensity={0.01}
             floatIntensity={0.5}
             floatingRange={[1, 4]}
-            position={[0.5, 2, 7]}
+            position={[0.5, 8, 0]}
 
         >
         <Center
@@ -22,13 +22,14 @@ const WelcomeText = (props) => {
                 bevelThickness={0.01}
                 height={0.1}
                 letterSpacing={0.05}
-                size={0.1}
+                size={0.2}
             >
                 <meshNormalMaterial />
                 {text}
             </Text3D>
         </Center>
         </Float>
+        
     )
 }
 export default WelcomeText;

@@ -44,10 +44,10 @@ export default function Level4() {
                             camMaxDis={-4}
                             maxVelLimit={5} 
                             jumpVel={1} 
-                            position={[0, 10, 0]}
+                            position={[12, 2, -11.5]}
                         >
-                            {/* <AvatarEngineer /> */}
-                            <AvatarCientific />
+                            <AvatarEngineer />
+                            {/* <AvatarCientific /> */}
                         </Ecctrl>
                     </Physics>
                     

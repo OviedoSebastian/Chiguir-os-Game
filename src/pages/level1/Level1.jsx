@@ -42,9 +42,11 @@ export default function Level1() {
                             floatingDis={0.2}
                             camInitDis={-3}
                             camMaxDis={-4}
-                            maxVelLimit={5} 
-                            jumpVel={1} 
-                            position={[12, 2, -11.5]}
+                            maxVelLimit={3} 
+                            jumpVel={2} 
+                            position={[0, 5, 0]}
+                            slopJumpMult={0.25}
+                            sprintJumpMult={1}
                         >
                             <AvatarEngineer />
                             {/* <AvatarCientific /> */}
