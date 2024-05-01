@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 
-
 export default function AvatarCientific() {
 
     const avatarRef = useRef();
