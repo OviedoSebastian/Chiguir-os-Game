@@ -1,6 +1,6 @@
 import { KeyboardControls, OrbitControls } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import WelcomeText from "./abstractions/WelcomeText";
 import Lights from "./lights/Lights";
 import Environments from "./staging/Environments";
@@ -18,12 +18,46 @@ import Radio from "./collectables/Radio";
 export default function Level1() {
 
     const map = useMovements();
+    const [vida, setVida] = useState(3);
+    const [recompensas, setRecompensas] = useState(0);
+    const [radio, setRadio] = useState(0);
+    const [potion, setPotion] = useState(0);
+    const [arma, setArma] = useState("Espada");
+    const [jumpVel, setJumpVel] = useState(3.3); // Valor inicial de jumpVel
+    const [numeroDePociones, setNumeroDePociones] = useState(0);
 
     const actualizarVida = (nuevaVida) => {
         setVida(nuevaVida);
     };
-    const [vida, setVida] = useState(50);
-    const vidasPerdidas = 2;
+
+    const handleJump = () => {
+        // Incrementar las recompensas solo si no exceden el límite de 5
+        if (recompensas < 5) {
+            setRecompensas(prevRecompensas => prevRecompensas + 1);
+        }
+    };
+
+    const handleLaptop = () => {
+        // Incrementar el contador de laptop solo si no excede el límite de 5
+        if (radio < 5) {
+            setRadio((prevLaptop) => prevLaptop + 1);
+        }
+    };
+
+    const handlePotion = () => {
+        // Incrementar el contador de potion solo si no excede el límite de 5
+        if (potion < 5) {
+            setPotion((prevPotion) => prevPotion + 1);
+        }
+    };
+
+    // Efecto para actualizar jumpVel cuando recompensas, laptop y potion alcancen 5
+    useEffect(() => {
+        if (radio === 5 && potion === 5) {
+            setJumpVel(6); // Cambia jumpVel a 10 cuando todos los contadores lleguen a 5
+        }
+    }, [radio, potion]);
+
 
     return (
         
@@ -39,7 +73,7 @@ export default function Level1() {
                     <Environments />
                     <Physics debug={false}>
                         <World />
-                        <Pocion position={[-2.5, -0.3, 10]}/>
+                        <Pocion setNumeroDePociones={setNumeroDePociones} position={[-2.5, -0.3, 10]}/>
                         <Radio position={[-2.5, -1.3, -4]}/>
                         <Ecctrl
                             capsuleHalfHeight={0.5}
@@ -47,7 +81,7 @@ export default function Level1() {
                             camInitDis={-3}
                             camMaxDis={-4}
                             maxVelLimit={3} 
-                            jumpVel={3.5} 
+                            jumpVel={jumpVel} 
                             position={[0, 5, 0]}
                             slopJumpMult={0.25}
                             sprintJumpMult={1}
@@ -60,9 +94,14 @@ export default function Level1() {
                 </Suspense>
                 
                 <WelcomeText />
-                <Controls />
+                <Controls onJump={handleJump} onKeyA={handleLaptop} onKeyD={handlePotion}/>
             </Canvas>
-            <CharacterHud vida={vida} vidasPerdidas={vidasPerdidas} actualizarVida={actualizarVida} />
+            <CharacterHud 
+                vidas={vida}
+                recompensas={recompensas}
+                laptop={radio}
+                potion={potion}
+                arma={arma}            />
         </KeyboardControls>
 
     )
