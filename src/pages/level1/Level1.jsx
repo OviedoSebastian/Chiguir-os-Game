@@ -12,6 +12,8 @@ import AvatarEngineer from "./characters/avatar/AvatarEngineer";
 import useMovements from "../../utils/key-movements";
 import Ecctrl, { EcctrlAnimation } from "ecctrl";
 import CharacterHud from "../hud/CharacterHud"
+import Pocion from "./collectables/Pocion";
+import Radio from "./collectables/Radio";
 
 export default function Level1() {
 
@@ -37,13 +39,15 @@ export default function Level1() {
                     <Environments />
                     <Physics debug={false}>
                         <World />
+                        <Pocion position={[-2.5, -0.3, 10]}/>
+                        <Radio position={[-2.5, -1.3, -4]}/>
                         <Ecctrl
                             capsuleHalfHeight={0.5}
                             floatingDis={0.2}
                             camInitDis={-3}
                             camMaxDis={-4}
                             maxVelLimit={3} 
-                            jumpVel={2} 
+                            jumpVel={3.5} 
                             position={[0, 5, 0]}
                             slopJumpMult={0.25}
                             sprintJumpMult={1}
@@ -54,6 +58,7 @@ export default function Level1() {
                     </Physics>
                     
                 </Suspense>
+                
                 <WelcomeText />
                 <Controls />
             </Canvas>
@@ -61,4 +66,4 @@ export default function Level1() {
         </KeyboardControls>
 
     )
-}
+} 
