@@ -1,33 +1,42 @@
 import React from 'react';
-import { FaBookSkull } from 'react-icons/fa6';
-import { SiBookstack } from 'react-icons/si';
-import './hud.css'; // Estilos del HUD
+import { FaStar, FaCrosshairs } from 'react-icons/fa'; // Iconos de vida, recompensas y arma
+import './hud.css';
 
-const CharacterHud = ({ vida, vidasPerdidas }) => {
-  // Genera un array con el número de vidas perdidas
-  const vidasPerdidasArray = Array.from({ length: vidasPerdidas }, (_, index) => index + 1);
+const CharacterHud = ({ vidas, recompensas, laptop, potion, arma }) => {
 
-  return (
-    <div className="hud-container">
-      <div className="hud-icons">
-        {/* Vida activa */}
-        <SiBookstack className="life-icon" />
-        {/* Barra de vida */}
-        <div className="health-bar-container">
-          {/* Texto "Vida" */}
-          <div className="vida-text">Vida</div>
-          {/* Barra de vida */}
-          <div className="health-bar" style={{ width: `${vida}%` }}></div>
+    return (
+        <div className="hud-container">
+            {/* Vidas */}
+            <div className="hud-item">
+            <img src="./assets/icons/icon_heart.png" alt="laptop" className="hud-icon" />
+                <span className="hud-text">{vidas}/{3}</span>
+            </div>
+
+            {/* Recompensas */}
+            <div className="hud-item">
+                <FaStar className="hud-icon" />
+                <span className="hud-text">{recompensas}</span>
+            </div>
+
+            {/* Laptop */}
+            <div className="hud-item">
+                <img src="./assets/icons/icon_laptop.png" alt="laptop" className="hud-icon" />
+                <span className="hud-text">{laptop}/{5}</span>
+            </div>
+
+            {/* Potion */}
+            <div className="hud-item">
+                <img src="./assets/icons/Icon_Beaker.png" alt="potion" className="hud-icon" />
+                <span className="hud-text">{potion}/{5}</span>
+            </div>
+
+            {/* Arma */}
+            <div className="hud-item">
+                <FaCrosshairs className="hud-icon" />
+                <span className="hud-text">{arma}</span>
+            </div>
         </div>
-      </div>
-      {/* Vidas perdidas */}
-      <div className="vidas-perdidas-container">
-        {vidasPerdidasArray.map(vidasPerdida => (
-          <FaBookSkull key={vidasPerdida} className="hud-icon vida-perdida" />
-        ))}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default CharacterHud;
