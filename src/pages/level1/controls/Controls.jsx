@@ -1,6 +1,6 @@
-import { OrbitControls, useKeyboardControls } from "@react-three/drei";
+import { useKeyboardControls } from "@react-three/drei";
 import { useAvatar } from "../../../context/AvatarContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { socket } from "../../../socket/socket-manager";
 
@@ -25,6 +25,7 @@ export default function Controls() {
       (state) => state.forward || state.backward || state.leftward || state.rightward,
       (pressed) => {
         setAvatar({ ...avatar, animation: pressed ? "Walk" : "Idle" });
+        socket.emit("change-animation", { animation: pressed ? "Walk" : "Idle" } )
       }
     );
     return () => unsubscribe();
@@ -83,9 +84,9 @@ export default function Controls() {
     if (forward || backward || leftward || rightward) {
       setPlay(true)
 
-      socket.emit("moving-player",{
+      socket.emit("moving-player", {
         position: avatar.rigidBodyAvatarRef?.translation(),
-        rotation: avatar.rigidBodyAvatarRef?.rotation(),
+        rotation: avatar.rigidBodyAvatarRef?.rotation()
       })
 
     } else {

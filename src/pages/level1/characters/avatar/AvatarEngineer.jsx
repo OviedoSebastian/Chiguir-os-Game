@@ -1,16 +1,16 @@
 import { useEffect, useRef } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
-import Ecctrl, { EcctrlAnimation } from "ecctrl";
+import Ecctrl from "ecctrl";
 
 
 export default function AvatarEngineer() {
-    const avatarRef = useRef();
-    const rigidBodyAvatarRef = useRef();
+    const avatarEngineerRef = useRef();
+    const rigidBodyAvatarEngineerRef = useRef();
     const { avatar, setAvatar } = useAvatar();
     const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Engineer.glb');
 
-    const { actions } = useAnimations(animations, avatarRef)
+    const { actions } = useAnimations(animations, avatarEngineerRef)
     // console.log(actions);
     // actions["Jump"].setPlaybackRate(2);
 
@@ -26,16 +26,16 @@ export default function AvatarEngineer() {
     useEffect(()=>{
         setAvatar({
             ...avatar,
-            avatarRef: avatarRef?.current,
-            rigidBodyAvatarRef: rigidBodyAvatarRef?.current
+            avatarRef: avatarEngineerRef?.current,
+            rigidBodyAvatarRef: rigidBodyAvatarEngineerRef?.current
 
         })
 
-    }, [avatarRef?.current, rigidBodyAvatarRef?.current]);
+    }, [avatarEngineerRef?.current, rigidBodyAvatarEngineerRef?.current]);
 
     return (
         <Ecctrl
-            ref={rigidBodyAvatarRef}
+            ref={rigidBodyAvatarEngineerRef}
             capsuleHalfHeight={0.5}
             floatingDis={0.2}
             camInitDis={-3}
@@ -44,7 +44,7 @@ export default function AvatarEngineer() {
             jumpVel={1} 
             position={[12, 2, -11.5]}
         >
-        <group ref={avatarRef} name="Scene" position-y={-0.82}>
+        <group ref={avatarEngineerRef} name="Scene" position-y={-0.82}>
             <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
                 <skinnedMesh
                     name="Engineer_eyes"

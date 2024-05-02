@@ -1,4 +1,4 @@
-import { KeyboardControls, OrbitControls } from "@react-three/drei";
+import { KeyboardControls } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useEffect, useState } from "react";
 import WelcomeText from "./abstractions/WelcomeText";
@@ -13,13 +13,15 @@ import useMovements from "../../utils/key-movements";
 import CharacterHud from "../hud/CharacterHud"
 import { useLocation } from "react-router-dom";
 import { socket } from "../../socket/socket-manager";
+import { useAtom } from "jotai";
+import { Players, playersAtom } from "../../components/Players";
 
 export default function Level1() {
 
     // Recupera valores enviados desde el router
     const location = useLocation();
-    console.log(location.state);
 
+    const [players] = useAtom(playersAtom);
     const map = useMovements();
 
     const actualizarVida = (nuevaVida) => {
@@ -35,6 +37,7 @@ export default function Level1() {
     return (
         
         <KeyboardControls map={map} >
+            <Players />
             <Canvas
                 camera={{
                     position: [0, 1, 0]
@@ -47,8 +50,9 @@ export default function Level1() {
 
                     <Physics debug={false}>
                         <World />
-                        <AvatarEngineer />
-                        {/* <AvatarCientific /> */}
+                        <AvatarEngineer url={players[0]?.urlAvatar}/>  
+                        <AvatarCientific url={players[1]?.urlAvatar}/>
+                        
                     </Physics>
                     
                 </Suspense>
