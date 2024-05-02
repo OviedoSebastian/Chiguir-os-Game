@@ -12,7 +12,7 @@ import AvatarEngineer from "./characters/avatar/AvatarEngineer";
 import useMovements from "../../utils/key-movements";
 import CharacterHud from "../hud/CharacterHud"
 import { useLocation } from "react-router-dom";
-import { socket } from "../../socket/socket-manager";
+import { disconnectSocket, socket } from "../../socket/socket-manager";
 import { useAtom } from "jotai";
 import { Players, playersAtom } from "../../components/Players";
 
