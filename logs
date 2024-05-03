@@ -1,0 +1,36 @@
+[33mcommit dc341518424812865a07350d1dcf5e316d7096c7[m[33m ([m[1;36mHEAD -> [m[1;32mdc34151[m[33m)[m
+Merge: 09bd8eb 95ac663
+Author: andresengineer <115186337+andresengineer@users.noreply.github.com>
+Date:   Thu May 2 02:18:07 2024 -0500
+
+    Merge pull request #23 from OviedoSebastian/features/Andres
+    
+    Add collectables and fuctionalities
+
+[33mcommit 95ac66313cf199a90796af2dc5adeb61da89a390[m[33m ([m[1;31morigin/features/Andres[m[33m)[m
+Merge: 6af4be2 09bd8eb
+Author: Andres Zapata <mosquera.wilson@correounivalle.edu.co>
+Date:   Thu May 2 02:14:39 2024 -0500
+
+    Merge branch 'main' of https://github.com/OviedoSebastian/Chiguir-os-Game into features/Andres
+
+[33mcommit 6af4be2a17eb4c34f3092ec09829a807a840db6b[m
+Author: Andres Zapata <mosquera.wilson@correounivalle.edu.co>
+Date:   Thu May 2 00:43:50 2024 -0500
+
+    Add collectables and fuctionalities
+
+[33mcommit 09bd8ebc70bda1d7f01834928b3f3d9b524ee5da[m
+Merge: 2ac9856 bdb8e67
+Author: Camilo Morales <114544629+Camilo959@users.noreply.github.com>
+Date:   Wed May 1 22:03:58 2024 -0500
+
+    Merge pull request #22 from OviedoSebastian/icmy/uptdate-hud-v1
+    
+    Implementing changes to the hud
+
+[33mcommit bdb8e6713a9db38c19c865510c0d50e71dcf771b[m[33m ([m[1;31morigin/icmy/uptdate-hud-v1[m[33m)[m
+Author: Camilo <ivan.morales@correounivalle.edu.co>
+Date:   Wed May 1 22:01:52 2024 -0500
+
+    Implementing changes to the hud
