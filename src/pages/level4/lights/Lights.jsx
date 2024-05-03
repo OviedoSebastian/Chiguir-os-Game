@@ -1,18 +1,20 @@
-import { SpotLight } from "@react-three/drei";
-import { Color } from "three";
-
 const Lights = () => {
-  return (
-    <>
-      <ambientLight color={"white"} intensity={0.4} />
-      <SpotLight
-        distance={5}
-        angle={0.15}
-        attenuation={5}
-        anglePower={5} // Diffuse-cone anglePower (default: 5)
-        position={[0, 15,10]}
-      />
+    
+
+    return <>
+        <ambientLight color={"black"} intensity={100} />
+        {/* <directionalLight 
+            position={[10, 10, 5]} 
+            castShadow={true}  
+        /> */}
+
+        <pointLight
+            position={[5.9, 0, -11.5]}
+            color={"red"}
+            intensity={100}
+        />
+
     </>
-  );
-};
-export default Lights;
+}
+
+export default Lights

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
-import Ecctrl from "ecctrl";
 import { CuboidCollider, RigidBody, vec3 } from "@react-three/rapier";
 import { socket } from "../../../../socket/socket-manager";
 

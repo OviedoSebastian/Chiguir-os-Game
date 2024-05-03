@@ -4,21 +4,15 @@ import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { socket } from "../../../socket/socket-manager";
 
-export default function Controls() {
+export default function Controls({ onJump, onKeyA, onKeyD }) {
 
   const { avatar, setAvatar } = useAvatar();
   const [sub, get] = useKeyboardControls()
-
   const [runSound] = useState(new Audio("/assets/sounds/run.wav"))
-  const [jumpSound] = useState(new Audio("/assets/sounds/jump.wav"));
-
   const [play, setPlay] = useState(false)
-  const [isRunning, setIsRunning] = useState(false);
   const [isJumping, setIsJumping] = useState(false);
 
-  // SOLO DEJA LOS SONIDOS DE SALTAR Y CORRER
-  // IMPLEMENTAR LOS SONIDOS DE CAMINAR Y CORRER FUE MUY DIFICILLLLLLLLLLLLLLLLLLLL
-  
+
   // Caminar
   useEffect(() => {
     const unsubscribe = sub(
@@ -31,7 +25,7 @@ export default function Controls() {
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, get]);
 
-  // Correr
+  // Caminar
   useEffect(() => {
     const unsubscribe = sub(
       (state) => (state.forward || state.backward || state.leftward || state.rightward) && state.run,
@@ -58,10 +52,31 @@ export default function Controls() {
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, isJumping]);
 
+  // Cambiar el HUD según se tocan las teclas
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code === 'Space') {
+        onJump();
+      } else if (event.code === 'KeyA') {
+        onKeyA();
+      } else if (event.code === 'KeyD') {
+        onKeyD();
+      }
+    };
+
+    // Agregar eventos de escucha para las teclas de espacio (salto), A y D
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      // Limpiar los eventos al desmontar el componente
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onJump, onKeyA, onKeyD]);
+
   useEffect(() => {
     if (play) {
       runSound.currentTime = 0;
-      //runSound.volume = Math.random()
+      runSound.volume = Math.random()
       runSound.play()
 
     } else {
@@ -69,20 +84,11 @@ export default function Controls() {
     }
   }, [play])
 
-  useEffect(() => {
-    if (isJumping) {
-      jumpSound.currentTime = 0;
-      jumpSound.volume = Math.random()
-      jumpSound.play()
-    } else {
-      jumpSound.pause()
-    }
-  }, [isJumping])
-
   useFrame((state, delta) => {
     const { forward, backward, leftward, rightward } = get()
     if (forward || backward || leftward || rightward) {
       setPlay(true)
+
 
       socket.emit("moving-player", {
         position: avatar.rigidBodyAvatarRef?.translation(),
@@ -92,13 +98,12 @@ export default function Controls() {
     } else {
       setPlay(false)
     }
+
     const pressed = get().back
   })
+
   return (
 
     null
   )
 }
-
-
-
