@@ -23,7 +23,6 @@ export default function Level1() {
     const [radio, setRadio] = useState(0);
     const [potion, setPotion] = useState(0);
     const [arma, setArma] = useState("Espada");
-
     const [jumpVel, setJumpVel] = useState(3.3); // Valor inicial de jumpVel
     const [numeroDePociones, setNumeroDePociones] = useState(0);
 
@@ -61,7 +60,7 @@ export default function Level1() {
 
 
     return (
-
+        
         <KeyboardControls map={map} >
             <Canvas
                 camera={{
@@ -76,20 +75,33 @@ export default function Level1() {
                         <World />
                         <Pocion setNumeroDePociones={setNumeroDePociones} position={[-2.5, -0.3, 10]}/>
                         <Radio position={[-2.5, -1.3, -4]}/>
-                        <AvatarEngineer />
-                        <AvatarCientific position={[0,1.3,0]} />  
+                        <Ecctrl
+                            capsuleHalfHeight={0.5}
+                            floatingDis={0.2}
+                            camInitDis={-3}
+                            camMaxDis={-4}
+                            maxVelLimit={3} 
+                            jumpVel={jumpVel} 
+                            position={[0, 5, 0]}
+                            slopJumpMult={0.25}
+                            sprintJumpMult={1}
+                        >
+                            <AvatarEngineer />
+                            {/* <AvatarCientific /> */}
+                        </Ecctrl>
                     </Physics>
+                    
                 </Suspense>
-            
+                
                 <WelcomeText />
-                <Controls onJump={handleJump} onKeyA={handleLaptop} onKeyD={handlePotion} />
+                <Controls onJump={handleJump} onKeyA={handleLaptop} onKeyD={handlePotion}/>
             </Canvas>
-            <CharacterHud
+            <CharacterHud 
                 vidas={vida}
                 recompensas={recompensas}
                 laptop={radio}
                 potion={potion}
-                arma={arma} />
+                arma={arma}            />
         </KeyboardControls>
 
     )
