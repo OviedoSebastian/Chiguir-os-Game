@@ -12,17 +12,21 @@ import AvatarEngineer from "./characters/avatar/AvatarEngineer";
 import useMovements from "../../utils/key-movements";
 import Ecctrl, { EcctrlAnimation } from "ecctrl";
 import CharacterHud from "../hud/CharacterHud"
+import Pocion from "./collectables/Pocion";
+import Radio from "./collectables/Radio";
 
 export default function Level1() {
 
     const map = useMovements();
     const [vida, setVida] = useState(3);
     const [recompensas, setRecompensas] = useState(0);
-    const [laptop, setLaptop] = useState(0);
+    const [radio, setRadio] = useState(0);
     const [potion, setPotion] = useState(0);
     const [arma, setArma] = useState("Espada");
-    const [jumpVel, setJumpVel] = useState(3.3);
-    
+
+    const [jumpVel, setJumpVel] = useState(3.3); // Valor inicial de jumpVel
+    const [numeroDePociones, setNumeroDePociones] = useState(0);
+
     const actualizarVida = (nuevaVida) => {
         setVida(nuevaVida);
     };
@@ -36,8 +40,8 @@ export default function Level1() {
 
     const handleLaptop = () => {
         // Incrementar el contador de laptop solo si no excede el límite de 5
-        if (laptop < 5) {
-            setLaptop((prevLaptop) => prevLaptop + 1);
+        if (radio < 5) {
+            setRadio((prevLaptop) => prevLaptop + 1);
         }
     };
 
@@ -50,10 +54,10 @@ export default function Level1() {
 
     // Efecto para actualizar jumpVel cuando recompensas, laptop y potion alcancen 5
     useEffect(() => {
-        if (laptop === 5 && potion === 5) {
-            setJumpVel(10); // Cambia jumpVel a 10 cuando todos los contadores lleguen a 5
+        if (radio === 5 && potion === 5) {
+            setJumpVel(6); // Cambia jumpVel a 10 cuando todos los contadores lleguen a 5
         }
-    }, [laptop, potion]);
+    }, [radio, potion]);
 
 
     return (
@@ -70,20 +74,23 @@ export default function Level1() {
                     <Environments />
                     <Physics debug={false}>
                         <World />
+                        <Pocion setNumeroDePociones={setNumeroDePociones} position={[-2.5, -0.3, 10]}/>
+                        <Radio position={[-2.5, -1.3, -4]}/>
                         <AvatarEngineer />
-                        <AvatarCientific position={[0,1.3,0]}/>
+                        <AvatarCientific position={[0,1.3,0]} />  
                     </Physics>
                 </Suspense>
+            
                 <WelcomeText />
                 <Controls onJump={handleJump} onKeyA={handleLaptop} onKeyD={handlePotion} />
             </Canvas>
             <CharacterHud
                 vidas={vida}
                 recompensas={recompensas}
-                laptop={laptop}
+                laptop={radio}
                 potion={potion}
                 arma={arma} />
         </KeyboardControls>
 
     )
-}
+} 
