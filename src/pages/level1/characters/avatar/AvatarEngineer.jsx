@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
+import { RigidBody } from "@react-three/rapier";
+
 import Ecctrl from "ecctrl";
 
 export default function AvatarEngineer() {
@@ -9,16 +11,18 @@ export default function AvatarEngineer() {
     const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Engineer.glb');
     const [jumpVel, setJumpVel] = useState(3.3);
 
-    const { actions } = useAnimations(animations, avatarRef)
-    // console.log(actions);
-    // actions["Jump"].setPlaybackRate(2);
 
-    useEffect(() => {
-        actions[avatar.animation]?.reset().fadeIn(0.5).play();
-        return () => {
-            if (actions[avatar.animation])
-                actions[avatar.animation].fadeOut(0.5);
-        }
+  const { actions } = useAnimations(animations, avatarRef);
+  // console.log(actions);
+  // actions["Jump"].setPlaybackRate(2);
+
+  useEffect(() => {
+    actions[avatar.animation]?.reset().fadeIn(0.5).play();
+    return () => {
+      if (actions[avatar.animation]) actions[avatar.animation].fadeOut(0.5);
+    };
+  }, [actions, avatar.animation]);
+
 
     }, [actions, avatar.animation]);
 
@@ -108,3 +112,4 @@ export default function AvatarEngineer() {
         </Ecctrl>
     )
 }
+
