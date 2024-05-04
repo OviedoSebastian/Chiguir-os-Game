@@ -60,7 +60,7 @@ export default function Level1() {
                 <Suspense fallback={null}>
                     <Lights />
                     <Environments />
-                    <Physics debug={true}>
+                    <Physics debug={false}>
                         <World />
                         <Pocion setNumeroDePociones={setNumeroDePociones} position={[-2.5, -0.3, 10]}/>
                         <Radio position={[-2.5, -1.3, -4]}/>
