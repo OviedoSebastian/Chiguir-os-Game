@@ -1,35 +1,34 @@
-import { Center, Float, Text3D } from "@react-three/drei";
+import React, { useState, useEffect } from 'react';
+import { Center, Text3D } from '@react-three/drei';
 
 const WelcomeText = (props) => {
-    const text = "Nivel 2";
+    const [isVisible, setIsVisible] = useState(true);
+    const text = 'Nivel 2\n\nControles:\n- Moverse: WASD\n- Saltar: Barra espaciadora\n- Correr: Mantener presionada la tecla Shift';
 
-    return (
-        // <Float
-        //     speed={10}
-        //     rotationIntensity={0.01}
-        //     floatIntensity={0.5}
-        //     floatingRange={[1, 4]}
-        //     position={[0.5, 1, 1]}
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setIsVisible(false);
+        }, 100000);
 
-        // >
-        // <Center
-        //     position={props.position}
-        // >
-        //     <Text3D
-        //         font={"/assets/fonts/SquidGamesFont.json"}
-        //         bevelEnabled
-        //         bevelSize={0.005}
-        //         bevelThickness={0.01}
-        //         height={0.1}
-        //         letterSpacing={0.05}
-        //         size={0.2}
-        //     >
-        //         <meshNormalMaterial />
-        //         {text}
-        //     </Text3D>
-        // </Center>
-        // </Float>
-        null
-    )
-}
+        return () => clearTimeout(timeout);
+    }, []);
+
+    return isVisible ? (
+        <Center position={[-20, 5, 30]}>
+            <Text3D
+                font={'/assets/fonts/PixelSplitter.json'}
+                bevelEnabled
+                bevelSize={0.005}
+                bevelThickness={0.01}
+                height={0.05}
+                letterSpacing={0.05}
+                size={0.2}
+            >
+                <meshNormalMaterial />
+                {text}
+            </Text3D>
+        </Center>
+    ) : null;
+};
+
 export default WelcomeText;
