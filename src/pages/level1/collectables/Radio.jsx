@@ -4,6 +4,9 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody, useRigidBody } from "@react-three/rapier";
 
 export default function Radio(props) {
+
+  const [runSound] = useState(new Audio("/assets/sounds/recolect_object1.wav"))
+
   const { nodes, materials } = useGLTF(
     "/assets/models/colectables/radio.glb"
   );
@@ -16,6 +19,7 @@ export default function Radio(props) {
 
     if (other.colliderObject.name == "character-capsule-collider") {
       console.log("Chocó");
+      runSound.play();
       setNumeroDeRadios(numeroDeRadios + 1);
 
       if (numeroDeRadios + 1 >= 5) {
