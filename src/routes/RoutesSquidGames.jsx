@@ -5,10 +5,12 @@ import Level3 from "../pages/level3/Level3";
 import Level4 from "../pages/level4/Level4";
 import Login from "../pages/login/Login";
 import SelectLevel from "../pages/login/SelectLevel";
+import BackgroundMusic from "../components/BackgroundMusic";
 
 export default function RoutesSquidGames() {
     return (
         <BrowserRouter>
+            {/* <BackgroundMusic /> */}
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/chooselevel" element={<SelectLevel />} />
