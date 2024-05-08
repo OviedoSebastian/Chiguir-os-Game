@@ -1,33 +1,49 @@
-// import { useEffect, useState } from "react";
-// import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-// export default function BackgroundMusic() {
-//     const [backgroundMusic, setBackgroundMusic] = useState(null); // Estado para almacenar el objeto de audio
-//     const location = useLocation();
-//     console.log (location);
-//     useEffect(() => {
-//         // Función para cargar y reproducir la música
-//         const playMusic = () => {
-//             const music = new Audio("/assets/sounds/loginMusic.wav");
-//             music.loop = true;
-//             music.volume = 0.5;
-//             music.play();
-//             setBackgroundMusic(music);
-//         };
+export default function BackgroundMusic() {
+    const [backgroundMusic, setBackgroundMusic] = useState({
+        login: new Audio("/assets/sounds/loginMusic.wav"),
+        level1: new Audio("/assets/sounds/level1Music.wav"),
+    }); // Estado para almacenar el objeto de audio
+    
+    const location = useLocation();
+    console.log (location.pathname);
 
-//         // Controla la reproducción de la música según la ruta actual
-//         if (!backgroundMusic && !location.pathname.startsWith("/level")) {
-//             playMusic(); // Reproducir música si no está reproduciéndose y no es una ruta de nivel
-//         }
+    useEffect(() => {
+        Object.values(backgroundMusic).forEach(sound => sound.pause());
+        
+        switch (location.pathname) {
+            case '/':
+            case '/chooselevel':
+                playSound(backgroundMusic.login);
+                break;
 
-//         return () => {
-//             // Detiene la música cuando se desmonta el componente
-//             if (backgroundMusic && !location.pathname.startsWith("/level")) {
-//                 backgroundMusic.pause();
-//                 setBackgroundMusic(null);
-//             }
-//         };
-//     }, [location.pathname, backgroundMusic]);
+            case '/level1':
+                playSound(backgroundMusic.level1);
+                break;
 
-//     return null; // No renderiza ningún elemento visible
-// }
+            // Agrega más casos según sea necesario
+
+            default:
+                break;
+        }
+    }, [location.pathname]);
+
+    const playSound = (sound) => {
+        // Verificar si el navegador permite la reproducción automática
+        const playPromise = sound.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // La reproducción se inició correctamente
+            })
+            .catch(error => {
+                // Ocurrió un error al iniciar la reproducción
+                console.error('Error al iniciar la reproducción:', error);
+            });
+        }
+    };
+
+    return null; // No renderiza ningún elemento visible
+}
