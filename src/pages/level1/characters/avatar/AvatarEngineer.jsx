@@ -2,16 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import Ecctrl from "ecctrl";
+import { useFrame } from "@react-three/fiber";
 
 export default function AvatarEngineer() {
-    const avatarRef = useRef();
+    const avatarEngineerRef = useRef();
+    const rigidBodyAvatarEngineerRef = useRef();
     const { avatar, setAvatar } = useAvatar();
-    const { nodes, materials, animations } = useGLTF(
-        "/assets/models/avatars/Engineer.glb"
-    );
-    const [jumpVel, setJumpVel] = useState(3.3); // Variable para cambiar la altura del salto.
+    const { nodes, materials, animations } = useGLTF( "/assets/models/avatars/Engineer.glb" );
+    const [position, setPosition] = useState([0, 0.2, 0]);
 
-    const { actions } = useAnimations(animations, avatarRef);
+
+    const { actions } = useAnimations(animations, avatarEngineerRef);
 
 
     useEffect(() => {
@@ -21,8 +22,19 @@ export default function AvatarEngineer() {
         };
     }, [actions, avatar.animation]);
 
+    useEffect(()=>{
+        setAvatar({
+            ...avatar,
+            avatarRef: avatarEngineerRef?.current,
+            rigidBodyAvatarRef: rigidBodyAvatarEngineerRef?.current
+
+        })
+
+    }, [avatarEngineerRef?.current, rigidBodyAvatarEngineerRef?.current]);
+
     return (
         <Ecctrl
+            ref={rigidBodyAvatarEngineerRef}
             capsuleHalfHeight={0.5}
             floatingDis={0.2}
             camInitDis={-3}
@@ -31,7 +43,7 @@ export default function AvatarEngineer() {
             jumpVel={4}
             position={[20, 5, -30]}
         >
-        <group ref={avatarRef} name="Scene" position-y={-0.82}>
+        <group ref={avatarEngineerRef} name="Scene" position-y={-0.82}>
             <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
                 <skinnedMesh
                     name="Engineer_eyes"
