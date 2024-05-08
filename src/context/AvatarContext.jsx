@@ -13,9 +13,9 @@ export const useAvatar = () =>{
 
 export function AvatarProvider({children}){
     const [avatar, setAvatar] = useState({
-        ref: null,
-        body: null,
         animation: "Idle",
+        avatarRef: null,
+        rigidBodyAvatarRef: null,
     })
 
     return (
