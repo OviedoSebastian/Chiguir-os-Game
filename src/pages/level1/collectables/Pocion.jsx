@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody, useRigidBody } from "@react-three/rapier";
 
-export default function Pocion(props) {
+export default function Pocion({props, catchPotion}) {
   const { nodes, materials } = useGLTF("/assets/models/colectables/muestraQuimica.glb");
   const [position, setPosition] = useState([0, 0, 0]);
   const [numeroDePociones, setNumeroDePociones] = useState(0);
@@ -15,7 +15,7 @@ export default function Pocion(props) {
     if (other.colliderObject.name == "character-capsule-collider") {
       console.log("Chocó");
       setNumeroDePociones(numeroDePociones + 1);
-
+      catchPotion();
       if (numeroDePociones + 1 >= 5) {
         console.log("Se elimina")
         // Mover la poción a una posición inalcanzable

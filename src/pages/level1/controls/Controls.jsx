@@ -1,16 +1,15 @@
-import { OrbitControls, useKeyboardControls } from "@react-three/drei";
+import { useKeyboardControls } from "@react-three/drei";
 import { useAvatar } from "../../../context/AvatarContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 
-export default function Controls({ onJump, onKeyA, onKeyD }) {
+export default function Controls(props) {
 
   const { avatar, setAvatar } = useAvatar();
-  const [sub, get] = useKeyboardControls()
-  const [runSound] = useState(new Audio("/assets/sounds/run.wav"))
-  const [play, setPlay] = useState(false)
+  const [sub, get] = useKeyboardControls();
+  const [runSound] = useState(new Audio("/assets/sounds/run.wav"));
+  const [play, setPlay] = useState(false);
   const [isJumping, setIsJumping] = useState(false);
-
 
   // Caminar
   useEffect(() => {
@@ -50,51 +49,27 @@ export default function Controls({ onJump, onKeyA, onKeyD }) {
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, isJumping]);
 
-  // Cambiar el HUD según se tocan las teclas
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === 'Space') {
-        onJump();
-      } else if (event.code === 'KeyA') {
-        onKeyA();
-      } else if (event.code === 'KeyD') {
-        onKeyD();
-      }
-    };
-
-    // Agregar eventos de escucha para las teclas de espacio (salto), A y D
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      // Limpiar los eventos al desmontar el componente
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [onJump, onKeyA, onKeyD]);
 
   useEffect(() => {
     if (play) {
       runSound.currentTime = 0;
-      runSound.volume = Math.random()
-      runSound.play()
+      runSound.volume = Math.random();
+      runSound.play();
     } else {
-      runSound.pause()
+      runSound.pause();
     }
-  }, [play])
+  }, [play]);
 
   useFrame((state, delta) => {
     const { forward, backward, leftward, rightward } = get()
     if (forward || backward || leftward || rightward) {
-      setPlay(true)
-
+      setPlay(true);
     } else {
-      setPlay(false)
+      setPlay(false);
     }
-
-    const pressed = get().back
+    const pressed = get().back;
   })
-
   return (
-
     null
   )
 }

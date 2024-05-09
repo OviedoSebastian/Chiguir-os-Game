@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody, useRigidBody } from "@react-three/rapier";
 
-export default function Radio(props) {
+export default function Radio({props, catchRadio}) {
 
   const [runSound] = useState(new Audio("/assets/sounds/recolect_object1.wav"))
 
@@ -21,14 +21,15 @@ export default function Radio(props) {
       console.log("Chocó");
       runSound.play();
       setNumeroDeRadios(numeroDeRadios + 1);
-
+      catchRadio()
       if (numeroDeRadios + 1 >= 5) {
         // Mover la poción a una posición inalcanzable
         setPosition([0, 1000, 0]); // Asigna una coordenada y muy alta
         if (refRigidBody.current) {
           refRigidBody.current.teleportTo({
             translation: { x: 0, y: 1000, z: 0 },
-          });
+          })
+          ;
         }
       } else {
         // Genera nuevas coordenadas X y Z dentro de los rangos especificados

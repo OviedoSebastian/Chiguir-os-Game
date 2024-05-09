@@ -3,16 +3,20 @@ import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import Ecctrl from "ecctrl";
 
-export default function AvatarEngineer() {
+export default function AvatarEngineer({jumpHeight}) {
     const avatarRef = useRef();
     const { avatar, setAvatar } = useAvatar();
     const { nodes, materials, animations } = useGLTF(
         "/assets/models/avatars/Engineer.glb"
     );
-    const [jumpVel, setJumpVel] = useState(3.3); // Variable para cambiar la altura del salto.
-
     const { actions } = useAnimations(animations, avatarRef);
+    const [jumpVel, setJumpVel] = useState(jumpHeight); // Variable para cambiar la altura del salto.
 
+    useEffect(() => {
+        if (jumpHeight === 10) {
+            setJumpVel(jumpHeight);
+        }
+    }, [avatar]);
 
     useEffect(() => {
         actions[avatar.animation]?.reset().fadeIn(0.5).play();
@@ -27,8 +31,8 @@ export default function AvatarEngineer() {
             floatingDis={0.2}
             camInitDis={-3}
             camMaxDis={-4}
-            maxVelLimit={5}
-            jumpVel={4}
+            maxVelLimit={4}
+            jumpVel={jumpVel}
             position={[20, 5, -30]}
         >
         <group ref={avatarRef} name="Scene" position-y={-0.82}>
