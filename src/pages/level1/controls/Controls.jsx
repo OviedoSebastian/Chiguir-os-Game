@@ -1,16 +1,20 @@
-import { OrbitControls, useKeyboardControls } from "@react-three/drei";
+import { useKeyboardControls } from "@react-three/drei";
 import { useAvatar } from "../../../context/AvatarContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 
-export default function Controls({ onJump, onKeyA, onKeyD }) {
+export default function Controls(props) {
 
   const { avatar, setAvatar } = useAvatar();
-  const [sub, get] = useKeyboardControls()
-  const [runSound] = useState(new Audio("/assets/sounds/run.wav"))
-  const [play, setPlay] = useState(false)
+  const [sub, get] = useKeyboardControls();
+  const [runSound] = useState(new Audio("/assets/sounds/run.wav"));
+  const [sounds, setSounds] = useState({
+    run: new Audio("/assets/sounds/run.wav"),
+    jump: new Audio("/assets/sounds/jump.wav"),
+    // Agrega más sonidos aquí si es necesario
+  });
+  const [play, setPlay] = useState(false);
   const [isJumping, setIsJumping] = useState(false);
-
 
   // Caminar
   useEffect(() => {
@@ -41,60 +45,37 @@ export default function Controls({ onJump, onKeyA, onKeyD }) {
       () => {
         setAvatar({ ...avatar, animation: "Jump" });
         setIsJumping(true);
+        sounds.jump.play();
         setTimeout(() => {
           setAvatar({ ...avatar, animation: "Idle" });
           setIsJumping(false);
-        }, 1000); // Duración de la animación de salto en milisegundos (1 segundo)
+        }, 500); // Duración de la animación de salto en milisegundos (1 segundo)
       }
     );
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, isJumping]);
 
-  // Cambiar el HUD según se tocan las teclas
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === 'Space') {
-        onJump();
-      } else if (event.code === 'KeyA') {
-        onKeyA();
-      } else if (event.code === 'KeyD') {
-        onKeyD();
-      }
-    };
-
-    // Agregar eventos de escucha para las teclas de espacio (salto), A y D
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      // Limpiar los eventos al desmontar el componente
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [onJump, onKeyA, onKeyD]);
 
   useEffect(() => {
     if (play) {
-      runSound.currentTime = 0;
-      runSound.volume = Math.random()
-      runSound.play()
+      sounds.run.currentTime = 0;
+      sounds.run.volume = Math.random()
+      sounds.run.play()
     } else {
-      runSound.pause()
+      sounds.run.pause()
     }
-  }, [play])
+  }, [play]);
 
   useFrame((state, delta) => {
     const { forward, backward, leftward, rightward } = get()
     if (forward || backward || leftward || rightward) {
-      setPlay(true)
-
+      setPlay(true);
     } else {
-      setPlay(false)
+      setPlay(false);
     }
-
-    const pressed = get().back
+    const pressed = get().back;
   })
-
   return (
-
     null
   )
 }
