@@ -1,0 +1,24 @@
+.mute-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 30px; /* Ajusta el tamaño del círculo */
+    height: 30px; /* Ajusta el tamaño del círculo */
+    transition: background-color 0.3s ease;
+}
+
+.mute-button:hover {
+    background-color: #ddd; /* Cambia el color de fondo al pasar el ratón */
+}
+
+.mute-button.muted {
+    background-color: #ccc; /* Cambia el color de fondo cuando está silenciado */
+}
