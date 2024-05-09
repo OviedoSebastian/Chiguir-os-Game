@@ -13,7 +13,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url('../../../public/assets/images/imagecanchas.webp'); /* Cambia la ruta a tu imagen de fondo */
+    background-image: url('../../../public/assets/images/Fondo.jpg'); /* Cambia la ruta a tu imagen de fondo */
     background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
     background-position: center; /* Centra la imagen de fondo */
     opacity: 0.5;
@@ -86,7 +86,9 @@
     color: white;
     background-color: #ff4226;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 10px 30px;
+    margin-top: 0px;
+    margin-bottom: 45px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -101,8 +103,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px; 
-    margin-top: 50px;
+    gap: 1px; 
+    margin-bottom: 10px;
+    background-image: url('../../../public/assets/images/container1.png'); /* Cambia la ruta a tu imagen de fondo */
+    background-size: contain; /* Ajusta la imagen para cubrir todo el contenedor */
+    background-position: center; /* Centra la imagen de fondo */
+    background-repeat: no-repeat;
+    width: 500px;
+    height: 400px;
+    justify-content: flex-end;
 }
 .footer-copyright {
     position: absolute;
