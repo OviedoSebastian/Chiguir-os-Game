@@ -8,6 +8,11 @@ export default function Controls(props) {
   const { avatar, setAvatar } = useAvatar();
   const [sub, get] = useKeyboardControls();
   const [runSound] = useState(new Audio("/assets/sounds/run.wav"));
+  const [sounds, setSounds] = useState({
+    run: new Audio("/assets/sounds/run.wav"),
+    jump: new Audio("/assets/sounds/jump.wav"),
+    // Agrega más sonidos aquí si es necesario
+  });
   const [play, setPlay] = useState(false);
   const [isJumping, setIsJumping] = useState(false);
 
@@ -40,10 +45,11 @@ export default function Controls(props) {
       () => {
         setAvatar({ ...avatar, animation: "Jump" });
         setIsJumping(true);
+        sounds.jump.play();
         setTimeout(() => {
           setAvatar({ ...avatar, animation: "Idle" });
           setIsJumping(false);
-        }, 1000); // Duración de la animación de salto en milisegundos (1 segundo)
+        }, 500); // Duración de la animación de salto en milisegundos (1 segundo)
       }
     );
     return () => unsubscribe();
@@ -52,11 +58,11 @@ export default function Controls(props) {
 
   useEffect(() => {
     if (play) {
-      runSound.currentTime = 0;
-      runSound.volume = Math.random();
-      runSound.play();
+      sounds.run.currentTime = 0;
+      sounds.run.volume = Math.random()
+      sounds.run.play()
     } else {
-      runSound.pause();
+      sounds.run.pause()
     }
   }, [play]);
 
