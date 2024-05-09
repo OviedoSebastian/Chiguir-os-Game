@@ -1,8 +1,8 @@
 import React from 'react';
-import { FaStar, FaCrosshairs } from 'react-icons/fa'; // Iconos de vida, recompensas y arma
+import { FaStar } from 'react-icons/fa'; // Iconos de vida, recompensas y arma
 import './hud.css';
 
-const CharacterHud = ({ vidas, recompensas, laptop, potion, arma }) => {
+const CharacterHud = ({ vidas, recompensas, radio, potion }) => {
 
     return (
         <div className="hud-container">
@@ -18,22 +18,16 @@ const CharacterHud = ({ vidas, recompensas, laptop, potion, arma }) => {
                 <span className="hud-text">{recompensas}</span>
             </div>
 
-            {/* Laptop */}
+            {/* Radio */}
             <div className="hud-item">
-                <img src="./assets/icons/icon_laptop.png" alt="laptop" className="hud-icon" />
-                <span className="hud-text">{laptop}/{5}</span>
+                <img src="./assets/icons/icon_walkietalkie.png" alt="radio" className="hud-icon" />
+                <span className="hud-text">{radio}/{5}</span>
             </div>
 
             {/* Potion */}
             <div className="hud-item">
-                <img src="./assets/icons/Icon_Beaker.png" alt="potion" className="hud-icon" />
+                <img src="./assets/icons/icon_potion.png" alt="potion" className="hud-icon" />
                 <span className="hud-text">{potion}/{5}</span>
-            </div>
-
-            {/* Arma */}
-            <div className="hud-item">
-                <FaCrosshairs className="hud-icon" />
-                <span className="hud-text">{arma}</span>
             </div>
         </div>
     );
