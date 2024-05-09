@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import { useFrame } from '@react-three/fiber'
@@ -6,11 +6,15 @@ import { useFrame } from '@react-three/fiber'
 export default function Ardilla(props) {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF(
-    "/assets/models/villains/Ardilla7.glb"
+    "/assets/models/villains/pericardilla.glb"
   );
   const { actions } = useAnimations(animations, group);
   const [runSound] = useState(new Audio("/assets/sounds/jajaja.wav"));
   const refRigidBody = useRef();
+
+  useEffect(() => {
+    actions.dance.play(); // Reproduce la animación por defecto al cargar
+  }, [actions.defaultAnimation]);
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     // console.log("Collision at world position", manifold.solverContactPoint(0));
@@ -40,16 +44,15 @@ export default function Ardilla(props) {
     >
       <group ref={group} {...props} dispose={null}>
         <group name="Scene">
-          <group name="Actor" rotation={[0, 3, 0]}>
-            <skinnedMesh
-              name="geometry_0"
-              geometry={nodes.geometry_0.geometry}
-              material={materials["New Material"]}
-              skeleton={nodes.geometry_0.skeleton}
-            />
-            <primitive object={nodes.Root} />
-            <primitive object={nodes.neutral_bone} />
-          </group>
+        <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
+          <skinnedMesh
+            name="pericardilla"
+            geometry={nodes.pericardilla.geometry}
+            material={materials.pericardillaMat}
+            skeleton={nodes.pericardilla.skeleton}
+          />
+          <primitive object={nodes.mixamorigHips} />
+        </group>
         </group>
       </group>
     </RigidBody>

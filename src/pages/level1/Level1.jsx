@@ -80,7 +80,7 @@ export default function Level1() {
 
 
                         <AvatarEngineer jumpHeight={jumpVel} />
-                        <Ardilla position={[44,5.9,-13.3]} />
+                        <Ardilla position={[44,5.5,-13.3]} />
                     </Physics>
                 </Suspense>
                 {/* <WelcomeText /> */}
