@@ -4,7 +4,6 @@ import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { RigidBody, vec3 } from "@react-three/rapier";
 import Ecctrl from "ecctrl";
-import { useFrame } from "@react-three/fiber";
 
 export default function AvatarEngineer({jumpHeight}) {
     const avatarEngineerRef = useRef();

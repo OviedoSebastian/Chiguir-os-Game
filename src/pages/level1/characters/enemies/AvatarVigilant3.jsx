@@ -4,7 +4,7 @@ import { useAnimations, useGLTF } from "@react-three/drei";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 
-export default function AvatarVigilant({ position }) {
+export default function AvatarVigilant3({ position }) {
     const avatarVigilantRef = useRef();
     const avatarVigilantBodyRef = useRef();
     const { avatar, setAvatar } = useAvatar();
@@ -14,8 +14,8 @@ export default function AvatarVigilant({ position }) {
 
     const { actions } = useAnimations(animations, avatarVigilantRef);
 
-    const radius = 15
-    const speed = 1
+    const radius = 5
+    const speed = 2.5
 
     useEffect(() => {
         actions[avatar.animation]?.reset().fadeIn(0.5).play();
@@ -36,9 +36,9 @@ export default function AvatarVigilant({ position }) {
 
     avatarVigilantBodyRef.current?.setTranslation(
       {
-        x: position[0]+ x,
+        x: position[0],
         y: position[1],
-        z: position[2],
+        z: position[2]+ x ,
       },
       true
     );
@@ -71,7 +71,7 @@ export default function AvatarVigilant({ position }) {
             onCollisionEnter={(e) => onCollisionEnter(e)}
         >
             <group ref={avatarVigilantRef} name="Scene" position-y={-0.82}>
-                    <group  name="Armature" scale={0.2} rotation={[0, 0, 0]}>
+                    <group  name="Armature" scale={0.2} rotation={[0, 1.5, 0]}>
                         <mesh
                             geometry={nodes.Vigilant_shoes.geometry}
                             material={materials['Material.002']}
