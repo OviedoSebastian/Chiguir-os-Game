@@ -44,7 +44,7 @@ export default function Ardilla(props) {
     >
       <group ref={group} {...props} dispose={null}>
         <group name="Scene">
-        <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
+        <group name="Armature" rotation={[Math.PI / 2, 0, 1.6]} scale={0.01}>
           <skinnedMesh
             name="pericardilla"
             geometry={nodes.pericardilla.geometry}
