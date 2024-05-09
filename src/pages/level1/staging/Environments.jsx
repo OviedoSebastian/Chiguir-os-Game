@@ -1,16 +1,26 @@
-import { Environment } from "@react-three/drei";
+import { Environment, Sparkles } from "@react-three/drei";
 
 export default function Environments() {
-    return (
-        <Environment
-            files={"/assets/hdris/sky.hdr"}
-            preset={null}
-            background={false}
-            ground={{
-                height: 20,
-                scale: 300,
-                radius: 500
-            }}
-        />
-    )
+  return (
+    <>
+      <Environment
+        files={"/assets/hdris/sky.hdr"}
+        preset={null}
+        background={false}
+        ground={{
+          height: 20,
+          scale: 300,
+          radius: 500,
+        }}
+      />
+
+      <Sparkles
+        position={[44,5.8,-13.3]}
+        count={100}
+        size={2}
+        color={"yellow"}
+        scale={1.5}
+      />
+    </>
+  );
 }
