@@ -10,7 +10,7 @@ export default function Radio({props, catchRadio}) {
   const { nodes, materials } = useGLTF(
     "/assets/models/colectables/radio.glb"
   );
-  const [position, setPosition] = useState([0, 0.2, 0]);
+  const [position, setPosition] = useState([0, -1, 0]);
   const [numeroDeRadios, setNumeroDeRadios] = useState(0);
   const refRigidBody = useRef();
 
@@ -35,10 +35,10 @@ export default function Radio({props, catchRadio}) {
         // Genera nuevas coordenadas X y Z dentro de los rangos especificados
         const newX = Math.random() * (25 + 28) - 28;
         const newZ = Math.random() * (34 + 28) - 28;
-        setPosition([newX, 0.2, newZ]);
+        setPosition([newX, -1, newZ]);
         if (refRigidBody.current) {
           refRigidBody.current.teleportTo({
-            translation: { x: newX, y: 0.2, z: newZ },
+            translation: { x: newX, y: -1, z: newZ },
           });
         }
       }
