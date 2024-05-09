@@ -4,16 +4,21 @@ import { useAnimations, useGLTF } from "@react-three/drei";
 import Ecctrl from "ecctrl";
 import { useFrame } from "@react-three/fiber";
 
-export default function AvatarEngineer() {
+export default function AvatarEngineer({jumpHeight}) {
     const avatarEngineerRef = useRef();
     const rigidBodyAvatarEngineerRef = useRef();
     const { avatar, setAvatar } = useAvatar();
-    const { nodes, materials, animations } = useGLTF( "/assets/models/avatars/Engineer.glb" );
-    const [position, setPosition] = useState([0, 0.2, 0]);
-
-
+    const { nodes, materials, animations } = useGLTF(
+        "/assets/models/avatars/Engineer.glb"
+    );
     const { actions } = useAnimations(animations, avatarEngineerRef);
+    const [jumpVel, setJumpVel] = useState(jumpHeight); // Variable para cambiar la altura del salto.
 
+    useEffect(() => {
+        if (jumpHeight === 10) {
+            setJumpVel(jumpHeight);
+        }
+    }, [avatar]);
 
     useEffect(() => {
         actions[avatar.animation]?.reset().fadeIn(0.5).play();
@@ -28,7 +33,7 @@ export default function AvatarEngineer() {
             avatarRef: avatarEngineerRef?.current,
             rigidBodyAvatarRef: rigidBodyAvatarEngineerRef?.current
 
-        })
+        });
 
     }, [avatarEngineerRef?.current, rigidBodyAvatarEngineerRef?.current]);
 
@@ -39,8 +44,8 @@ export default function AvatarEngineer() {
             floatingDis={0.2}
             camInitDis={-3}
             camMaxDis={-4}
-            maxVelLimit={5}
-            jumpVel={4}
+            maxVelLimit={4}
+            jumpVel={jumpVel}
             position={[20, 5, -30]}
         >
         <group ref={avatarEngineerRef} name="Scene" position-y={-0.82}>
@@ -118,4 +123,4 @@ export default function AvatarEngineer() {
     );
 }
 
-useGLTF.preload("/assets/models/avatars/Engineer.glb")
+useGLTF.preload("/assets/models/avatars/Engineer.glb");
