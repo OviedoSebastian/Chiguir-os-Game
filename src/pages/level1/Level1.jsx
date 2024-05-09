@@ -7,13 +7,16 @@ import Environments from "./staging/Environments";
 import { Canvas } from "@react-three/fiber";
 import World from "./world/World";
 import Controls from "./controls/Controls";
-import AvatarCientific from "./characters/enemies/AvatarCientific";
 import AvatarVigilant from "./characters/enemies/AvatarVigilant";
 import AvatarEngineer from "./characters/avatar/AvatarEngineer";
 import useMovements from "../../utils/key-movements";
 import CharacterHud from "../hud/CharacterHud"
-import Pocion from "./collectables/Pocion";
-import Radio from "./collectables/Radio";
+import Pocion from "./collectibles/Pocion";
+import Radio from "./collectibles/Radio";
+import Ardilla from "./characters/avatar/Ardilla";
+import Buttons from "./View/Buttons";
+import AvatarVigilant2 from "./characters/enemies/AvatarVigilant2";
+import AvatarVigilant3 from "./characters/enemies/AvatarVigilant3";
 
 export default function Level1() {
 
@@ -43,11 +46,16 @@ export default function Level1() {
 
 
     return (
+        <>
+        
         <KeyboardControls map={map} >
+            <Buttons/>
             <Canvas
                 camera={{
                     position: [0, 1, 0]
                 }}
+
+                shadows={true}
             >
                 <Suspense fallback={null}>
                     <Lights />
@@ -55,9 +63,22 @@ export default function Level1() {
                     <Physics debug={false}>
                         <World />
                         <Pocion catchPotion={handlePotion} setNumeroDePociones={5} position={[-2.5, -0.3, 10]}/>
-                        <Radio position={[-2.5, -1.3, -4]} catchRadio={handleRadio} />
-                        <AvatarVigilant position={[0, 0.42, 0]}/>
+                        <Radio position={[-2.5, -1, -4]} catchRadio={handleRadio} />
+                        
+                        <AvatarVigilant position={[10, 0.42, 0]}/>
+                        <AvatarVigilant position={[1, 0.42, 20]}/>
+                        <AvatarVigilant position={[-10, 0.42, -28]}/>
+                        <AvatarVigilant position={[-20, 0.42, 33]}/>
+
+                        <AvatarVigilant2 position={[3, 0.42, 0]}/>
+                        <AvatarVigilant2 position={[15, 0.42, 4]}/>
+                        <AvatarVigilant2 position={[-15, 0.42, 8]}/>
+
+                        <AvatarVigilant3 position={[-39, 0.42, 14]}/>
+
+
                         <AvatarEngineer jumpHeight={jumpVel} />
+                        <Ardilla position={[44,5.9,-13.3]} />
                     </Physics>
                 </Suspense>
                 {/* <WelcomeText /> */}
@@ -73,5 +94,6 @@ export default function Level1() {
                 potion={potion}
             />
         </KeyboardControls>
+        </>
     )
 } 

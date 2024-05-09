@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
@@ -14,8 +14,8 @@ export default function AvatarVigilant({ position }) {
 
     const { actions } = useAnimations(animations, avatarVigilantRef);
 
-    const radius = 3.5
-    const speed = 1.5
+    const radius = 15
+    const speed = 1
 
     useEffect(() => {
         actions[avatar.animation]?.reset().fadeIn(0.5).play();
@@ -24,25 +24,54 @@ export default function AvatarVigilant({ position }) {
         };
     }, [actions, avatar.animation]);
 
-    useFrame(({ clock }) => {
-        const elapsedTime = clock.getElapsedTime()
-        const angle = elapsedTime * speed
-        const x = Math.cos(angle) * radius
-        const z = Math.sin(angle) * radius
 
-        avatarVigilantRef.current.rotation.y = -angle
 
-        avatarVigilantBodyRef.current?.setTranslation({
-            x: position[0] + x,
-            y: position[1],
-            z: position[2] + z
-        }, true)
-    })
+  // refRigidBody.current.rotation.y = Math.cos(clock.getElapsedTime());
+
+  useFrame(({ clock }) => {
+    const elapsedTime = clock.getElapsedTime();
+    const angle = elapsedTime * speed;
+    const x = Math.cos(angle) * radius;
+    avatarVigilantBodyRef.current.rotation.y = Math.cos(elapsedTime);
+
+    avatarVigilantBodyRef.current?.setTranslation(
+      {
+        x: position[0]+ x,
+        y: position[1],
+        z: position[2],
+      },
+      true
+    );
+  });
+
+  const [runSound] = useState(new Audio("/assets/sounds/laugh.mp3"));
+
+  const onCollisionEnter = ({ manifold, target, other }) => {
+    // console.log("Collision at world position", manifold.solverContactPoint(0));
+
+    if (other.colliderObject.name == "character-capsule-collider") {
+      console.log("Checkpoint");
+      runSound.play();
+      } else {
+        console.log(
+          // this rigid body's Object3D
+          target.rigidBodyObject,
+          " collided with ",
+          // the other rigid body's Object3D
+          other.rigidBodyObject
+        );
+      }
+    }
 
     return (
-        <RigidBody ref={avatarVigilantBodyRef} type='fixed' position={position}>
+        <RigidBody 
+            ref={avatarVigilantBodyRef} 
+            type='fixed' 
+            position={position}
+            onCollisionEnter={(e) => onCollisionEnter(e)}
+        >
             <group ref={avatarVigilantRef} name="Scene" position-y={-0.82}>
-                    <group  name="Armature" scale={0.2}>
+                    <group  name="Armature" scale={0.2} rotation={[0, 0, 0]}>
                         <mesh
                             geometry={nodes.Vigilant_shoes.geometry}
                             material={materials['Material.002']}

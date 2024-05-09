@@ -1,3 +1,4 @@
+import { SpotLight } from "@react-three/drei";
 import { Color } from "three";
 
 const Lights = () => {
@@ -17,6 +18,13 @@ const Lights = () => {
             // shadow-camera-right = {10}
             // shadow-camera-top = {10}
             // shadow-camera-bottom = {-10}
+        />
+
+        <pointLight
+            position={[44,5.8,-13.3]}
+            intensity={1}
+            // angle={2}
+            color={"yellow"}
         />
     </>
 }
