@@ -11,20 +11,22 @@ const Buttons = () => {
   };
 
   const onHandleButtonRestart = () => {
-    navigate("/level1");
+    window.location.reload();
   };
+  
 
   return (
     <div className="button-container">
-      <div class="button-wrapper">
-        <div onClick={onHandleButtonBack} className="button-back">
-          {/* <button>Atras</button> */}
-          <img src="ruta_de_la_imagen_1" alt="Botón 1" class="button"></img>
+      <div className="button-wrapper">
+
+        <div onClick={onHandleButtonBack} className="button-levels">
+          <img src="/assets/GUI/Home.png" alt="Atras" />
         </div>
-        <div onClick={onHandleButtonRestart} className="button-restart">
-          {/* <button>Reiniciar</button> */}
-          <img src="ruta_de_la_imagen_2" alt="Botón 2" class="button"></img>
+
+        <div onClick={onHandleButtonRestart} className="button-levels">
+          <img src="/assets/GUI/Restart.png" alt="Atras" />
         </div>
+
       </div>
     </div>
   );

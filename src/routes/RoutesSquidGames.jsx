@@ -11,7 +11,7 @@ import BackgroundMusic from "../components/BackgroundMusic";
 export default function RoutesSquidGames() {
     return (
         <BrowserRouter>
-            {/* <BackgroundMusic /> */}
+            <BackgroundMusic />
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/chooselevel" element={<SelectLevel />} />
