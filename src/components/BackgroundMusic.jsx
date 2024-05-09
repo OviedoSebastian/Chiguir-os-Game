@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 export default function BackgroundMusic() {
     const [backgroundMusic, setBackgroundMusic] = useState({
-        login: new Audio("/assets/sounds/loginMusic.wav"),
+        login: new Audio("/assets/sounds/Jurassic.wav"),
         level1: new Audio("/assets/sounds/level1Music.wav"),
     }); // Estado para almacenar el objeto de audio
     
