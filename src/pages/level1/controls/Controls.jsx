@@ -3,7 +3,7 @@ import { useAvatar } from "../../../context/AvatarContext";
 import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 
-export default function Controls(props) {
+export default function Controls({props, loseLife}) {
 
   const { avatar, setAvatar } = useAvatar();
   const [sub, get] = useKeyboardControls();
@@ -27,7 +27,7 @@ export default function Controls(props) {
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, get]);
 
-  // Caminar
+  // Correr
   useEffect(() => {
     const unsubscribe = sub(
       (state) => (state.forward || state.backward || state.leftward || state.rightward) && state.run,
