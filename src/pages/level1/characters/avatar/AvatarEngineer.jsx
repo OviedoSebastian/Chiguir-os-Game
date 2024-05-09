@@ -5,12 +5,13 @@ import Ecctrl from "ecctrl";
 import { useFrame } from "@react-three/fiber";
 
 export default function AvatarEngineer({jumpHeight}) {
-    const avatarRef = useRef();
+    const avatarEngineerRef = useRef();
+    const rigidBodyAvatarEngineerRef = useRef();
     const { avatar, setAvatar } = useAvatar();
     const { nodes, materials, animations } = useGLTF(
         "/assets/models/avatars/Engineer.glb"
     );
-    const { actions } = useAnimations(animations, avatarRef);
+    const { actions } = useAnimations(animations, avatarEngineerRef);
     const [jumpVel, setJumpVel] = useState(jumpHeight); // Variable para cambiar la altura del salto.
 
     useEffect(() => {
