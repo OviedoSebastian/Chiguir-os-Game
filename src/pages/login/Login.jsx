@@ -1,11 +1,7 @@
 import "./stylesLogin.css";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Login() {
-
-
-    // Inicializa el manejo de rutas del proyecto
     const navigate = useNavigate();
 
     const onHandleButtonStart = () => {
@@ -13,10 +9,8 @@ export default function Login() {
     }
 
     const onHandleButtonaboutgame = () => {
-        navigate('/level');
+        navigate('/aboutgame');  // Asegúrate que esta ruta esté bien definida.
     }
-    
-
 
     return (
         <div className="container">
@@ -27,17 +21,19 @@ export default function Login() {
                 Universidad en Crisis<br></br>
                 ¡Supervivencia al Límite!
             </div>
-            <div onClick={onHandleButtonStart} className="button-start">
-                <button>Iniciar</button>
+            <div className="button-container">
+                    <div onClick = {onHandleButtonStart} className="button-start">
+                        <img src="/assets/GUI/Button1.png" alt="Start" />
+                        <span className="button-text">Iniciar</span>
+                    </div>
+                    <div onClick = {onHandleButtonaboutgame} className="button-start">
+                        <img src="/assets/GUI/Button2.png" alt="About" />
+                        <span className="button-text">Informacion del Juego</span>
+                    </div>
             </div>
-            <div onClick={onHandleButtonaboutgame} className="button-start">
-                <button>Información del juego</button>
-            </div>
-
-            <div className="footer-copyright">
+            <div className="footer">
                 &copy; 2024 CHUIGUIR'OS. Todos los derechos reservados.
             </div>
         </div>
     );
-
 }
