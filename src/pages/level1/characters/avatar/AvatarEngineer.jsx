@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import Ecctrl from "ecctrl";
+import { useFrame } from "@react-three/fiber";
 
 export default function AvatarEngineer({jumpHeight}) {
     const avatarRef = useRef();
@@ -25,8 +26,19 @@ export default function AvatarEngineer({jumpHeight}) {
         };
     }, [actions, avatar.animation]);
 
+    useEffect(()=>{
+        setAvatar({
+            ...avatar,
+            avatarRef: avatarEngineerRef?.current,
+            rigidBodyAvatarRef: rigidBodyAvatarEngineerRef?.current
+
+        });
+
+    }, [avatarEngineerRef?.current, rigidBodyAvatarEngineerRef?.current]);
+
     return (
         <Ecctrl
+            ref={rigidBodyAvatarEngineerRef}
             capsuleHalfHeight={0.5}
             floatingDis={0.2}
             camInitDis={-3}
@@ -35,7 +47,7 @@ export default function AvatarEngineer({jumpHeight}) {
             jumpVel={jumpVel}
             position={[20, 5, -30]}
         >
-        <group ref={avatarRef} name="Scene" position-y={-0.82}>
+        <group ref={avatarEngineerRef} name="Scene" position-y={-0.82}>
             <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
                 <skinnedMesh
                     name="Engineer_eyes"
@@ -110,4 +122,4 @@ export default function AvatarEngineer({jumpHeight}) {
     );
 }
 
-useGLTF.preload("/assets/models/avatars/Engineer.glb")
+useGLTF.preload("/assets/models/avatars/Engineer.glb");
