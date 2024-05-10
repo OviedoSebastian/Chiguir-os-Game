@@ -14,6 +14,7 @@ export default function AvatarVigilant({ position, loseLife }) {
 
     const { actions } = useAnimations(animations, avatarVigilantRef);
 
+    console.log();
     const radius = 15
     const speed = 1
 
