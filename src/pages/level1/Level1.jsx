@@ -26,6 +26,10 @@ export default function Level1() {
     const [potion, setPotion] = useState(0);
     const [jumpVel, setJumpVel] = useState(3.5); 
 
+    const loseLife = () => {
+        setVida((prevVida) => prevVida - 1);
+    };
+
     const handleRadio = () => {
         if (radio < 5) {
             setRadio((prevLaptop) => prevLaptop + 1);
@@ -36,6 +40,10 @@ export default function Level1() {
         if (potion < 5) {
             setPotion((prevPotion) => prevPotion + 1);
         }
+    };
+
+    const resetPoint = () => {
+        setVida(3)
     };
 
     useEffect(() => {
@@ -67,31 +75,29 @@ export default function Level1() {
                         <Pocion catchPotion={handlePotion} setNumeroDePociones={5} position={[-2.5, -0.3, 10]}/>
                         <Radio position={[-2.5, -1, -4]} catchRadio={handleRadio} />
                         
-                        <AvatarVigilant position={[10, 0.42, 0]}/>
-                        <AvatarVigilant position={[1, 0.42, 20]}/>
-                        <AvatarVigilant position={[-10, 0.42, -28]}/>
-                        <AvatarVigilant position={[-20, 0.42, 33]}/>
+                        <AvatarVigilant position={[10, 0.42, 0]} loseLife={loseLife} />
+                        <AvatarVigilant position={[1, 0.42, 20]} loseLife={loseLife}/>
+                        <AvatarVigilant position={[-10, 0.42, -28]} loseLife={loseLife}/>
+                        <AvatarVigilant position={[-20, 0.42, 33]} loseLife={loseLife}/>
 
-                        <AvatarVigilant2 position={[3, 0.42, 0]}/>
-                        <AvatarVigilant2 position={[15, 0.42, 4]}/>
-                        <AvatarVigilant2 position={[-15, 0.42, 8]}/>
+                        <AvatarVigilant2 position={[3, 0.42, 0]} loseLife={loseLife}/>
+                        <AvatarVigilant2 position={[15, 0.42, 4]} loseLife={loseLife}/>
+                        <AvatarVigilant2 position={[-15, 0.42, 8]} loseLife={loseLife}/>
 
-                        <AvatarVigilant3 position={[-39, 0.42, 14]}/>
+                        <AvatarVigilant3 position={[-39, 0.42, 14]} loseLife={loseLife}/>
 
-
-                        <AvatarEngineer jumpHeight={jumpVel} />
-                        <Ardilla position={[44,5.5,-13.3]} />
+                        <AvatarEngineer jumpHeight={jumpVel} vida={vida} resetPoint={resetPoint} />
+                        <Ardilla position={[44,5.9,-13.3]} />
                     </Physics>
                 </Suspense>
                 {/* <WelcomeText /> */}
-                <Controls   />
+                <Controls loseLife={loseLife} />
             </Canvas>
             <Loader >
                 { 'Cargando nivel' }
             </Loader>
             <CharacterHud 
                 vidas={vida}
-                recompensas={10}
                 radio={radio}
                 potion={potion}
             />
