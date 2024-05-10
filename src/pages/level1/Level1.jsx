@@ -52,6 +52,8 @@ export default function Level1() {
         }
     }, [radio, potion]);
 
+    
+
 
     return (
         <>
