@@ -51,6 +51,7 @@ export default function AvatarEngineer({ jumpHeight, vida, resetPoint }) {
 
     }, [avatarEngineerRef?.current, rigidBodyAvatarEngineerRef?.current]);
 
+    
     return (
         <Ecctrl
             ref={rigidBodyAvatarEngineerRef}

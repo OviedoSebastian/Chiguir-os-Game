@@ -14,16 +14,8 @@ export default function AvatarVigilant({ position, loseLife }) {
 
     const { actions } = useAnimations(animations, avatarVigilantRef);
 
-    console.log();
     const radius = 15
     const speed = 1
-
-    useEffect(() => {
-        actions[avatar.animation]?.reset().fadeIn(0.5).play();
-        return () => {
-            if (actions[avatar.animation]) actions[avatar.animation].fadeOut(0.5);
-        };
-    }, [actions, avatar.animation]);
 
     // refRigidBody.current.rotation.y = Math.cos(clock.getElapsedTime());
 
@@ -47,7 +39,6 @@ export default function AvatarVigilant({ position, loseLife }) {
 
     const onCollisionEnter = ({ manifold, target, other }) => {
         if (other.colliderObject.name == "character-capsule-collider") {
-            console.log("Checkpoint");
             runSound.play();
             // Resta una vida
             loseLife();
