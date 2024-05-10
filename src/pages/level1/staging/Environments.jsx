@@ -15,7 +15,7 @@ export default function Environments() {
       />
 
       <Sparkles
-        position={[44,5.8,-13.3]}
+        position={[44,5.8,-0.4]}
         count={100}
         size={2}
         color={"yellow"}
