@@ -1,7 +1,6 @@
-import { KeyboardControls, Loader, OrbitControls } from "@react-three/drei";
+import { KeyboardControls, Loader } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useEffect, useState } from "react";
-import WelcomeText from "./abstractions/WelcomeText";
 import Lights from "./lights/Lights";
 import Environments from "./staging/Environments";
 import { Canvas } from "@react-three/fiber";
@@ -24,10 +23,28 @@ export default function Level1() {
     const [vida, setVida] = useState(3);
     const [radio, setRadio] = useState(0);
     const [potion, setPotion] = useState(0);
-    const [jumpVel, setJumpVel] = useState(3.5); 
+    const [jumpVel, setJumpVel] = useState(3.5);
+    const [checkpoint, setCheckpoint] = useState(false);
+    const [potioncheckpoint, setPotioncheckpoint] = useState(0);
+    const [radiochackpoint, setRadiochackpoint] = useState(0);
+
+    const savecheckpoint = () => {
+        setCheckpoint(true);
+        setPotioncheckpoint(potion);
+        setRadiochackpoint(radio);
+        console.log("Progreso Guardado");
+    };
 
     const loseLife = () => {
         setVida((prevVida) => prevVida - 1);
+        if(checkpoint){
+            setPotion(potioncheckpoint);
+            setRadio(radiochackpoint);
+        }else{
+            setPotion(0);
+            setRadio(0);
+        }
+        
     };
 
     const handleRadio = () => {
@@ -43,7 +60,9 @@ export default function Level1() {
     };
 
     const resetPoint = () => {
-        setVida(3)
+        setVida(3);
+        setPotion(0);
+        setRadio(0);
     };
 
     useEffect(() => {
@@ -87,11 +106,10 @@ export default function Level1() {
                         <AvatarVigilant3 position={[-39, 0.42, 14]} loseLife={loseLife}/>
 
                         <AvatarEngineer jumpHeight={jumpVel} vida={vida} resetPoint={resetPoint} />
-                        <Ardilla position={[44,5.5,-0.4]} />
+                        <Ardilla savecheckpoint={savecheckpoint}/>
                     </Physics>
                 </Suspense>
-                {/* <WelcomeText /> */}
-                <Controls loseLife={loseLife} />
+                <Controls loseLife={loseLife} savecheckpoint={savecheckpoint}/>
             </Canvas>
             <Loader >
                 { 'Cargando nivel' }
