@@ -9,7 +9,7 @@ export default function Login() {
     }
 
     const onHandleButtonaboutgame = () => {
-        navigate('/aboutgame');  // Asegúrate que esta ruta esté bien definida.
+        navigate('/level0');  
     }
 
     return (

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Level0 from "../pages/level0/Level0";
 import Level1 from "../pages/level1/Level1";
 import Level2 from "../pages/level2/Level2";
 import Level3 from "../pages/level3/Level3";
@@ -15,6 +16,7 @@ export default function RoutesSquidGames() {
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/chooselevel" element={<SelectLevel />} />
+                <Route path="/level0" element={<Level0 />} />
                 <Route path="/level1" element={<Level1 />} />
                 <Route path="/level2" element={<Level2 />} />
                 <Route path="/level3" element={<Level3 />} />

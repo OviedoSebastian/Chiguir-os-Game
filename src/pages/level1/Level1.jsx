@@ -87,7 +87,7 @@ export default function Level1() {
                         <AvatarVigilant3 position={[-39, 0.42, 14]} loseLife={loseLife}/>
 
                         <AvatarEngineer jumpHeight={jumpVel} vida={vida} resetPoint={resetPoint} />
-                        <Ardilla position={[44,5.9,-13.3]} />
+                        <Ardilla position={[44,5.5,-13.3]} />
                     </Physics>
                 </Suspense>
                 {/* <WelcomeText /> */}
