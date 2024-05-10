@@ -1,8 +1,7 @@
 import React from 'react';
-import { FaStar } from 'react-icons/fa'; // Iconos de vida, recompensas y arma
 import './hud.css';
 
-const CharacterHud = ({ vidas, recompensas, radio, potion }) => {
+const CharacterHud = ({ vidas, radio, potion }) => {
 
     return (
         <div className="hud-container">
@@ -10,12 +9,6 @@ const CharacterHud = ({ vidas, recompensas, radio, potion }) => {
             <div className="hud-item">
             <img src="./assets/icons/icon_heart.png" alt="laptop" className="hud-icon" />
                 <span className="hud-text">{vidas}/{3}</span>
-            </div>
-
-            {/* Recompensas */}
-            <div className="hud-item">
-                <FaStar className="hud-icon" />
-                <span className="hud-text">{recompensas}</span>
             </div>
 
             {/* Radio */}
