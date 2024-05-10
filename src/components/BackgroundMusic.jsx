@@ -5,7 +5,7 @@ import "./stylesComponents.css";
 
 export default function BackgroundMusic() {
     const [backgroundMusic, setBackgroundMusic] = useState({
-        login: new Audio("/assets/sounds/loginMusic.wav"),
+        login: new Audio("/assets/sounds/Jurassic.wav"),
         level1: new Audio("/assets/sounds/level1Music.wav"),
     }); // Estado para almacenar el objeto de audio
     const [isMuted, setIsMuted] = useState(false); // Estado para controlar el silencio
@@ -17,6 +17,7 @@ export default function BackgroundMusic() {
         switch (location.pathname) {
             case '/':
             case '/chooselevel':
+                playSound(backgroundMusic.login);
                 break;
 
             case '/level1':
