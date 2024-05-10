@@ -16,6 +16,8 @@ export default function BackgroundMusic() {
         
         switch (location.pathname) {
             case '/':
+                playSound(backgroundMusic.login);
+                break;
             case '/chooselevel':
                 playSound(backgroundMusic.login);
                 break;
