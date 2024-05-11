@@ -24,13 +24,26 @@
 }
 
 .hud-text {
-  font-size: 18px;
+  font-size: 40px; /* Tamaño de fuente aumentado para la información (vidas, pociones, radios) */
   font-weight: bold;
 }
 
 /* Estilo para las imágenes de laptop y potion */
 .hud-item img {
-  width: 24px; /* Tamaño de la imagen */
-  height: 24px;
+  width: 34px; /* Tamaño de la imagen */
+  height: 34px;
   margin-right: 10px;
+}
+
+/* Estilos para el texto informativo */
+.text-info {
+  position: absolute;
+  bottom: 130px; /* Posición desde abajo */
+  left: 50%; /* Centrado horizontalmente */
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8); /* Fondo negro semitransparente */
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 20px;
 }
