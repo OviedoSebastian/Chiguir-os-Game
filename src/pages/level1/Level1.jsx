@@ -63,6 +63,9 @@ export default function Level1() {
         setVida(3);
         setPotion(0);
         setRadio(0);
+        setCheckpoint(false);
+        setPotioncheckpoint(0);
+        setRadiochackpoint(0);
     };
 
     useEffect(() => {
