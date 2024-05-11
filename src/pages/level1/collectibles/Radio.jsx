@@ -22,7 +22,7 @@ export default function Radio({props, catchRadio}) {
       runSound.play();
       setNumeroDeRadios(numeroDeRadios + 1);
       catchRadio()
-      if (numeroDeRadios + 1 >= 5) {
+      if (numeroDeRadios + 1 >= 10) {
         // Mover la poción a una posición inalcanzable
         setPosition([0, 1000, 0]); // Asigna una coordenada y muy alta
         if (refRigidBody.current) {
