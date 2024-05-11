@@ -3,7 +3,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import { useFrame } from '@react-three/fiber'
 
-export default function Ardilla(props) {
+export default function Ardilla({savecheckpoint}) {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF(
     "/assets/models/villains/pericardilla.glb"
@@ -21,6 +21,7 @@ export default function Ardilla(props) {
 
     if (other.colliderObject.name == "character-capsule-collider") {
       console.log("Checkpoint");
+      savecheckpoint();
       runSound.play();
       } else {
         console.log(
@@ -39,10 +40,11 @@ export default function Ardilla(props) {
       ref={refRigidBody}
       type="fixed"
       colliders="cuboid"
+      position={[44,5.5,-0.4]}
       onCollisionEnter={(e) => onCollisionEnter(e)}
       name="Ardilla"
     >
-      <group ref={group} {...props} dispose={null}>
+      <group ref={group} dispose={null}>
         <group name="Scene">
         <group name="Armature" rotation={[Math.PI / 2, 0, 1.6]} scale={0.01}>
           <skinnedMesh
@@ -59,4 +61,4 @@ export default function Ardilla(props) {
   );
 }
 
-useGLTF.preload("/Ardilla6.glb");
+useGLTF.preload("/assets/models/villains/pericardilla.glb");
