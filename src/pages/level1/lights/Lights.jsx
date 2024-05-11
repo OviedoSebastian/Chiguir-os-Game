@@ -21,7 +21,7 @@ const Lights = () => {
         />
 
         <pointLight
-            position={[44,5.8,-13.3]}
+            position={[44,5.8,-0.4]}
             intensity={1}
             // angle={2}
             color={"yellow"}
