@@ -3,7 +3,7 @@ import './hud.css';
 
 const CharacterHud = ({ vidas, radio, potion }) => {
     const [displayText, setDisplayText] = useState('');
-    const textToShow = 'Te encontraron haciendo cosas indebidas (arrojando basura por el campo). <br>Dirígete hacía el final de la isla para poder escapar. <br><br>Los letreros pueden proporcionar información que te puede ayudar. <br><br>¡Suerte en tu escape! ;D';
+    const textToShow = 'Te encontraron haciendo cosas indebidas (arrojando basura por el campo). <br><br>Dirígete hacía el final de la isla para poder escapar.<br>Recoge todas las recompensas para poder obtener ayuda.  <br><br>¡Suerte en tu escape! ;D';
     const currentIndexRef = useRef(0);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const CharacterHud = ({ vidas, radio, potion }) => {
 
                 setTimeout(() => {
                     setDisplayText('');
-                }, 7000);
+                }, 7500);
             }
         }, 40);
 
