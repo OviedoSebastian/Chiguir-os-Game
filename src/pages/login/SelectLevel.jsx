@@ -1,6 +1,5 @@
 import "./stylesLogin.css";
 import { useNavigate } from "react-router-dom";
-
 export default function SelectLevel() {
     const navigate = useNavigate();
 
