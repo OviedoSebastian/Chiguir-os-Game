@@ -16,7 +16,7 @@ export default function Environments() {
       <Cloud
         bounds={[50, 5, 50]}
         volume={15}
-        color={"lightpink"}
+        color={"blue"}
         position={[0, 30, 1]}
         segments={100}
         fade={200}
