@@ -20,30 +20,30 @@ export default function Environments() {
           radius: 500,
         }}
       /> */}
-      <Sky
+      {/* <Sky
         turbidity={0}
         rayleigh={0.009}
         mieCoefficient={0.09}
         mieDirectionalG={0}
         azimuth={-180}
-      />
-      <Stars />
+      /> */}
+      <Stars count={600} />
       <Cloud
         bounds={[50, 5, 50]}
         volume={20}
         color={"lightpink"}
-        position={[-70,60, 10]}
+        position={[-70, 60, 10]}
         segments={100}
         fade={500}
       />
 
-<Cloud
+      <Cloud
         bounds={[0.1, 10, 0.1]}
         volume={1}
         color={"white"}
         position={[-22, 17.5, 2.5]}
         segments={100}
-        fade={100}
+        fade={400}
       />
       <Sparkles
         position={[-18.5, 3, 17.5]}
@@ -86,7 +86,7 @@ export default function Environments() {
         noise={4}
       />
 
-<Sparkles
+      <Sparkles
         position={[104.6, 5.5, 9.7]}
         count={10}
         size={4}
