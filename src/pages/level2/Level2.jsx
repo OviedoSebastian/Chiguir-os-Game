@@ -42,8 +42,8 @@ export default function Level2() {
                             floatingDis={0.2}
                             camInitDis={-3}
                             camMaxDis={-4}
-                            maxVelLimit={5} 
-                            jumpVel={1} 
+                            maxVelLimit={6} 
+                            jumpVel={5} 
                             position={[0, 10, 0]}
                         >
                             {/* <AvatarEngineer /> */}
