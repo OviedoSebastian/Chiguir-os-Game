@@ -144,10 +144,10 @@ const Lights = () => {
 
       <pointLight
         ref={lightRef}
-        position={[37, -2, 60]}
+        position={[37, -2.5, 60]}
         color={"white"}
         intensity={10}
-        decay={10}
+        decay={4}
       />
 
       <pointLight
