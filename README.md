@@ -1,4 +1,4 @@
-# RTF_PRACTICES 
+# Chigüir'os Game 
 ### Participantes:
 
 - Wilson Andrés Mosquera Zapata ( 2182116 )
