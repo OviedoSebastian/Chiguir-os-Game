@@ -15,6 +15,7 @@ import { Perf } from "r3f-perf";
 import Buttons from "../level1/View/Buttons";
 import { useAuth } from "../../context/AuthContext";
 import Logout from "../../components/logout/Logout";
+import Raven from "./staging/Raven";
 
 export default function Level2() {
   const map = useMovements();
@@ -50,38 +51,43 @@ export default function Level2() {
 
 
   return (
-
-    <KeyboardControls map={map}>
-      <Buttons />
-      <Logout />
-      <Canvas
-        camera={{
-          position: [0, 1, 0],
-        }}
-      >
-        <Perf position="top-left" />
-        <Suspense fallback={null}>
-          <Lights />
-          <Environments />
-          <Physics debug={false}>
-            <World />
-            {/* <AvatarEngineer /> */}
-            <AvatarCientific jumpHeight={jumpVel} vida={vida} resetPoint={resetPoint} />
-
-          </Physics>
-        </Suspense>
-        <WelcomeText />
-        <Controls />
-      </Canvas>
-      <Loader >
-        {'Cargando nivel'}
-      </Loader>
-      <CharacterHud
-        vida={vida}
-        vidasPerdidas={vida} // Pendiente a cambiar valores
-        actualizarVida={vida} // Pendiente a cambiar valores
-      />
-    </KeyboardControls>
-
+    
+      <KeyboardControls map={map}>
+        <Buttons/>
+        <Canvas
+          camera={{
+            position: [0, 1, 0],
+          }}
+        >
+          <Perf position="top-left" />
+          <Suspense fallback={null}>
+            <Lights />
+            <Environments />
+            <Physics debug={false}>
+              <World />
+              <Ecctrl
+                capsuleHalfHeight={0.5}
+                floatingDis={0.2}
+                camInitDis={-3}
+                camMaxDis={-4}
+                maxVelLimit={6}
+                jumpVel={5}
+                position={[0, 10, 0]}
+              >
+                {/* <AvatarEngineer /> */}
+                <AvatarCientific />
+              </Ecctrl>
+            </Physics>
+          </Suspense>
+          <WelcomeText />
+          <Controls />
+        </Canvas>
+        <CharacterHud
+          vida={vida}
+          vidasPerdidas={vidasPerdidas}
+          actualizarVida={actualizarVida}
+        />
+      </KeyboardControls>
+    
   );
 }
