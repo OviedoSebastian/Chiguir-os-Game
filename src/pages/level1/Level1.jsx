@@ -74,9 +74,6 @@ export default function Level1() {
         }
     }, [radio, potion]);
 
-    
-
-
     return (
         <>
         
@@ -112,7 +109,7 @@ export default function Level1() {
                         <Ardilla savecheckpoint={savecheckpoint}/>
                     </Physics>
                 </Suspense>
-                <Controls loseLife={loseLife} savecheckpoint={savecheckpoint}/>
+                <Controls />
             </Canvas>
             <Loader >
                 { 'Cargando nivel' }
