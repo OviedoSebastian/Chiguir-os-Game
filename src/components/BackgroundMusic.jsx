@@ -7,6 +7,7 @@ export default function BackgroundMusic() {
     const [backgroundMusic, setBackgroundMusic] = useState({
         login: new Audio("/assets/sounds/Jurassic.wav"),
         level1: new Audio("/assets/sounds/level1Music.wav"),
+        level2: new Audio("/assets/sounds/Level2Music2.mp3"),
     }); // Estado para almacenar el objeto de audio
     const [isMuted, setIsMuted] = useState(false); // Estado para controlar el silencio
     const location = useLocation();
@@ -24,6 +25,10 @@ export default function BackgroundMusic() {
 
             case '/level1':
                 playSound(backgroundMusic.level1);
+                break;
+
+            case '/level2':
+                playSound(backgroundMusic.level2);
                 break;
 
             // Agrega más casos según sea necesario

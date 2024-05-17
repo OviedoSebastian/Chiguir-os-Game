@@ -14,6 +14,7 @@ import Ecctrl, { EcctrlAnimation } from "ecctrl";
 import CharacterHud from "../hud/CharacterHud";
 import { Perf } from "r3f-perf";
 import Buttons from "../level1/View/Buttons";
+import Raven from "./staging/Raven";
 
 export default function Level2() {
   const map = useMovements();
@@ -50,6 +51,7 @@ export default function Level2() {
               >
                 {/* <AvatarEngineer /> */}
                 <AvatarCientific />
+                {/* <Raven/> */}
               </Ecctrl>
             </Physics>
           </Suspense>
