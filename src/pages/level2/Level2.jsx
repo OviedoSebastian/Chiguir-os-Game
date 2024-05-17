@@ -80,28 +80,18 @@ export default function Level2() {
             <Environments />
             <Physics debug={false}>
               <World />
-              <Ecctrl
-                capsuleHalfHeight={0.5}
-                floatingDis={0.2}
-                camInitDis={-3}
-                camMaxDis={-4}
-                maxVelLimit={6}
-                jumpVel={5}
-                position={[0, 10, 0]}
-              >
                 {/* <AvatarEngineer /> */}
                 <AvatarCientific />
-              </Ecctrl>
             </Physics>
           </Suspense>
           <WelcomeText />
           <Controls />
         </Canvas>
-        <CharacterHud
-          vida={vida}
-          vidasPerdidas={vidasPerdidas}
-          actualizarVida={actualizarVida}
-        />
+        <CharacterHud 
+                vidas={vida}
+                // radio={radio}
+                // potion={potion}
+            />
       </KeyboardControls>
     
   );
