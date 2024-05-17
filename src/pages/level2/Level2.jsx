@@ -16,22 +16,38 @@ import { Perf } from "r3f-perf";
 import Buttons from "../level1/View/Buttons";
 import { useAuth } from "../../context/AuthContext";
 import Logout from "../../components/logout/Logout";
+import { createuser, readUser } from "../../db/users-collection";
 
 export default function Level2() {
   const map = useMovements();
     const auth = useAuth();
-    const [valueUser, setValuesUser] = useState(null);
     
+    const saveDataUser = async (valueUser) =>{
+      await createuser(valueUser)
+    }
+    
+    const readDataUser = async (email) =>{
+      await readUser(email)
+      .then((res) => console.log(res))
+      .catch((error) => console.error(error))
+    }
+
     useEffect(() => {
         // para saber todos los valores que se pueden recuperar por medio del 
         // inicio de sesion por el correo, imprimir por oconsola lo siguiente console.log(auth.userLogged);
         if(auth.userLogged){
+
             const { displayName, email } = auth.userLogged;
-            console.log(displayName, email);
-            setValuesUser({
+
+            console.log(displayName, email); //Verificar los datos a guardar
+            
+            saveDataUser({
                 displayName: displayName,
                 email: email,
             });
+            
+            readDataUser(email); //Recupera el usuario guardado en la BD 
+
         }
     }, [auth.userLogged])
 
