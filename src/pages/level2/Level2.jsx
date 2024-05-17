@@ -88,10 +88,10 @@ export default function Level2() {
           <Controls />
         </Canvas>
         <CharacterHud 
-          vidas={vida}
-          // radio={radio}
-          // potion={potion}
-        />
+                vidas={vida}
+                // radio={radio}
+                // potion={potion}
+            />
       </KeyboardControls>
     
   );
