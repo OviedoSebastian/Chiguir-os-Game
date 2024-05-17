@@ -3,7 +3,7 @@ import { useAvatar } from "../../../context/AvatarContext";
 import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 
-export default function Controls({props, loseLife}) {
+export default function Controls() {
 
   const { avatar, setAvatar } = useAvatar();
   const [sub, get] = useKeyboardControls();
