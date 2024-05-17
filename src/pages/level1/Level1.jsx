@@ -23,7 +23,7 @@ export default function Level1() {
     const [vida, setVida] = useState(3);
     const [radio, setRadio] = useState(0);
     const [potion, setPotion] = useState(0);
-    const [jumpVel, setJumpVel] = useState(2);
+    const [jumpVel, setJumpVel] = useState(5);
     const [checkpoint, setCheckpoint] = useState(false);
     const [potioncheckpoint, setPotioncheckpoint] = useState(0);
     const [radiochackpoint, setRadiochackpoint] = useState(0);
@@ -74,9 +74,6 @@ export default function Level1() {
         }
     }, [radio, potion]);
 
-    
-
-
     return (
         <>
         
@@ -112,7 +109,7 @@ export default function Level1() {
                         <Ardilla savecheckpoint={savecheckpoint}/>
                     </Physics>
                 </Suspense>
-                <Controls loseLife={loseLife} savecheckpoint={savecheckpoint}/>
+                <Controls />
             </Canvas>
             <Loader >
                 { 'Cargando nivel' }
