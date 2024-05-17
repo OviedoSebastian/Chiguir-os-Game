@@ -56,9 +56,10 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
             floatingDis={0.2}
             camInitDis={-3}
             camMaxDis={-4}
-            maxVelLimit={2.5}
+            maxVelLimit={6}
             jumpVel={jumpVel}
             position={[0, 10, 0]}
+            name="Cientific"
         >
             <group ref={avatarCientificRef} name="Scene" position-y={-0.82}>
                 <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
