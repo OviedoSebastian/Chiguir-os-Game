@@ -61,7 +61,7 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
             position={[0, 10, 0]}
             name="Cientific"
         >
-            <group ref={avatarCientificRef} name="Scene" position-y={-0.82}>
+            <group ref={avatarCientificRef} name="Scene" position-y={-1}>
                 <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
                     <skinnedMesh
                         name="Caot_botons"
