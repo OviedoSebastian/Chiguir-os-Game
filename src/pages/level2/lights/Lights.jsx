@@ -6,18 +6,19 @@ import { Color, PointLightHelper } from "three";
 const Lights = () => {
   const lightRef = useRef(null);
   useHelper(lightRef, PointLightHelper);
-  const optionsLight = useMemo(() => {
-    return {
-      intensitySL: { value: 100, min: 0, max: 100, step: 1 },
-      colorSL: { value: "white" },
-      positionSL: [23, 3, 4],
-    };
-  }, []);
 
-  const { intensitySL, colorSL, positionSL } = useControls(
-    "Lights",
-    optionsLight
-  );
+  // const optionsLight = useMemo(() => {
+  //   return {
+  //     intensitySL: { value: 100, min: 0, max: 100, step: 1 },
+  //     colorSL: { value: "white" },
+  //     positionSL: [23, 3, 4],
+  //   };
+  // }, []);
+
+  // const { intensitySL, colorSL, positionSL } = useControls(
+  //   "Lights",
+  //   optionsLight
+  // );
 
   return (
     <>
