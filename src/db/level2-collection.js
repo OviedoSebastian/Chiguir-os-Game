@@ -3,9 +3,9 @@
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
 
-const usersRef = collection(db, "users")
+const usersRef = collection(db, "checkpoint2")
 
-const createuser = async (userData) => {
+const createcheckpoint = async (userData) => {
     try {
         // Suponiendo que el userData tiene un campo 'email' para identificar al usuario de manera única
         const userQuery = query(usersRef, where("email", "==", userData.email));
@@ -14,18 +14,19 @@ const createuser = async (userData) => {
         if (querySnapshot.empty) {
             // Si no se encontró ningún documento, crea un nuevo usuario
             await addDoc(usersRef, userData);
-            console.log("User created successfully");
+            console.log("checkpoint created successfully");
         } else {
             // Si se encontró al menos un documento, el usuario ya existe
-            console.log("User already exists");
+            console.log("checkpoint up successfully");
+            editUser(userData.email, userData)
         }
     } catch (error) {
-        console.error("Error creating user:", error);
+        console.error("Error creating checkpoint:", error);
     }
 };
 
 
-const readUser = async (userEmail) => {
+const readCheckpoint = async (userEmail) => {
     try {
         const userSnapshot = await getDocs(query(usersRef, where("email", "==", userEmail)));
 
@@ -40,7 +41,7 @@ const readUser = async (userEmail) => {
     }
 };
 
-const editUser = async (userEmail, userData) => {
+const editCheckpoint = async (userEmail, userData) => {
     try {
         const userSnapshot = await getDocs(query(usersRef, where("email", "==", userEmail)));
 
@@ -58,4 +59,4 @@ const editUser = async (userEmail, userData) => {
     }
 };
 
-export { createuser, readUser, editUser };
+export { createcheckpoint, readCheckpoint, editCheckpoint };
