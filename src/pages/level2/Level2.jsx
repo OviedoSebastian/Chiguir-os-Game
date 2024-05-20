@@ -28,34 +28,34 @@ export default function Level2() {
     const auth = useAuth();
     const [vida, setVida] = useState(3);
     const [jumpVel, setJumpVel] = useState(2);
-    const saveDataUser = async (valueUser) =>{
-      await createuser(valueUser)
-    }
+    // const saveDataUser = async (valueUser) =>{
+    //   await createuser(valueUser)
+    // }
     
-    const readDataUser = async (email) =>{
-      await readUser(email)
-      .then((res) => console.log(res))
-      .catch((error) => console.error(error))
-    }
+    // const readDataUser = async (email) =>{
+    //   await readUser(email)
+    //   .then((res) => console.log(res))
+    //   .catch((error) => console.error(error))
+    // }
 
-    useEffect(() => {
-        // para saber todos los valores que se pueden recuperar por medio del 
-        // inicio de sesion por el correo, imprimir por oconsola lo siguiente console.log(auth.userLogged);
-        if(auth.userLogged){
+    // useEffect(() => {
+    //     // para saber todos los valores que se pueden recuperar por medio del 
+    //     // inicio de sesion por el correo, imprimir por oconsola lo siguiente console.log(auth.userLogged);
+    //     if(auth.userLogged){
 
-            const { displayName, email } = auth.userLogged;
+    //         const { displayName, email } = auth.userLogged;
 
-            console.log(displayName, email); //Verificar los datos a guardar
+    //         console.log(displayName, email); //Verificar los datos a guardar
             
-            saveDataUser({
-                displayName: displayName,
-                email: email,
-            });
+    //         saveDataUser({
+    //             displayName: displayName,
+    //             email: email,
+    //         });
             
-            readDataUser(email); //Recupera el usuario guardado en la BD 
+    //         readDataUser(email); //Recupera el usuario guardado en la BD 
 
-        }
-    }, [auth.userLogged])
+    //     }
+    // }, [auth.userLogged])
 
   const resetPoint = () => {
     setVida(3);
