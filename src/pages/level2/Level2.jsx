@@ -1,4 +1,4 @@
-import { KeyboardControls, Loader, OrbitControls } from "@react-three/drei";
+import { KeyboardControls, Loader } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useState, useEffect } from "react";
 import WelcomeText from "./abstractions/WelcomeText";
@@ -21,41 +21,73 @@ import Curao from "./colectibles/Curao";
 import Curao2 from "./colectibles/Curao2";
 import Curao3 from "./colectibles/Curao3";
 import AvatarGhost from "./characters/enemies/AvatarGhost";
-import AvatarVigilant from "../level1/characters/enemies/AvatarVigilant";
+import { createcheckpoint, readCheckpoint } from "../../db/level2-collection";
 
 export default function Level2() {
+
   const map = useMovements();
-    const auth = useAuth();
-    const [vida, setVida] = useState(3);
-    const [jumpVel, setJumpVel] = useState(2);
-    // const saveDataUser = async (valueUser) =>{
-    //   await createuser(valueUser)
-    // }
+  const auth = useAuth();
+  const [vida, setVida] = useState(3);
+  const [jumpVel, setJumpVel] = useState(2);
+  const [checkpoint, setCheckpoint] = useState(false);
+
+  const saveDataUser = async (valueUser) =>{
+    await createuser(valueUser)
+  }
+  
+  const readDataUser = async (email) =>{
+    await readUser(email)
+    .then((res) => console.log(res))
+    .catch((error) => console.error(error))
+  }
+
+  const saveDatacheckpoint = async (valueUser) =>{
+    await createcheckpoint(valueUser)
+  }
+  
+  const readDataCheckpoint = async (email) =>{
+    await readCheckpoint(email)
+    .then((res) => console.log(res))
+    .catch((error) => console.error(error))
+  }
+
+
+  const savecheckpoint = () => {
+    setCheckpoint(true);
+    console.log("Progreso Guardado");
+
+    const { email } = auth.userLogged;
+    // console.log(displayName, email); //Verificar los datos a guardar
+    saveDatacheckpoint({
+        email: email,
+        vidas: 2,
+        curado: 4,
+    });
     
-    // const readDataUser = async (email) =>{
-    //   await readUser(email)
-    //   .then((res) => console.log(res))
-    //   .catch((error) => console.error(error))
-    // }
+    readDataCheckpoint(email); //Recupera el usuario guardado en la BD 
+  };
 
-    // useEffect(() => {
-    //     // para saber todos los valores que se pueden recuperar por medio del 
-    //     // inicio de sesion por el correo, imprimir por oconsola lo siguiente console.log(auth.userLogged);
-    //     if(auth.userLogged){
+  
+  useEffect(() => {
+      // para saber todos los valores que se pueden recuperar por medio del 
+      // inicio de sesion por el correo, imprimir por oconsola lo siguiente console.log(auth.userLogged);
+      if(auth.userLogged){
 
-    //         const { displayName, email } = auth.userLogged;
+          const { displayName, email, photoURL } = auth.userLogged;
 
-    //         console.log(displayName, email); //Verificar los datos a guardar
-            
-    //         saveDataUser({
-    //             displayName: displayName,
-    //             email: email,
-    //         });
-            
-    //         readDataUser(email); //Recupera el usuario guardado en la BD 
+          console.log(displayName, email); //Verificar los datos a guardar
+          
+          saveDataUser({
+              displayName: displayName,
+              email: email,
+              photoURL: photoURL,
+          });
+          
+          readDataUser(email); //Recupera el usuario guardado en la BD 
 
-    //     }
-    // }, [auth.userLogged])
+      }
+  }, [auth.userLogged])
+//////////////////////////////////////////////////////////////////////////////////
 
   const resetPoint = () => {
     setVida(3);
@@ -92,7 +124,7 @@ export default function Level2() {
               vida={vida}
               resetPoint={resetPoint}
             />
-            <Ardilla position={[-21, 0, 5]} />
+            <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint}/>
             {/* <Ardilla position={[-15,1.28,5]}/> */}
             <AvatarGhost position={[37, -11.6, 60]} />
             <AvatarGhost position={[41, -11.6, -65]} />
