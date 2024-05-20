@@ -7,7 +7,7 @@ export default function World(props) {
   const { nodes, materials } = useGLTF("/assets/models/world/Bosquev7.glb");
 
   return (
-    <RigidBody type="fixed" colliders={false}>
+    <RigidBody type="fixed" colliders="trimesh">
       <group {...props} dispose={null}>
         <RigidBody type="fixed" colliders="trimesh">
           <mesh
