@@ -9,7 +9,7 @@ export default function Login() {
 
     const onHandleButtonStart = async () => {
         await auth.loginWithGoogle().then( (res) => {
-            console.log(res);
+            console.log("inicio de sesión exitoso");
             navigate('/chooselevel');
         }).catch((error) => {
             console.error(error);
