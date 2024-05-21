@@ -6,7 +6,6 @@ import { RigidBody, useRigidBody } from "@react-three/rapier";
 export default function Curao3({props, catchCurao, posicion}) {
   const { nodes, materials } = useGLTF("/assets/models/colectables/curao.glb");
   const [position, setPosition] = useState([40, -1.5, -65]);
-  const [numeroDeBotellas, setNumeroDeBotellas] = useState(0);
   const refRigidBody = useRef();
 
   const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
@@ -18,8 +17,7 @@ export default function Curao3({props, catchCurao, posicion}) {
       console.log("Chocó");
       curaoSound.play();
       setPosition([0, 1000, 0]);
-      setNumeroDeBotellas(numeroDeBotellas + 1)
-      console.log(numeroDeBotellas)
+      catchCurao();
     }
   };
 
