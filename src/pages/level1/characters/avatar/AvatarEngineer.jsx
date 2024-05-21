@@ -59,7 +59,7 @@ export default function AvatarEngineer({ jumpHeight, vida, resetPoint }) {
             floatingDis={0.2}
             camInitDis={-3}
             camMaxDis={-4}
-            maxVelLimit={2.5}
+            maxVelLimit={5}
             jumpVel={jumpVel}
             position={[20, 5, -30]}
         >

@@ -13,12 +13,12 @@ export default function Pocion({props, catchPotion}) {
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     // console.log("Collision at world position", manifold.solverContactPoint(0));
-
     if (other.colliderObject.name == "character-capsule-collider") {
       console.log("Chocó");
       runSound.play();
       setNumeroDePociones(numeroDePociones + 1);
       catchPotion();
+      console.log(numeroDePociones)
       if (numeroDePociones + 1 >= 5) {
         console.log("Se elimina");
         // Mover la poción a una posición inalcanzable

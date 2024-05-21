@@ -56,7 +56,7 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
             floatingDis={0.2}
             camInitDis={-3}
             camMaxDis={-4}
-            maxVelLimit={2.5}
+            maxVelLimit={6}
             jumpVel={jumpVel}
             position={[0, 10, 0]}
         >
