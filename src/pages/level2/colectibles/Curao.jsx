@@ -18,10 +18,12 @@ export default function Curao({props, catchCurao, posicion}) {
       console.log("Chocó");
       curaoSound.play();
       setPosition([0, 1000, 0]);
-      setNumeroDeBotellas(numeroDeBotellas + 1)
-      console.log(numeroDeBotellas)
+      // setNumeroDeBotellas(numeroDeBotellas + 1)
+      // console.log(numeroDeBotellas)
+      catchCurao();
     }
   };
+
 
 
   const radius = 0.3;

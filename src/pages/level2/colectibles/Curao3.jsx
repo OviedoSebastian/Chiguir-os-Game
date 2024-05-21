@@ -20,6 +20,7 @@ export default function Curao3({props, catchCurao, posicion}) {
       setPosition([0, 1000, 0]);
       setNumeroDeBotellas(numeroDeBotellas + 1)
       console.log(numeroDeBotellas)
+      catchCurao();
     }
   };
 

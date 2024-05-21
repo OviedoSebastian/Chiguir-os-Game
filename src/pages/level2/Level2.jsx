@@ -8,9 +8,7 @@ import { Canvas } from "@react-three/fiber";
 import World from "./world/World";
 import Controls from "./controls/Controls";
 import AvatarCientific from "./characters/avatar/AvatarCientific";
-import AvatarEngineer from "./characters/avatar/AvatarEngineer";
 import useMovements from "../../utils/key-movements";
-import CharacterHud from "../hud/CharacterHud";
 import { Perf } from "r3f-perf";
 import Buttons from "../level1/View/Buttons";
 import { useAuth } from "../../context/AuthContext";
@@ -22,13 +20,15 @@ import Curao2 from "./colectibles/Curao2";
 import Curao3 from "./colectibles/Curao3";
 import AvatarGhost from "./characters/enemies/AvatarGhost";
 import { createcheckpoint, readCheckpoint } from "../../db/level2-collection";
+import CharacterHudLevel2 from "./hud/CharacterHud";
 
 export default function Level2() {
 
   const map = useMovements();
   const auth = useAuth();
   const [vida, setVida] = useState(3);
-  const [jumpVel, setJumpVel] = useState(2);
+  const [curao, setCurao] = useState(0);
+  const [jumpVel, setJumpVel] = useState(5);
   const [checkpoint, setCheckpoint] = useState(false);
 
   const saveDataUser = async (valueUser) =>{
@@ -101,6 +101,11 @@ export default function Level2() {
     setVida(nuevaVida);
   };
 
+  const handleCurao = () => {
+        setCurao((prevCurao) => prevCurao + 1);
+        
+};
+
   return (
     <>
     
@@ -129,19 +134,18 @@ export default function Level2() {
             <AvatarGhost position={[37, -11.6, 60]} />
             <AvatarGhost position={[41, -11.6, -65]} />
             <AvatarGhost position={[56.6, -10.5, 1.7]} />
-            <Curao />
-            <Curao2 />
-            <Curao3 />
+            <Curao catchCurao={handleCurao}/>
+            <Curao2 catchCurao={handleCurao}/>
+            <Curao3 catchCurao={handleCurao}/>
           </Physics>
         </Suspense>
         <WelcomeText />
         <Controls />
       </Canvas>
       <Loader>{"Cargando nivel"}</Loader>
-      <CharacterHud
+      <CharacterHudLevel2
         vidas={vida}
-        vidasPerdidas={vida} // Pendiente a cambiar valores
-        actualizarVida={vida} // Pendiente a cambiar valores
+        curao={curao}
       />
     </KeyboardControls>
     </>
