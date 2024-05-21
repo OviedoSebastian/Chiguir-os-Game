@@ -7,7 +7,7 @@ const Buttons = () => {
   const navigate = useNavigate();
 
   const onHandleButtonBack = () => {
-    navigate("/chooselevel");
+    navigate("/");
   };
 
   const onHandleButtonRestart = () => {

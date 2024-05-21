@@ -19,7 +19,7 @@ import Curao from "./colectibles/Curao";
 import Curao2 from "./colectibles/Curao2";
 import Curao3 from "./colectibles/Curao3";
 import AvatarGhost from "./characters/enemies/AvatarGhost";
-import { createcheckpoint, readCheckpoint } from "../../db/level2-collection";
+import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
 import CharacterHudLevel2 from "./hud/CharacterHud";
 
 export default function Level2() { 
@@ -46,24 +46,28 @@ export default function Level2() {
   };
 
   const readDataCheckpoint = async (email) => {
-    await readCheckpoint(email)
-      .then((res) => console.log(res))
-      .catch((error) => console.error(error));
+  
+      try {
+        const checkpointData = await readCheckpoint(email);
+        return checkpointData;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+      
   };
 
   const savecheckpoint = () => {
     setCheckpoint(true);
-    console.log("Progreso Guardado");
-
     const { email } = auth.userLogged;
     // console.log(displayName, email); //Verificar los datos a guardar
     saveDatacheckpoint({
       email: email,
-      vidas: 2,
-      curado: 4,
+      vidas: vida,
+      curado: curao,
+      checkpoint: checkpoint,
     });
 
-    readDataCheckpoint(email); //Recupera el usuario guardado en la BD
   };
 
   useEffect(() => {
@@ -71,9 +75,7 @@ export default function Level2() {
     // inicio de sesion por el correo, imprimir por oconsola lo siguiente console.log(auth.userLogged);
     if (auth.userLogged) {
       const { displayName, email, photoURL } = auth.userLogged;
-
-      console.log(displayName, email); //Verificar los datos a guardar
-
+      // console.log(displayName, email); //Verificar los datos a guardar
       saveDataUser({
         displayName: displayName,
         email: email,
@@ -87,16 +89,34 @@ export default function Level2() {
         email: email,
         photoURL: photoURL,
       });
+
     }
   }, [auth.userLogged]);
   //////////////////////////////////////////////////////////////////////////////////
 
   const resetPoint = () => {
     setVida(3);
+    setCurao(0);
+    setCheckpoint(false);
+    editCheckpoint(auth.userLogged.email, {
+      vidas: 3,
+      curado: 0,
+      checkpoint: checkpoint,
+    });
   };
 
-  const loseLife = () => {
+  const loseLife = async () => {
+
+    const checkpointData = await readDataCheckpoint(auth.userLogged.email);
     setVida((prevVida) => prevVida - 1);
+
+    if(checkpointData && checkpointData.checkpoint){
+      setCurao(checkpointData.curao);
+    }else{
+      setCurao(0);
+      console.log("No guardaste en el checkpoint :c");
+    }
+    
   };
 
   const actualizarVida = (nuevaVida) => {
@@ -113,11 +133,7 @@ export default function Level2() {
       console.log("Impulso de salto activado");
     }
   }, [curao]);
-
-  console.log(curao);
-  console.log(userInfo);
   
-
   return (
     <>
       <KeyboardControls map={map}>
