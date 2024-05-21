@@ -34,7 +34,7 @@ const readUser = async (userEmail) => {
         }
 
         const userData = userSnapshot.docs.map((doc) => doc.data());
-        return userData[0] ;
+        return userData[0];
     } catch (error) {
         return error;
     }
@@ -47,10 +47,9 @@ const editUser = async (userEmail, userData) => {
         if (userSnapshot.empty) {
             return { success: false, message: "User not found" };
         }
-
         const userDoc = userSnapshot.docs[0];
         await userDoc.ref.update(userData);
-
+        console.log("Progreso Guardado");
         return {success: true, message: "User update"};
     
     } catch (error) {
