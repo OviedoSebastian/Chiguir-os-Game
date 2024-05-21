@@ -18,7 +18,7 @@ const createcheckpoint = async (userData) => {
         } else {
             // Si se encontró al menos un documento, el usuario ya existe
             console.log("checkpoint up successfully");
-            editUser(userData.email, userData)
+            editCheckpoint(userData.email, userData)
         }
     } catch (error) {
         console.error("Error creating checkpoint:", error);
