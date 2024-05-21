@@ -11,6 +11,101 @@
   border-radius: 10px;
 }
 
+
+.hud-map {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  text-align: center;
+  z-index: 10;
+}
+
+.hud-map img {
+  width: 100px; /* Tamaño inicial de la imagen */
+  transition: transform 0.3s ease;
+}
+
+.hud-map a:hover img {
+  transform: scale(1.1); /* Aumentar ligeramente el tamaño al hacer hover */
+}
+
+.map-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 14px;
+  color: white;
+}
+
+.overlay {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  overflow: hidden;
+}
+
+.overlay img {
+  max-width: 80%;
+  max-height: 90%;
+}
+
+#large-map:target {
+  display: flex; /* Mostrar cuando está enfocado */
+}
+
+.close-overlay {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* ///////////////////// */
+
+/* Estilos para el contenedor del usuario */
+.user-container {
+  display: flex;
+  align-items: center; /* Centra verticalmente los elementos */
+}
+
+/* Estilos para la imagen de perfil */
+.user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  top: 1px;
+}
+
+/* Estilos para el nombre de usuario */
+.user-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 0;
+}
+
+/* Estilos para el contenedor del usuario */
+#user-info {
+  position: absolute;
+  top: 20px; 
+  right: 20px; 
+  z-index: 99999;
+}
+
+
+/* ///////////////////// */
 .hud-item {
   display: flex;
   align-items: center;
@@ -57,7 +152,7 @@
   bottom: 130px; /* Posición desde abajo */
   left: 50%; /* Centrado horizontalmente */
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8); /* Fondo negro semitransparente */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo negro semitransparente */
   padding: 10px;
   border-radius: 5px;
   color: white;
