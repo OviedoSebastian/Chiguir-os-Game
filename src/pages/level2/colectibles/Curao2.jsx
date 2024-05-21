@@ -14,7 +14,6 @@ export default function Curao2({props, catchCurao, posicion}) {
     // console.log("Collision at world position", manifold.solverContactPoint(0));
 
     if (other.colliderObject.name == "character-capsule-collider") {
-      console.log("Chocó");
       curaoSound.play();
       setPosition([0, 1000, 0]);
       catchCurao();

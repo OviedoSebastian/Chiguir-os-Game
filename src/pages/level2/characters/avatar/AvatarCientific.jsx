@@ -22,9 +22,9 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
 
             rigidBodyAvatarCientificRef.current?.setTranslation(
                 {
-                    x: 20,
-                    y: 5,
-                    z: -30,
+                    x: 0,
+                    y: 10,
+                    z: 0,
                 },
                 true
             );
@@ -58,7 +58,8 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
             camMaxDis={-4}
             maxVelLimit={6}
             jumpVel={jumpVel}
-            position={[0, 10, 0]}
+            position={[50, 10, 0]}
+            // position={[0, 10, 0]}
         >
             <group ref={avatarCientificRef} name="Scene" position-y={-0.82}>
                 <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>

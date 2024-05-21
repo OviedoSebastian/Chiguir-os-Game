@@ -17,7 +17,7 @@ export default function Ardilla({position, savecheckpoint}) {
   }, [actions.defaultAnimation]);
 
   const onCollisionEnter = ({ manifold, target, other }) => {
-    console.log("Collision at world position", other.colliderObject.name);
+    // console.log("Collision at world position", other.colliderObject.name);
 
     if (other.colliderObject.name == "character-capsule-collider") {
 
