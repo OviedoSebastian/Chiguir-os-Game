@@ -23,7 +23,7 @@ export default function Level1() {
     const [vida, setVida] = useState(3);
     const [radio, setRadio] = useState(0);
     const [potion, setPotion] = useState(0);
-    const [jumpVel, setJumpVel] = useState(5);
+    const [jumpVel, setJumpVel] = useState(6);
     const [checkpoint, setCheckpoint] = useState(false);
     const [potioncheckpoint, setPotioncheckpoint] = useState(0);
     const [radiochackpoint, setRadiochackpoint] = useState(0);
@@ -58,6 +58,8 @@ export default function Level1() {
             setPotion((prevPotion) => prevPotion + 1);
         }
     };
+
+    
 
     const resetPoint = () => {
         setVida(3);
