@@ -1,10 +1,10 @@
-import { useGLTF, useTexture } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
+import { useState } from "react";
 import { RigidBody } from "@react-three/rapier";
-import { RepeatWrapping } from "three";
-import { color } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function World(props) {
   const { nodes, materials } = useGLTF("/assets/models/world/Bosquev7.glb");
+  const [runSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
 
   return (
     <RigidBody type="fixed" colliders={false}>
@@ -175,24 +175,37 @@ export default function World(props) {
             geometry={nodes.Plane148_1.geometry}
             material={materials["Stone.001"]}
           />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder.geometry}
-            material={materials.oro}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder_1.geometry}
-            material={materials.base}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Cylinder_2.geometry}
-            material={materials.estrella}
-          />
+
+
+          <RigidBody
+            type="fixed"
+            onCollisionEnter={({ manifold, target, other }) => {
+              console.log("Nivel Terminado")
+              runSound.loop = true;
+              runSound.play();
+            }}
+            name="Trofeo"
+          >
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Cylinder.geometry}
+              material={materials.oro}
+            />
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Cylinder_1.geometry}
+              material={materials.base}
+            />
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Cylinder_2.geometry}
+              material={materials.estrella}
+            />
+          </RigidBody>
+
           <mesh
             castShadow
             receiveShadow
@@ -1568,7 +1581,7 @@ export default function World(props) {
         material={materials.Algaimg}
       />
       <mesh
-        castShadow
+        castShadowF
         receiveShadow
         geometry={nodes.Plantas.geometry}
         material={materials.plantas}

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
-import { CuboidCollider, RigidBody } from "@react-three/rapier";
+import { RigidBody } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 
 export default function AvatarGhost({ position, loseLife }) {
@@ -11,7 +11,7 @@ export default function AvatarGhost({ position, loseLife }) {
   const { nodes, materials, animations } = useGLTF(
     "/assets/models/villains/Ghost.glb"
   );
-
+  const lastCollisionTime = useRef(0); // Referencia para almacenar la marca de tiempo de la última colisión
   const { actions } = useAnimations(animations, avatarGhostRef);
 
   const radius = 3;
@@ -41,10 +41,25 @@ export default function AvatarGhost({ position, loseLife }) {
   const [runSound] = useState(new Audio("/assets/sounds/Boo.mp3"));
 
   const onCollisionEnter = ({ manifold, target, other }) => {
-    if (other.colliderObject.name == "character-capsule-collider") {
+
+    const currentTime = performance.now(); // Obtener la marca de tiempo actual
+    const timeSinceLastCollision = currentTime - lastCollisionTime.current;
+    if (other.colliderObject.name == "character-capsule-collider" && timeSinceLastCollision > 1000) {
+      lastCollisionTime.current = currentTime;
       runSound.play();
+      
       // Resta una vida
       loseLife();
+
+      const impulseStrength = 50;
+      const direction = { x: 5, y: 2, z: 2 }; // Dirección del impulso, en este caso hacia arriba
+      other.rigidBodyObject.applyImpulse({
+        x: direction.x * impulseStrength,
+        y: direction.y * impulseStrength,
+        z: direction.z * impulseStrength
+      }, true);
+
+      
     } else {
       console.log(
         // this rigid body's Object3D
