@@ -12,14 +12,9 @@ export default function AvatarGhost({ position, loseLife }) {
     "/assets/models/villains/Ghost.glb"
   );
   const lastCollisionTime = useRef(0); // Referencia para almacenar la marca de tiempo de la última colisión
-  const { actions } = useAnimations(animations, avatarGhostRef);
-
+  
   const radius = 3;
   const speed = 2;
-
-  useEffect(() => {
-    actions.Idle.play(); // Reproduce la animación por defecto al cargar
-  }, [actions.defaultAnimation]);
 
   // refRigidBody.current.rotation.y = Math.cos(clock.getElapsedTime());
 
