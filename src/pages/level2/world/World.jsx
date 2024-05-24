@@ -2,7 +2,7 @@ import { useGLTF } from "@react-three/drei";
 import { useRef, useState } from "react";
 import { RigidBody } from "@react-three/rapier";
 
-export default function World({ finishedLeveL }) {
+export default function World({ finishedLevel }) {
   const { nodes, materials } = useGLTF("/assets/models/world/Bosquev7.glb");
   const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
   const trofeoRef = useRef();
@@ -12,7 +12,7 @@ export default function World({ finishedLeveL }) {
 
       console.log("Si funciona en el mundo");
       endSound.play();
-      finishedLeveL();
+      finishedLevel();
     } else {
       console.log(
         // this rigid body's Object3D
