@@ -28,7 +28,7 @@ export default function Level2() {
   const [vida, setVida] = useState(3);
   const [endLevel, setEndLevel] = useState(false);
   const [curao, setCurao] = useState(0);
-  const [jumpVel, setJumpVel] = useState(8);
+  const [jumpVel, setJumpVel] = useState(4);
   const [checkpoint, setCheckpoint] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [showYouLost, setShowYouLost] = useState(false);
