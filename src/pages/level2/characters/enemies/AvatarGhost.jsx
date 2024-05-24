@@ -33,7 +33,7 @@ export default function AvatarGhost({ position, loseLife }) {
     }, true)
 })
 
-  const [runSound] = useState(new Audio("/assets/sounds/Boo.mp3"));
+  const [soundGhost] = useState(new Audio("/assets/sounds/Boo.mp3"));
 
   const onCollisionEnter = ({ manifold, target, other }) => {
 
@@ -41,7 +41,7 @@ export default function AvatarGhost({ position, loseLife }) {
     const timeSinceLastCollision = currentTime - lastCollisionTime.current;
     if (other.colliderObject.name == "character-capsule-collider" && timeSinceLastCollision > 1000) {
       lastCollisionTime.current = currentTime;
-      runSound.play();
+      soundGhost.play();
       
       // Resta una vida
       loseLife();
