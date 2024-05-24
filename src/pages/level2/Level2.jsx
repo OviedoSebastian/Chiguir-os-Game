@@ -21,11 +21,13 @@ import Curao3 from "./colectibles/Curao3";
 import AvatarGhost from "./characters/enemies/AvatarGhost";
 import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
 import CharacterHudLevel2 from "./hud/CharacterHud";
+import Final from "./colectibles/Final";
 
 export default function Level2() { 
   const map = useMovements();
   const auth = useAuth();
   const [vida, setVida] = useState(3);
+  const [endLevel, setEndLevel] = useState(false);
   const [curao, setCurao] = useState(0);
   const [jumpVel, setJumpVel] = useState(4);
   const [checkpoint, setCheckpoint] = useState(false);
@@ -43,6 +45,11 @@ export default function Level2() {
 
   const saveDatacheckpoint = async (valueUser) => {
     await createcheckpoint(valueUser);
+  };
+
+  const finishedLevel = () => {
+    console.log("Ha cambiado el estadito jsjsjsjs");
+    setEndLevel(true);
   };
 
   const readDataCheckpoint = async (email) => {
@@ -156,6 +163,7 @@ export default function Level2() {
                 vida={vida}
                 resetPoint={resetPoint}
               />
+              <Final position={[-80, 68, 10]} finishedLeveL={finishedLevel}/>
               <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint} />
               {/* <Ardilla position={[-15,1.28,5]}/> */}
               <AvatarGhost position={[37, -11.6, 60]} loseLife={loseLife} />
@@ -169,8 +177,8 @@ export default function Level2() {
           <WelcomeText />
           <Controls />
         </Canvas>
-        <Loader>{"Cargando nivel"}</Loader>
-        <CharacterHudLevel2 vidas={vida} curao={curao} userInfo={userInfo} />
+        <Loader>{"Generando Mundo... Generando Terreno..."}</Loader>
+        <CharacterHudLevel2 vidas={vida} curao={curao} userInfo={userInfo} endLevel={endLevel}/>
       </KeyboardControls>
     </>
   );
