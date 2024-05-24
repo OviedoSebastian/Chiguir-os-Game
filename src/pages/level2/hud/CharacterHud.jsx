@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./hud.css";
+import EndLevel from "./EndLevel";
 
-const CharacterHudLevel2 = ({ vidas, curao, userInfo }) => {
+const CharacterHudLevel2 = ({ vidas, curao, userInfo, endLevel }) => {
   const [displayText, setDisplayText] = useState("");
 
   const textToShow =
@@ -80,12 +81,30 @@ const CharacterHudLevel2 = ({ vidas, curao, userInfo }) => {
         <span class="map-text">Mapa</span>
       </div>
 
+      {/* Termino el nivel */}
+      <div>
+        {endLevel && (
+          <EndLevel />
+        )}
+      </div>
+
       <div id="large-map" class="overlay">
         <a href="#" class="close-overlay">
           &times;
         </a>
         <img
           src="./assets/images/mapa.png"
+          alt="mapa grande"
+          class="large-map"
+        />
+      </div>
+
+      <div id="large-map" class="overlay">
+        <a href="#" class="close-overlay">
+          &times;
+        </a>
+        <img
+          src="./assets/images/Fondo.png"
           alt="mapa grande"
           class="large-map"
         />
@@ -98,6 +117,7 @@ const CharacterHudLevel2 = ({ vidas, curao, userInfo }) => {
           dangerouslySetInnerHTML={{ __html: displayText }}
         ></div>
       )}
+
     </>
   );
 };

@@ -20,10 +20,12 @@
     "leva": "^0.9.35",
     "r3f-perf": "^7.2.1",
     "react": "^18.3.0",
+    "react-confetti": "^6.1.0",
     "react-dom": "^18.3.0",
     "react-icons": "^5.1.0",
     "react-router-dom": "^6.22.3",
     "react-scripts": "^5.0.1",
+    "react-use": "^17.5.0",
     "three": "^0.162.0"
   },
   "browserslist": {
