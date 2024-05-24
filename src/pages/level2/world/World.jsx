@@ -5,12 +5,11 @@ import { RigidBody } from "@react-three/rapier";
 export default function World({ finishedLevel }) {
   const { nodes, materials } = useGLTF("/assets/models/world/Bosquev7.glb");
   const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
+  endSound.loop = true;
   const trofeoRef = useRef();
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if (other.colliderObject.name == "character-capsule-collider") {
-
-      console.log("Si funciona en el mundo");
       endSound.play();
       finishedLevel();
     } else {
