@@ -21,7 +21,6 @@ import Curao3 from "./colectibles/Curao3";
 import AvatarGhost from "./characters/enemies/AvatarGhost";
 import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
 import CharacterHudLevel2 from "./hud/CharacterHud";
-import Trofeo from "./colectibles/Trofeo";
 
 export default function Level2() { 
   const map = useMovements();
@@ -156,8 +155,8 @@ export default function Level2() {
             <Lights />
             <Environments />
             <Physics debug={false}>
-              <World  />
-              <Trofeo finishedLevel={finishedLevel} />
+              <World finishedLevel={finishedLevel} />
+              
               {/* <AvatarEngineer /> */}
               <AvatarCientific
                 jumpHeight={jumpVel}

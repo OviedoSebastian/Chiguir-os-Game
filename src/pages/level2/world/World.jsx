@@ -6,7 +6,6 @@ export default function World({ finishedLeveL }) {
   const { nodes, materials } = useGLTF("/assets/models/world/Bosquev7.glb");
   const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
   const trofeoRef = useRef();
-  const trofeoRigidBodyRef = useRef();
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if (other.colliderObject.name == "character-capsule-collider") {
@@ -196,12 +195,11 @@ export default function World({ finishedLeveL }) {
           />
 
 
-          {/* <RigidBody
-            ref={trofeoRigidBodyRef}
+          <RigidBody
             type="fixed"
             onCollisionEnter={(e) => onCollisionEnter(e)}
             name="Trofeo"
-          > */}
+          >
             <mesh
               ref={trofeoRef}
               castShadow
@@ -221,7 +219,7 @@ export default function World({ finishedLeveL }) {
               geometry={nodes.Cylinder_2.geometry}
               material={materials.estrella}
             />
-          {/* </RigidBody> */}
+          </RigidBody>
 
           <mesh
             castShadow
