@@ -10,7 +10,7 @@ export default function Ardilla({position, savecheckpoint}) {
     "/assets/models/villains/pericardilla.glb"
   );
   const { actions } = useAnimations(animations, ardillaRef);
-  const [runSound] = useState(new Audio("/assets/sounds/jajaja.wav"));
+  const [ardillaSound] = useState(new Audio("/assets/sounds/jajaja.wav"));
 
   useEffect(() => {
     actions.dance.play(); // Reproduce la animación por defecto al cargar
@@ -22,7 +22,7 @@ export default function Ardilla({position, savecheckpoint}) {
     if (other.colliderObject.name == "character-capsule-collider") {
 
       savecheckpoint();
-      runSound.play();
+      ardillaSound.play();
       setPosition([-15, 1.28, 5]);
       console.log("Checkpoint");
       } else {

@@ -3,11 +3,21 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody, useRigidBody } from "@react-three/rapier";
 
-export default function Curao({props, catchCurao, posicion}) {
+export default function Curao({props, catchCurao, posicion, positionCurao, curaitoCogio}) {
   const { nodes, materials } = useGLTF("/assets/models/colectables/curao.glb");
   const [position, setPosition] = useState([37, -1.5, 60]);
   const [numeroDeBotellas, setNumeroDeBotellas] = useState(0);
+  const [curaoBro, setCuraoBro] = useState(false);
   const refRigidBody = useRef();
+
+  useEffect(() => {
+
+    if(curaitoCogio) {
+      setPosition([37, -50, 60])
+    } else {
+      setPosition([37, -1.5, 60])
+    }
+  },[curaitoCogio])
 
   const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
 
@@ -16,7 +26,6 @@ export default function Curao({props, catchCurao, posicion}) {
 
     if (other.colliderObject.name == "character-capsule-collider") {
       curaoSound.play();
-      setPosition([0, 1000, 0]);
       catchCurao();
     }
   };
