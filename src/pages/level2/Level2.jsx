@@ -26,10 +26,13 @@ export default function Level2() {
   const map = useMovements();
   const auth = useAuth();
   const [vida, setVida] = useState(3);
+  const [endLevel, setEndLevel] = useState(false);
   const [curao, setCurao] = useState(0);
   const [jumpVel, setJumpVel] = useState(4);
   const [checkpoint, setCheckpoint] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [showYouLost, setShowYouLost] = useState(false);
+  const [curaoCogio, setCuraoCogio] = useState(false);
 
   const saveDataUser = async (valueUser) => {
     await createuser(valueUser);
@@ -43,6 +46,10 @@ export default function Level2() {
 
   const saveDatacheckpoint = async (valueUser) => {
     await createcheckpoint(valueUser);
+  };
+
+  const onContinue = () => {
+    setShowYouLost(false);
   };
 
   const readDataCheckpoint = async (email) => {
@@ -94,7 +101,13 @@ export default function Level2() {
   }, [auth.userLogged]);
   //////////////////////////////////////////////////////////////////////////////////
 
+  const finalizoNivel = () => {
+    console.log("SE TERMINOOO EL NIVEL");
+    setEndLevel(true);
+  };
+
   const resetPoint = () => {
+    setShowYouLost(true);
     setVida(3);
     setCurao(0);
     setCheckpoint(false);
@@ -109,6 +122,7 @@ export default function Level2() {
 
     const checkpointData = await readDataCheckpoint(auth.userLogged.email);
     setVida((prevVida) => prevVida - 1);
+    setCuraoCogio(false)
 
     if(checkpointData && checkpointData.checkpoint){
       setCurao(checkpointData.curao);
@@ -125,6 +139,7 @@ export default function Level2() {
 
   const handleCurao = () => {
     setCurao((curao) => curao + 1);
+    setCuraoCogio(true);
   };
 
   useEffect(() => {
@@ -149,7 +164,8 @@ export default function Level2() {
             <Lights />
             <Environments />
             <Physics debug={false}>
-              <World />
+              <World finishedLevel={finalizoNivel} />
+              
               {/* <AvatarEngineer /> */}
               <AvatarCientific
                 jumpHeight={jumpVel}
@@ -161,7 +177,7 @@ export default function Level2() {
               <AvatarGhost position={[37, -11.6, 60]} loseLife={loseLife} />
               <AvatarGhost position={[41, -11.6, -65]} loseLife={loseLife} />
               <AvatarGhost position={[56.6, -10.5, 1.7]} loseLife={loseLife} />
-              <Curao catchCurao={handleCurao} />
+              <Curao catchCurao={handleCurao} curaitoCogio={curaoCogio} />
               <Curao2 catchCurao={handleCurao} />
               <Curao3 catchCurao={handleCurao} />
             </Physics>
@@ -169,8 +185,8 @@ export default function Level2() {
           <WelcomeText />
           <Controls />
         </Canvas>
-        <Loader>{"Cargando nivel"}</Loader>
-        <CharacterHudLevel2 vidas={vida} curao={curao} userInfo={userInfo} />
+        <Loader />
+        <CharacterHudLevel2 vidas={vida} curao={curao} userInfo={userInfo} endLevel={endLevel} jumpHeight={jumpVel} showYouLost={showYouLost} onContinue={onContinue} />
       </KeyboardControls>
     </>
   );
