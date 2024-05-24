@@ -2,9 +2,17 @@ import React from 'react';
 import Confetti from 'react-confetti';
 import useWindowSize from 'react-use/lib/useWindowSize'
 import './endLevel.css';
+import { useNavigate } from 'react-router-dom';
 
-const EndLevel = ({ onNextLevel }) => {
+const EndLevel = ({}) => {
     const { width, height } = useWindowSize()
+
+    const navigate = useNavigate()
+
+    const onNextLevel = () => {
+        navigate("/level3")
+    }
+
     return (
         <div className="end-level-container">
             <Confetti

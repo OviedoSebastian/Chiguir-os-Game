@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./hud.css";
 import EndLevel from "./EndLevel";
+import JumpImpulse from "./JumpImpulse";
+import YouLost from "./YouLost";
 
-const CharacterHudLevel2 = ({ vidas, curao, userInfo, endLevel }) => {
+const CharacterHudLevel2 = ({ vidas, curao, userInfo, endLevel, jumpHeight, showYouLost, onContinue}) => {
   const [displayText, setDisplayText] = useState("");
 
   const textToShow =
@@ -85,6 +87,20 @@ const CharacterHudLevel2 = ({ vidas, curao, userInfo, endLevel }) => {
       <div>
         {endLevel && (
           <EndLevel />
+        )}
+      </div>
+
+       {/* Impulso de salto activado */}
+      <div>
+        {jumpHeight==8 && (
+          <JumpImpulse />
+        )}
+      </div>
+
+      {/* Perdiste, vuelve empezar */}
+      <div>
+        {showYouLost && (
+          <YouLost onContinue={onContinue} />
         )}
       </div>
 
