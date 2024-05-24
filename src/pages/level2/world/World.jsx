@@ -1,14 +1,33 @@
 import { useGLTF } from "@react-three/drei";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { RigidBody } from "@react-three/rapier";
 
-export default function World(props) {
+export default function World({ finishedLeveL }) {
   const { nodes, materials } = useGLTF("/assets/models/world/Bosquev7.glb");
-  const [runSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
+  const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
+  const trofeoRef = useRef();
+  const trofeoRigidBodyRef = useRef();
+
+  const onCollisionEnter = ({ manifold, target, other }) => {
+    if (other.colliderObject.name == "character-capsule-collider") {
+
+      console.log("Si funciona en el mundo");
+      endSound.play();
+      finishedLeveL();
+    } else {
+      console.log(
+        // this rigid body's Object3D
+        target.rigidBodyObject,
+        " collided with ",
+        // the other rigid body's Object3D
+        other.rigidBodyObject
+      );
+    }
+  };
 
   return (
     <RigidBody type="fixed" colliders={false}>
-      <group {...props} dispose={null}>
+      <group dispose={null}>
         <RigidBody type="fixed" colliders="trimesh">
           <mesh
             castShadow
@@ -177,16 +196,14 @@ export default function World(props) {
           />
 
 
-          <RigidBody
+          {/* <RigidBody
+            ref={trofeoRigidBodyRef}
             type="fixed"
-            onCollisionEnter={({ manifold, target, other }) => {
-              console.log("Nivel Terminado")
-              runSound.loop = true;
-              runSound.play();
-            }}
+            onCollisionEnter={(e) => onCollisionEnter(e)}
             name="Trofeo"
-          >
+          > */}
             <mesh
+              ref={trofeoRef}
               castShadow
               receiveShadow
               geometry={nodes.Cylinder.geometry}
@@ -204,7 +221,7 @@ export default function World(props) {
               geometry={nodes.Cylinder_2.geometry}
               material={materials.estrella}
             />
-          </RigidBody>
+          {/* </RigidBody> */}
 
           <mesh
             castShadow
