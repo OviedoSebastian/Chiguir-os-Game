@@ -92,7 +92,7 @@ const CharacterHudLevel2 = ({ vidas, curao, userInfo, endLevel, jumpHeight, show
 
        {/* Impulso de salto activado */}
       <div>
-        {jumpHeight==8 && (
+        {jumpHeight==10 && (
           <JumpImpulse />
         )}
       </div>
