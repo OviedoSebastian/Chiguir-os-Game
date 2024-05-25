@@ -175,7 +175,7 @@ export default function Level2() {
             position: [0, 1, 0],
           }}
         >
-          <Perf position="top-left" />
+          {/* <Perf position="top-left" /> */}
           <Suspense fallback={null}>
             <Lights />
             <Environments />
