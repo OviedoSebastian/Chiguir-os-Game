@@ -3,21 +3,27 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody, useRigidBody } from "@react-three/rapier";
 
-export default function Curao({props, catchCurao, posicion, positionCurao, curaitoCogio}) {
+export default function Curao({
+  props,
+  catchCurao,
+  posicion,
+  positionCurao,
+  curaitoCogio,
+}) {
   const { nodes, materials } = useGLTF("/assets/models/colectables/curao.glb");
   const [position, setPosition] = useState([37, -1.5, 60]);
   const [numeroDeBotellas, setNumeroDeBotellas] = useState(0);
   const [curaoBro, setCuraoBro] = useState(false);
+  const [visible, setVisible] = useState(true);
   const refRigidBody = useRef();
 
   useEffect(() => {
-
-    if(curaitoCogio) {
-      setPosition([37, -50, 60])
+    if (curaitoCogio) {
+      setVisible(false);
     } else {
-      setPosition([37, -1.5, 60])
+      setVisible(true);
     }
-  },[curaitoCogio])
+  }, [curaitoCogio]);
 
   const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
 
@@ -27,10 +33,9 @@ export default function Curao({props, catchCurao, posicion, positionCurao, curai
     if (other.colliderObject.name == "character-capsule-collider") {
       curaoSound.play();
       catchCurao();
+      setVisible(false);
     }
   };
-
-
 
   const radius = 0.3;
   const speed = 5;
@@ -40,8 +45,7 @@ export default function Curao({props, catchCurao, posicion, positionCurao, curai
     const angle = elapsedTime * speed;
     const x = Math.sin(angle) * radius;
     const y = Math.cos(angle) * radius;
-    refRigidBody.current.rotation.y = angle;
-    
+    // refRigidBody.current.rotation.y = angle;
 
     refRigidBody.current?.setTranslation(
       {
@@ -54,24 +58,33 @@ export default function Curao({props, catchCurao, posicion, positionCurao, curai
   });
 
   return (
-    <RigidBody
-      ref={refRigidBody}
-      type="fixed"
-      colliders="cuboid"
-      onCollisionEnter={(e) => onCollisionEnter(e)}
-      name="Curao"
-      position={posicion}
-    >
-      <group {...props} dispose={null} ref={refRigidBody} rotation={[0, 2, 0]}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.geometry_0.geometry}
-        material={materials.Material_0}
-      />
-    </group>
-    </RigidBody>
-  );
+    <>
+      {visible ? 
+        <RigidBody
+          ref={refRigidBody}
+          type="fixed"
+          colliders="cuboid"
+          onCollisionEnter={(e) => onCollisionEnter(e)}
+          name="Curao"
+          position={posicion}
+        >
+          <group
+            {...props}
+            dispose={null}
+            ref={refRigidBody}
+            rotation={[0, 2, 0]}
+          >
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.geometry_0.geometry}
+              material={materials.Material_0}
+            />
+          </group>
+        </RigidBody>
+       : null}
+    </>
+  )
 }
 
 useGLTF.preload("/assets/models/colectables/curao.glb");
