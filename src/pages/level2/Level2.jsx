@@ -161,7 +161,6 @@ export default function Level2() {
   useEffect(() => {
     if (curao >= 3) {
       setJumpVel(10);
-      console.log("Impulso de salto activado");
     }
   }, [curao]);
   
