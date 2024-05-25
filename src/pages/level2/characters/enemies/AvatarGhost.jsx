@@ -4,7 +4,7 @@ import { useAnimations, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 
-export default function AvatarGhost({ position, loseLife }) {
+export default function AvatarGhost({ position, loseLife, changeSpeed }) {
   const avatarGhostRef = useRef();
   const avatarGhostBodyRef = useRef();
   const { avatar, setAvatar } = useAvatar();
@@ -14,13 +14,20 @@ export default function AvatarGhost({ position, loseLife }) {
   const lastCollisionTime = useRef(0); // Referencia para almacenar la marca de tiempo de la última colisión
   
   const radius = 3;
-  const speed = 2;
+  const [speedGhost, setSpeedGhost] = useState(2.5)
+
+  useEffect(() => {
+    if (changeSpeed > 0){
+      setSpeedGhost(1)
+    }
+    //setSpeedGhost((speedGhost) => {speedGhost - 0.2})
+  },[changeSpeed])
 
   // refRigidBody.current.rotation.y = Math.cos(clock.getElapsedTime());
 
   useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime()
-    const angle = elapsedTime * speed
+    const angle = elapsedTime * speedGhost
     const x = Math.cos(angle) * radius
     const z = Math.sin(angle) * radius
 
