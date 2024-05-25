@@ -14,10 +14,7 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
     const [jumpVel, setJumpVel] = useState(jumpHeight); // Variable para cambiar la altura del salto.
 
     useEffect(() => {
-        if (jumpHeight === 10) {
-            setJumpVel(jumpHeight);
-        }
-
+       
         if (vida <= 0) {
 
             rigidBodyAvatarCientificRef.current?.setTranslation(
@@ -31,6 +28,13 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
             resetPoint()
         }
     }, [vida]);
+
+    useEffect(() => {
+    if (jumpHeight === 10) {
+        console.log("Impulso de salto activado");
+        setJumpVel(jumpHeight);
+    }
+    }, [jumpHeight]);
 
     useEffect(() => {
         actions[avatar.animation]?.reset().fadeIn(0.5).play();
