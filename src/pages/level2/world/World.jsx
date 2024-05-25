@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { RigidBody } from "@react-three/rapier";
 
 export default function World({ finishedLevel }) {
-  const { nodes, materials } = useGLTF("/assets/models/world/Bosquev7.glb");
+  const { nodes, materials } = useGLTF("/assets/models/world/Bosquev8.glb");
   const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
   endSound.loop = true;
   const trofeoRef = useRef();
@@ -31,19 +31,19 @@ export default function World({ finishedLevel }) {
             castShadow
             receiveShadow
             geometry={nodes.Isla001.geometry}
-            material={materials["Material.001"]}
+            material={materials["Material.002"]}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.Isla2.geometry}
-            material={materials["Material.001"]}
+            material={materials["Material.002"]}
           />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.Isla3.geometry}
-            material={materials["Material.001"]}
+            material={materials["Material.002"]}
           />
 
           <mesh
@@ -193,7 +193,6 @@ export default function World({ finishedLevel }) {
             material={materials["Stone.001"]}
           />
 
-
           <RigidBody
             type="fixed"
             onCollisionEnter={(e) => onCollisionEnter(e)}
@@ -268,35 +267,39 @@ export default function World({ finishedLevel }) {
             geometry={nodes.Wood_1001_texrture_atlas_0_1.geometry}
             material={materials.Brown3}
           />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Icosphere002.geometry}
-            material={materials.Material}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Icosphere002_1.geometry}
-            material={materials["Material.013"]}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Icosphere002_2.geometry}
-            material={materials.Green}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Icosphere002_3.geometry}
-            material={materials.tierra}
-          />
+          <mesh geometry={nodes.Icosphere002.geometry} material={materials['Material.001']} />
+          <mesh geometry={nodes.Icosphere002_1.geometry} material={materials['Material.013']} />
+          <mesh geometry={nodes.Icosphere002_2.geometry} material={materials.Green} />
+          <mesh geometry={nodes.Icosphere002_3.geometry} material={materials.tierra} />
           <mesh
             castShadow
             receiveShadow
             geometry={nodes.LagoCollider.geometry}
             material={materials.Material}
+          />
+
+          <mesh
+            geometry={nodes.geometry_0002.geometry}
+            material={materials["Material_0.001"]}
+          />
+          <mesh
+            geometry={nodes.geometry_0002_1.geometry}
+            material={materials["4"]}
+          />
+          <mesh geometry={nodes["7"].geometry} material={materials["7"]} />
+          <mesh
+            geometry={nodes["7_1"].geometry}
+            material={materials.Material_0}
+          />
+          <mesh geometry={nodes["6"].geometry} material={materials["6"]} />
+          <mesh
+            geometry={nodes["6_1"].geometry}
+            material={materials["Material_0.002"]}
+          />
+          <mesh geometry={nodes["5"].geometry} material={materials["5"]} />
+          <mesh
+            geometry={nodes["5_1"].geometry}
+            material={materials.Material_0}
           />
         </RigidBody>
       </group>
@@ -1610,4 +1613,4 @@ export default function World({ finishedLevel }) {
   );
 }
 
-useGLTF.preload("/assets/models/world/Bosquev6.glb");
+useGLTF.preload("/assets/models/world/Bosquev8.glb");
