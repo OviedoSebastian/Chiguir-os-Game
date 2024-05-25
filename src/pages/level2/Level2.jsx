@@ -33,6 +33,9 @@ export default function Level2() {
   const [userInfo, setUserInfo] = useState(null);
   const [showYouLost, setShowYouLost] = useState(false);
   const [curaoCogio, setCuraoCogio] = useState(false);
+  const [curaoCogio1, setCuraoCogio1] = useState(false);
+  const [curaoCogio2, setCuraoCogio2] = useState(false);
+
 
   const saveDataUser = async (valueUser) => {
     await createuser(valueUser);
@@ -123,6 +126,8 @@ export default function Level2() {
     const checkpointData = await readDataCheckpoint(auth.userLogged.email);
     setVida((prevVida) => prevVida - 1);
     setCuraoCogio(false)
+    setCuraoCogio1(false)
+    setCuraoCogio2(false)
 
     if(checkpointData && checkpointData.checkpoint){
       setCurao(checkpointData.curao);
@@ -142,9 +147,20 @@ export default function Level2() {
     setCuraoCogio(true);
   };
 
+  const handleCurao1 = () => {
+    setCurao((curao) => curao + 1);
+    setCuraoCogio1(true);
+  };
+
+
+  const handleCurao2 = () => {
+    setCurao((curao) => curao + 1);
+    setCuraoCogio2(true);
+  };
+
   useEffect(() => {
     if (curao >= 3) {
-      setJumpVel(8);
+      setJumpVel(10);
       console.log("Impulso de salto activado");
     }
   }, [curao]);
@@ -178,8 +194,8 @@ export default function Level2() {
               <AvatarGhost position={[41, -11.6, -65]} loseLife={loseLife} />
               <AvatarGhost position={[56.6, -10.5, 1.7]} loseLife={loseLife} />
               <Curao catchCurao={handleCurao} curaitoCogio={curaoCogio} />
-              <Curao2 catchCurao={handleCurao} />
-              <Curao3 catchCurao={handleCurao} />
+              <Curao2 catchCurao={handleCurao1} curaitoCogio={curaoCogio1}/>
+              <Curao3 catchCurao={handleCurao2} curaitoCogio={curaoCogio2}/>
             </Physics>
           </Suspense>
           <WelcomeText />
