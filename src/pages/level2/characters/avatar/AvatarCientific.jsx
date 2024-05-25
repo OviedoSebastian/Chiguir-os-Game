@@ -3,7 +3,7 @@ import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import Ecctrl from "ecctrl";
 
-export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
+export default function AvatarCientific({ jumpHeight, vida, resetPoint,  offTheMap, dentroDelMapa }) {
 
     const avatarCientificRef = useRef();
     const rigidBodyAvatarCientificRef = useRef();
@@ -30,10 +30,12 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
     }, [vida]);
 
     useEffect(() => {
-    if (jumpHeight === 10) {
-        console.log("Impulso de salto activado");
-        setJumpVel(jumpHeight);
-    }
+        if (jumpHeight === 10) {
+            setJumpVel(jumpHeight);
+        }
+        if (jumpHeight === 4) {
+            setJumpVel(jumpHeight);
+        }
     }, [jumpHeight]);
 
     useEffect(() => {
@@ -42,6 +44,21 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
             if (actions[avatar.animation]) actions[avatar.animation].fadeOut(0.5);
         };
     }, [actions, avatar.animation]);
+
+    // Efecto por si se cae el personaje del mapa xd
+    useEffect(() => {
+        if (offTheMap) {
+            rigidBodyAvatarCientificRef.current?.setTranslation(
+                {
+                    x: 120,
+                    y: 10,
+                    z: -8,
+                },
+                true
+            );
+            dentroDelMapa();
+        }
+    }, [offTheMap]);
 
     useEffect(() => {
         setAvatar({
@@ -63,7 +80,7 @@ export default function AvatarCientific({ jumpHeight, vida, resetPoint }) {
             maxVelLimit={6}
             jumpVel={jumpVel}
             //position={[-75, 85, 10]}
-            position={[0, 9, 0]}
+            position={[0, 12, 0]}
         >
             <group ref={avatarCientificRef} name="Scene" position-y={-0.82}>
                 <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>

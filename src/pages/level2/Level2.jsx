@@ -21,6 +21,8 @@ import Curao3 from "./colectibles/Curao3";
 import AvatarGhost from "./characters/enemies/AvatarGhost";
 import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
 import CharacterHudLevel2 from "./hud/CharacterHud";
+import LimiteZone from "./world/LimiteZone";
+
 
 export default function Level2() { 
   const map = useMovements();
@@ -35,7 +37,7 @@ export default function Level2() {
   const [curaoCogio, setCuraoCogio] = useState(false);
   const [curaoCogio1, setCuraoCogio1] = useState(false);
   const [curaoCogio2, setCuraoCogio2] = useState(false);
-
+  const [fueraMapa, setFueraMapa] = useState(false);
 
   const saveDataUser = async (valueUser) => {
     await createuser(valueUser);
@@ -142,6 +144,14 @@ export default function Level2() {
     setVida(nuevaVida);
   };
 
+  const fueraDelMapa = () => {
+    setFueraMapa(true);
+  }
+
+  const dentroDelMapa = () => {
+    setFueraMapa(false);
+  }
+
   const handleCurao = () => {
     setCurao((curao) => curao + 1);
     setCuraoCogio(true);
@@ -180,18 +190,20 @@ export default function Level2() {
             <Environments />
             <Physics debug={false}>
               <World finishedLevel={finalizoNivel} />
-              
+              <LimiteZone position={[135, -15, -8]} fueraDelMapa={fueraDelMapa} />
               {/* <AvatarEngineer /> */}
               <AvatarCientific
                 jumpHeight={jumpVel}
                 vida={vida}
                 resetPoint={resetPoint}
+                offTheMap={fueraMapa}
+                dentroDelMapa={dentroDelMapa}
               />
               <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint} />
               {/* <Ardilla position={[-15,1.28,5]}/> */}
-              <AvatarGhost position={[37, -11.6, 60]} loseLife={loseLife} />
-              <AvatarGhost position={[41, -11.6, -65]} loseLife={loseLife} />
-              <AvatarGhost position={[56.6, -10.5, 1.7]} loseLife={loseLife} />
+              <AvatarGhost position={[37, -11.6, 60]} loseLife={loseLife} changeSpeed={curao} />
+              <AvatarGhost position={[41, -11.6, -65]} loseLife={loseLife} changeSpeed={curao} />
+              <AvatarGhost position={[56.6, -10.5, 1.7]} loseLife={loseLife} changeSpeed={curao} />
               <Curao catchCurao={handleCurao} curaitoCogio={curaoCogio} />
               <Curao2 catchCurao={handleCurao1} curaitoCogio={curaoCogio1}/>
               <Curao3 catchCurao={handleCurao2} curaitoCogio={curaoCogio2}/>

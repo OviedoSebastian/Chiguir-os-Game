@@ -31,9 +31,10 @@ export default function Curao({
     // console.log("Collision at world position", manifold.solverContactPoint(0));
 
     if (other.colliderObject.name == "character-capsule-collider") {
+      
+      setVisible(false);
       curaoSound.play();
       catchCurao();
-      setVisible(false);
     }
   };
 
