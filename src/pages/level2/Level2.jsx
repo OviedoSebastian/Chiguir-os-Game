@@ -130,7 +130,7 @@ export default function Level2() {
     setCuraoCogio2(false)
 
     if(checkpointData && checkpointData.checkpoint){
-      setCurao(checkpointData.curao);
+      setCurao(checkpointData.curado);
     }else{
       setCurao(0);
       console.log("No guardaste en el checkpoint :c");
