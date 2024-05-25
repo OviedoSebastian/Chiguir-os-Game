@@ -24,7 +24,7 @@ export default function World({ finishedLevel }) {
   };
 
   return (
-    <RigidBody type="fixed" colliders={false}>
+    <RigidBody type="fixed" colliders="trimesh">
       <group dispose={null}>
         <RigidBody type="fixed" colliders="trimesh">
           <mesh
