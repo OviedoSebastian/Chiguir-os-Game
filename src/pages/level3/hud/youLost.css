@@ -1,0 +1,51 @@
+/* Estilos para el componente YouLost */
+.you-lost-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    text-align: center;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-section {
+    flex: 1; /* Toma el espacio disponible */
+}
+
+.bottom-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacio entre los botones */
+    margin-top: 20px; /* Espacio entre la parte superior e inferior */
+}
+
+.continue-button, .exit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.continue-button:hover, .exit-button:hover {
+    background-color: #0056b3;
+}
+
+.exit-button {
+    background-color: #dc3545;
+}
+
+.exit-button:hover {
+    background-color: #a71d2a;
+}
