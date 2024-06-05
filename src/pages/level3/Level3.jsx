@@ -1,13 +1,11 @@
 import { KeyboardControls, Loader } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useState, useEffect } from "react";
-import WelcomeText from "./abstractions/WelcomeText";
 import Lights from "./lights/Lights";
 import Environments from "./staging/Environments";
 import { Canvas } from "@react-three/fiber";
 import World from "./world/World";
 import Controls from "./controls/Controls";
-import AvatarCientific from "./characters/avatar/AvatarCientific";
 import useMovements from "../../utils/key-movements";
 import Buttons from "../level1/View/Buttons";
 import { useAuth } from "../../context/AuthContext";
@@ -15,13 +13,15 @@ import { createuser, readUser } from "../../db/users-collection";
 import Ardilla from "./characters/avatar/Ardilla";
 import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
 import CharacterHudLevel3 from "./hud/CharacterHudLevel3";
+import Portero from "./characters/avatar/Portero";
+import AvatarAthlete from "./characters/avatar/AvatarAthlete";
 
 export default function Level3() {
     const map = useMovements();
     const auth = useAuth();
     const [vida, setVida] = useState(3);
     const [endLevel, setEndLevel] = useState(false);
-    const [jumpVel, setJumpVel] = useState(10);
+    const [jumpVel, setJumpVel] = useState(4);
     const [checkpoint, setCheckpoint] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [showYouLost, setShowYouLost] = useState(false);
@@ -141,7 +141,7 @@ export default function Level3() {
     return (
         <>
             <KeyboardControls map={map}>
-                <Buttons />
+                
                 {/* <Logout /> */}
                 <Canvas
                     camera={{
@@ -152,22 +152,22 @@ export default function Level3() {
                     <Suspense fallback={null}>
                         <Lights />
                         <Environments />
-                        <Physics debug={false}>
+                        <Physics debug={true}>
                             <World finishedLevel={finalizoNivel} />
-                            {/* <AvatarEngineer /> */}
-                            <AvatarCientific
+                            <AvatarAthlete
                                 jumpHeight={jumpVel}
                                 vida={vida}
                                 resetPoint={resetPoint}
                                 offTheMap={fueraMapa}
                                 dentroDelMapa={dentroDelMapa}
                             />
-                            <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint} />
+                            <Portero position={[0.5, 2, 36]} />
+                            <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
                         </Physics>
                     </Suspense>
-                    <WelcomeText />
                     <Controls />
                 </Canvas>
+                <Buttons />
                 <Loader />
                 <CharacterHudLevel3 vidas={vida} userInfo={userInfo} endLevel={endLevel} jumpHeight={jumpVel} showYouLost={showYouLost} onContinue={onContinue} />
             </KeyboardControls>

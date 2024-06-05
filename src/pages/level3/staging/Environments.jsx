@@ -1,4 +1,4 @@
-import { Environment, Cloud } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 
 export default function Environments() {
     return (
@@ -12,14 +12,6 @@ export default function Environments() {
             scale: 300,
             radius: 500,
           }}
-        />
-        <Cloud
-          bounds={[50, 5, 50]}
-          volume={15}
-          color={"blue"}
-          position={[0, 30, 1]}
-          segments={100}
-          fade={200}
         />
       </>
     );
