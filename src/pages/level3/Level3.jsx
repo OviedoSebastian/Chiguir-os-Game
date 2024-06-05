@@ -13,6 +13,7 @@ import { createuser, readUser } from "../../db/users-collection";
 import Ardilla from "./characters/avatar/Ardilla";
 import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
 import CharacterHudLevel3 from "./hud/CharacterHudLevel3";
+import Portero from "./characters/avatar/Portero";
 import AvatarAthlete from "./characters/avatar/AvatarAthlete";
 
 export default function Level3() {
@@ -160,7 +161,8 @@ export default function Level3() {
                                 offTheMap={fueraMapa}
                                 dentroDelMapa={dentroDelMapa}
                             />
-                            <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint} />
+                            <Portero position={[0.5, 2, 36]} />
+                            <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
                         </Physics>
                     </Suspense>
                     <Controls />
