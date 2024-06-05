@@ -8,7 +8,7 @@ const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, jumpHeight, showYouLost
     const [displayText, setDisplayText] = useState("");
 
     const textToShow =
-        "¡Bienvenidos al Bosque del Lago Sombrío! <br><br> Recolecta todos los objetos para obtener un impulso de salto que te permitirá saltar entre islas flotantes y llegar al trofeo. <br><br> Lee todos los carteles que hay sobre el mapa, te darán información útil.";
+        "¡Bienvenidos al Coliseo!";
     const currentIndexRef = useRef(0);
 
     useEffect(() => {
@@ -39,6 +39,30 @@ const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, jumpHeight, showYouLost
                 <div className="hud-item">
                     <img
                         src="./assets/icons/icon_heart.png"
+                        alt="laptop"
+                        className="hud-icon"
+                    />
+                    <span className="hud-text">
+                        {vidas}/{3}
+                    </span>
+                </div>
+
+                {/* Speed Menox */}
+                <div className="hud-item">
+                    <img
+                        src="./assets/icons/icon_speed_menox.png"
+                        alt="laptop"
+                        className="hud-icon"
+                    />
+                    <span className="hud-text">
+                        {vidas}/{3}
+                    </span>
+                </div>
+
+                {/* Paninos */}
+                <div className="hud-item">
+                    <img
+                        src="./assets/icons/icon_panino.png"
                         alt="laptop"
                         className="hud-icon"
                     />

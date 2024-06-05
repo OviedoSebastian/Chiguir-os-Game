@@ -1,13 +1,12 @@
 import { KeyboardControls, Loader } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useState, useEffect } from "react";
-import WelcomeText from "./abstractions/WelcomeText";
 import Lights from "./lights/Lights";
 import Environments from "./staging/Environments";
 import { Canvas } from "@react-three/fiber";
 import World from "./world/World";
 import Controls from "./controls/Controls";
-import AvatarCientific from "./characters/avatar/AvatarCientific";
+import Futbolista from "./characters/avatar/Futbolista";
 import useMovements from "../../utils/key-movements";
 import Buttons from "../level1/View/Buttons";
 import { useAuth } from "../../context/AuthContext";
@@ -141,7 +140,7 @@ export default function Level3() {
     return (
         <>
             <KeyboardControls map={map}>
-                <Buttons />
+                
                 {/* <Logout /> */}
                 <Canvas
                     camera={{
@@ -152,10 +151,10 @@ export default function Level3() {
                     <Suspense fallback={null}>
                         <Lights />
                         <Environments />
-                        <Physics debug={false}>
+                        <Physics debug={true}>
                             <World finishedLevel={finalizoNivel} />
                             {/* <AvatarEngineer /> */}
-                            <AvatarCientific
+                            <Futbolista
                                 jumpHeight={jumpVel}
                                 vida={vida}
                                 resetPoint={resetPoint}
@@ -165,9 +164,9 @@ export default function Level3() {
                             <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint} />
                         </Physics>
                     </Suspense>
-                    <WelcomeText />
                     <Controls />
                 </Canvas>
+                <Buttons />
                 <Loader />
                 <CharacterHudLevel3 vidas={vida} userInfo={userInfo} endLevel={endLevel} jumpHeight={jumpVel} showYouLost={showYouLost} onContinue={onContinue} />
             </KeyboardControls>
