@@ -6,7 +6,6 @@ import Environments from "./staging/Environments";
 import { Canvas } from "@react-three/fiber";
 import World from "./world/World";
 import Controls from "./controls/Controls";
-import Futbolista from "./characters/avatar/Futbolista";
 import useMovements from "../../utils/key-movements";
 import Buttons from "../level1/View/Buttons";
 import { useAuth } from "../../context/AuthContext";
@@ -14,6 +13,7 @@ import { createuser, readUser } from "../../db/users-collection";
 import Ardilla from "./characters/avatar/Ardilla";
 import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
 import CharacterHudLevel3 from "./hud/CharacterHudLevel3";
+import AvatarAthlete from "./characters/avatar/AvatarAthlete";
 
 export default function Level3() {
     const map = useMovements();
@@ -153,8 +153,7 @@ export default function Level3() {
                         <Environments />
                         <Physics debug={true}>
                             <World finishedLevel={finalizoNivel} />
-                            {/* <AvatarEngineer /> */}
-                            <Futbolista
+                            <AvatarAthlete
                                 jumpHeight={jumpVel}
                                 vida={vida}
                                 resetPoint={resetPoint}
