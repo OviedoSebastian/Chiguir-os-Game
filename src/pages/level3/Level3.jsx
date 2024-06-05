@@ -1,7 +1,6 @@
 import { KeyboardControls, Loader } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useState, useEffect } from "react";
-import WelcomeText from "./abstractions/WelcomeText";
 import Lights from "./lights/Lights";
 import Environments from "./staging/Environments";
 import { Canvas } from "@react-three/fiber";
@@ -141,7 +140,7 @@ export default function Level3() {
     return (
         <>
             <KeyboardControls map={map}>
-                <Buttons />
+                
                 {/* <Logout /> */}
                 <Canvas
                     camera={{
@@ -152,7 +151,7 @@ export default function Level3() {
                     <Suspense fallback={null}>
                         <Lights />
                         <Environments />
-                        <Physics debug={false}>
+                        <Physics debug={true}>
                             <World finishedLevel={finalizoNivel} />
                             <AvatarAthlete
                                 jumpHeight={jumpVel}
@@ -164,9 +163,9 @@ export default function Level3() {
                             <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint} />
                         </Physics>
                     </Suspense>
-                    <WelcomeText />
                     <Controls />
                 </Canvas>
+                <Buttons />
                 <Loader />
                 <CharacterHudLevel3 vidas={vida} userInfo={userInfo} endLevel={endLevel} jumpHeight={jumpVel} showYouLost={showYouLost} onContinue={onContinue} />
             </KeyboardControls>
