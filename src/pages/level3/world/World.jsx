@@ -1,13 +1,33 @@
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
+import { useRef, useState } from "react";
 
-export default function World(props) {
+
+export default function World(finishedLevel) {
   const { nodes, materials } = useGLTF("/assets/models/world/Coliseov9.glb");
+  const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
+  endSound.loop = false;
+  const trofeoRef = useRef();
+
+  const onCollisionEnter = ({ manifold, target, other }) => {
+    if (other.colliderObject.name == "character-capsule-collider") {
+      endSound.play();
+      finishedLevel();
+    } else {
+      console.log(
+        // this rigid body's Object3D
+        target.rigidBodyObject,
+        " collided with ",
+        // the other rigid body's Object3D
+        other.rigidBodyObject
+      );
+    }
+  };
 
   return (
     <>
       <RigidBody type="fixed" colliders={false}>
-        <group {...props} dispose={null}>
+        <group dispose={null}>
           <group>
             <group>
               <RigidBody type="fixed" colliders="trimesh">
@@ -476,20 +496,26 @@ export default function World(props) {
               />
             </RigidBody>
 
-            <group>
-              <mesh
-                geometry={nodes.Trofeo_1.geometry}
-                material={materials["oro.001"]}
-              />
-              <mesh
-                geometry={nodes.Trofeo_2.geometry}
-                material={materials["base.001"]}
-              />
-              <mesh
-                geometry={nodes.Trofeo_3.geometry}
-                material={materials["estrella.001"]}
-              />
-            </group>
+            <RigidBody
+              type="fixed"
+              onCollisionEnter={(e) => onCollisionEnter(e)}
+              name="Trofeo"
+            >
+              <group>
+                <mesh
+                  geometry={nodes.Trofeo_1.geometry}
+                  material={materials["oro.001"]}
+                />
+                <mesh
+                  geometry={nodes.Trofeo_2.geometry}
+                  material={materials["base.001"]}
+                />
+                <mesh
+                  geometry={nodes.Trofeo_3.geometry}
+                  material={materials["estrella.001"]}
+                />
+              </group>
+            </RigidBody>
             <group>
               <mesh
                 geometry={nodes.Isla007.geometry}

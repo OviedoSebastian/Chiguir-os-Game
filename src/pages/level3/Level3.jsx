@@ -15,6 +15,9 @@ import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level
 import CharacterHudLevel3 from "./hud/CharacterHudLevel3";
 import Portero from "./characters/avatar/Portero";
 import AvatarAthlete from "./characters/avatar/AvatarAthlete";
+import SpeedMenox from "./colectibles/SpeedMenox";
+import Panino from "./colectibles/Panino";
+import Balon from "./colectibles/Balon";
 
 export default function Level3() {
     const map = useMovements();
@@ -152,7 +155,7 @@ export default function Level3() {
                     <Suspense fallback={null}>
                         <Lights />
                         <Environments />
-                        <Physics debug={true}>
+                        <Physics debug={false}>
                             <World finishedLevel={finalizoNivel} />
                             <AvatarAthlete
                                 jumpHeight={jumpVel}
@@ -163,6 +166,9 @@ export default function Level3() {
                             />
                             <Portero position={[0.5, 2, 36]} />
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
+                            {/* <SpeedMenox/> */}
+                            {/* <Panino/> */}
+                            <Balon/>
                         </Physics>
                     </Suspense>
                     <Controls />
