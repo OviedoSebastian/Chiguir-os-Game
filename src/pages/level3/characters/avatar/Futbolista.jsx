@@ -50,9 +50,9 @@ export default function Futbolista ({ jumpHeight, vida, resetPoint, offTheMap, d
         if (offTheMap) {
             rigidBodyAvatarFutbolistaRef.current?.setTranslation(
                 {
-                    x: 120,
+                    x: 0,
                     y: 10,
-                    z: -8,
+                    z: -60,
                 },
                 true
             );
@@ -82,7 +82,7 @@ export default function Futbolista ({ jumpHeight, vida, resetPoint, offTheMap, d
             maxVelLimit={6}
             jumpVel={jumpVel}
             //position={[-75, 85, 10]}
-            position={[0, 12, 0]}
+            position={[0, 11, 0]}
         >
             <group ref={avatarFutbolistaRef} name="Scene" position-y={-0.82} >
                     <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.01}>

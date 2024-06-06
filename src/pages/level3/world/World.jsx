@@ -1,20 +1,32 @@
 import { useGLTF } from "@react-three/drei"
+import { useState } from "react";
 import { RigidBody } from "@react-three/rapier";
 
-export default function World(props) {
+export default function World({ finishedLevel }) {
 
   const { nodes, materials } = useGLTF("/assets/models/world/ColiseoV4.glb");
+  const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
+
+  endSound.loop = true;
   
+  const onCollisionEnter = ({ manifold, target, other }) => {
+    if (other.colliderObject.name == "character-capsule-collider") {
+      endSound.play();
+      finishedLevel();
+    } else {
+      console.log(
+        // this rigid body's Object3D
+        target.rigidBodyObject,
+        " collided with ",
+        // the other rigid body's Object3D
+        other.rigidBodyObject
+      );
+    }
+  };
 
   return (
 
     <group dispose={null}>
-      <RigidBody type="fixed" position={[0, -5, -8]} >
-            <mesh  rotation={[0, 0, 0]} >
-                <boxGeometry args={[100, 1, 80]} />
-                <meshStandardMaterial transparent={0} opacity={0} />
-            </mesh>
-        </RigidBody>
       <group>
         <group>
           <mesh geometry={nodes.Graderias_1.geometry} material={materials.PisoEscalerasAfuera} />
@@ -24,7 +36,7 @@ export default function World(props) {
           <mesh geometry={nodes.Graderias_5.geometry} material={materials.Escaleritas2} />
           <mesh geometry={nodes.Graderias_6.geometry} material={materials.LogoUV} />
         </group>
-        <RigidBody type="fixed" colliders="cuboid">
+        <RigidBody type="fixed" colliders="trimesh">
         <group>
           <mesh geometry={nodes.Piso_1.geometry} material={materials.PisoLadrillos} />
           <mesh geometry={nodes.Piso_2.geometry} material={materials.TierraMat} />
@@ -55,6 +67,7 @@ export default function World(props) {
         </group>
         <mesh geometry={nodes.PuertaAbierta.geometry} material={materials.Fence} />
         <mesh geometry={nodes.PuertaCerrada.geometry} material={materials.Fence} />
+        <RigidBody type="fixed" colliders="cuboid" >
         <mesh geometry={nodes['1I'].geometry} material={materials['Material.006']} />
         <mesh geometry={nodes['2D'].geometry} material={materials['Material.006']} />
         <mesh geometry={nodes['3I'].geometry} material={materials['Material.006']} />
@@ -74,20 +87,27 @@ export default function World(props) {
         <mesh geometry={nodes['8I'].geometry} material={materials['Material.006']} />
         <mesh geometry={nodes['9D'].geometry} material={materials['Material.006']} />
         <mesh geometry={nodes.Rieles.geometry} material={materials.MatRieles} />
+        </RigidBody>
+        <RigidBody type="fixed" colliders="trimesh" >
         <group>
           <mesh geometry={nodes.Paredes.geometry} material={materials['PinturaBlanca.001']} />
           <mesh geometry={nodes.Paredes_1.geometry} material={materials.Ventanas} />
           <mesh geometry={nodes.Paredes_2.geometry} material={materials.PinturaNegra} />
         </group>
+        </RigidBody> 
+        <RigidBody type="fixed" colliders="trimesh" >
         <mesh geometry={nodes.Techo.geometry} material={materials.Techo} />
+        </RigidBody>
         <group>
           <mesh geometry={nodes.Columna_1.geometry} material={materials['PinturaBlanca.001']} />
           <mesh geometry={nodes.Columna_2.geometry} material={materials.PinturaNegra} />
         </group>
+        <RigidBody type="fixed" colliders="trimesh" >
         <group>
           <mesh geometry={nodes.Paredes001.geometry} material={materials.PisoCDU} />
           <mesh geometry={nodes.Paredes001_1.geometry} material={materials.TierraMat} />
         </group>
+        </RigidBody>
         <group>
           <group>
             <mesh geometry={nodes.Discos1.geometry} material={materials.GrisO} />
@@ -226,11 +246,18 @@ export default function World(props) {
           </group>
         </group>
         <mesh geometry={nodes.Bicicleta001.geometry} material={materials.Bicicleta} />
+        <RigidBody 
+          type="fixed" 
+          colliders="cuboid"
+          onCollisionEnter={(e) => onCollisionEnter(e)}
+          name="Trofeo">
+
         <group>
           <mesh geometry={nodes.Trofeo_1.geometry} material={materials['oro.001']} />
           <mesh geometry={nodes.Trofeo_2.geometry} material={materials['base.001']} />
           <mesh geometry={nodes.Trofeo_3.geometry} material={materials['estrella.001']} />
         </group>
+        </RigidBody>
       </group>
     </group>
 

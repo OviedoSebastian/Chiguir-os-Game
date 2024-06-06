@@ -7,6 +7,7 @@ import { Canvas } from "@react-three/fiber";
 import World from "./world/World";
 import Controls from "./controls/Controls";
 import Futbolista from "./characters/avatar/Futbolista";
+import FutbolistaEnemigo from "./characters/avatar/FutbolistaEnemigo";
 import useMovements from "../../utils/key-movements";
 import Buttons from "../level1/View/Buttons";
 import { useAuth } from "../../context/AuthContext";
@@ -14,6 +15,7 @@ import { createuser, readUser } from "../../db/users-collection";
 import Ardilla from "./characters/avatar/Ardilla";
 import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
 import CharacterHudLevel3 from "./hud/CharacterHudLevel3";
+import LimiteZone from "./world/LimiteZone";
 
 export default function Level3() {
     const map = useMovements();
@@ -140,7 +142,7 @@ export default function Level3() {
     return (
         <>
             <KeyboardControls map={map}>
-                
+
                 {/* <Logout /> */}
                 <Canvas
                     camera={{
@@ -153,7 +155,7 @@ export default function Level3() {
                         <Environments />
                         <Physics debug={true}>
                             <World finishedLevel={finalizoNivel} />
-                            {/* <AvatarEngineer /> */}
+                            <LimiteZone position={[0, -15, -70]} fueraDelMapa={fueraDelMapa} />
                             <Futbolista
                                 jumpHeight={jumpVel}
                                 vida={vida}
@@ -161,6 +163,7 @@ export default function Level3() {
                                 offTheMap={fueraMapa}
                                 dentroDelMapa={dentroDelMapa}
                             />
+                            <FutbolistaEnemigo position={[0, 10, 0]} loseLife={loseLife} />
                             <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint} />
                         </Physics>
                     </Suspense>

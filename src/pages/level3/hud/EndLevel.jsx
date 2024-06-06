@@ -10,7 +10,7 @@ const EndLevel = ({}) => {
     const navigate = useNavigate()
 
     const onNextLevel = () => {
-        navigate("/level3")
+        navigate("/level4")
     }
 
     return (
