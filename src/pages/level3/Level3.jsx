@@ -18,17 +18,16 @@ import AvatarAthlete from "./characters/avatar/AvatarAthlete";
 import SpeedMenox from "./colectibles/SpeedMenox";
 import Panino from "./colectibles/Panino";
 import Balon from "./colectibles/Balon";
+import LimiteZone from "./world/LimiteZone";
 
 export default function Level3() {
     const map = useMovements();
     const auth = useAuth();
     const [vida, setVida] = useState(3);
     const [endLevel, setEndLevel] = useState(false);
-    const [jumpVel, setJumpVel] = useState(4);
     const [checkpoint, setCheckpoint] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [showYouLost, setShowYouLost] = useState(false);
-
     const [fueraMapa, setFueraMapa] = useState(false);
 
     const saveDataUser = async (valueUser) => {
@@ -74,6 +73,49 @@ export default function Level3() {
 
     };
 
+    const loseLife = async () => {
+        // Modificar acorde al nivel
+        
+
+        // const checkpointData = await readDataCheckpoint(auth.userLogged.email);
+        // setVida((prevVida) => prevVida - 1);
+        // setCuraoCogio(false)
+        // setCuraoCogio1(false)
+        // setCuraoCogio2(false)
+
+        // if (checkpointData && checkpointData.checkpoint) {
+        //     setCurao(checkpointData.curado);
+        // } else {
+        //     setCurao(0);
+        //     console.log("No guardaste en el checkpoint :c");
+        // }
+    };
+
+    const fueraDelMapa = () => {
+        setFueraMapa(true);
+    }
+
+    const dentroDelMapa = () => {
+        setFueraMapa(false);
+    }
+
+    const finalizoNivel = () => {
+        console.log("SE TERMINOOO EL NIVEL");
+        setEndLevel(true);
+    };
+
+    const resetPoint = () => {
+        setShowYouLost(true);
+        setVida(3);
+        setCurao(0);
+        setCheckpoint(false);
+        editCheckpoint(auth.userLogged.email, {
+            vidas: 3,
+            curado: 0,
+            checkpoint: checkpoint,
+        });
+    };
+    
     useEffect(() => {
         // para saber todos los valores que se pueden recuperar por medio del
         // inicio de sesion por el correo, imprimir por oconsola lo siguiente console.log(auth.userLogged);
@@ -98,53 +140,10 @@ export default function Level3() {
     }, [auth.userLogged]);
     //////////////////////////////////////////////////////////////////////////////////
 
-    const finalizoNivel = () => {
-        console.log("SE TERMINOOO EL NIVEL");
-        setEndLevel(true);
-    };
-
-    const resetPoint = () => {
-        setShowYouLost(true);
-        setVida(3);
-        setCurao(0);
-        setCheckpoint(false);
-        editCheckpoint(auth.userLogged.email, {
-            vidas: 3,
-            curado: 0,
-            checkpoint: checkpoint,
-        });
-    };
-
-    const loseLife = async () => {
-        // Modificar acorde al nivel
-
-        // const checkpointData = await readDataCheckpoint(auth.userLogged.email);
-        // setVida((prevVida) => prevVida - 1);
-        // setCuraoCogio(false)
-        // setCuraoCogio1(false)
-        // setCuraoCogio2(false)
-
-        // if (checkpointData && checkpointData.checkpoint) {
-        //     setCurao(checkpointData.curado);
-        // } else {
-        //     setCurao(0);
-        //     console.log("No guardaste en el checkpoint :c");
-        // }
-
-    };
-
-    const fueraDelMapa = () => {
-        setFueraMapa(true);
-    }
-
-    const dentroDelMapa = () => {
-        setFueraMapa(false);
-    }
 
     return (
         <>
             <KeyboardControls map={map}>
-
                 {/* <Logout /> */}
                 <Canvas
                     camera={{
@@ -157,8 +156,8 @@ export default function Level3() {
                         <Environments />
                         <Physics debug={false}>
                             <World finishedLevel={finalizoNivel} />
+                            <LimiteZone position={[0, -10, -90]} fueraDelMapa={fueraDelMapa} />
                             <AvatarAthlete
-                                jumpHeight={jumpVel}
                                 vida={vida}
                                 resetPoint={resetPoint}
                                 offTheMap={fueraMapa}
@@ -168,14 +167,14 @@ export default function Level3() {
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
                             {/* <SpeedMenox/> */}
                             {/* <Panino/> */}
-                            <Balon/>
+                            <Balon />
                         </Physics>
                     </Suspense>
                     <Controls />
                 </Canvas>
                 <Buttons />
                 <Loader />
-                <CharacterHudLevel3 vidas={vida} userInfo={userInfo} endLevel={endLevel} jumpHeight={jumpVel} showYouLost={showYouLost} onContinue={onContinue} />
+                <CharacterHudLevel3 vidas={vida} userInfo={userInfo} endLevel={endLevel} showYouLost={showYouLost} onContinue={onContinue} />
             </KeyboardControls>
         </>
     );
