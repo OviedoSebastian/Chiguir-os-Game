@@ -147,11 +147,20 @@ export default function Level3() {
         setFueraMapa(false);
     };
 
+    const notGoal = () => {
+        setGolHecho(false);
+    };
+
+    const winMatch = () => {
+        // Función para que cuando los goles sean dos, se abra la puerta
+        // En construcción...
+    };
+
     const handleGoals = () => {
         if (!cooldown) {
           setGolg(gol + 1);
           setGolHecho(true);
-          console.log("GOL ", golg);
+          console.log("GOL ", gol);
     
           setCooldown(true); // Activar el cooldown
     
@@ -188,7 +197,7 @@ export default function Level3() {
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
                             {/* <SpeedMenox/> */}
                             {/* <Panino/> */}
-                            <Balon />
+                            <Balon isGol={golHecho} notIsGoal={notGoal} />
                         </Physics>
                     </Suspense>
                     <Controls />
