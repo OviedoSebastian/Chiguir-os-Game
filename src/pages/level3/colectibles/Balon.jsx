@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody, useRigidBody, RapierRigidBody } from "@react-three/rapier";
 
-export default function Balon({ isGol }) {
+export default function Balon({ isGol, notIsGoal }) {
   const refRigidBody = useRef();
   const [visible, setVisible] = useState(true);
   const { nodes, materials } = useGLTF("/assets/models/colectables/Balon.glb");
@@ -32,7 +32,8 @@ export default function Balon({ isGol }) {
                 z: 7,
             },
             true
-        );    
+        );
+        notIsGoal()
     }
   }, [isGol]);
 

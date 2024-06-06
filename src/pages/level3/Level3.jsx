@@ -15,7 +15,7 @@ import {
     createcheckpoint,
     editCheckpoint,
     readCheckpoint,
-} from "../../db/level2-collection";
+} from "../../db/level3-collection";
 import CharacterHudLevel3 from "./hud/CharacterHudLevel3";
 import Portero from "./characters/avatar/Portero";
 import AvatarAthlete from "./characters/avatar/AvatarAthlete";
@@ -28,12 +28,16 @@ export default function Level3() {
     const map = useMovements();
     const auth = useAuth();
     const [vida, setVida] = useState(3);
+    const [speedMenox, setSpeedMenox] = useState(0);
+    const [panino, setPanino] = useState(0);
     const [endLevel, setEndLevel] = useState(false);
     const [checkpoint, setCheckpoint] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [showYouLost, setShowYouLost] = useState(false);
     const [gol, setGolg] = useState(0);
     const [golHecho, setGolHecho] = useState(false);
+    const [cooldown, setCooldown] = useState(false);
+
     const [fueraMapa, setFueraMapa] = useState(false);
 
     const saveDataUser = async (valueUser) => {
@@ -71,7 +75,9 @@ export default function Level3() {
         saveDatacheckpoint({
             email: email,
             vidas: vida,
-            curado: curao,
+            speedMenox: speedMenox,
+            gol: gol,
+            panino: panino,
             checkpoint: checkpoint,
         });
     };
@@ -107,7 +113,8 @@ export default function Level3() {
     const resetPoint = () => {
         setShowYouLost(true);
         setVida(3);
-        setCurao(0);
+        setPanino(0);
+        setSpeedMenox(0);
         setGolg(0);
         setCheckpoint(false);
         editCheckpoint(auth.userLogged.email, {
@@ -140,11 +147,29 @@ export default function Level3() {
         setFueraMapa(false);
     };
 
-    const handleGoals = () => {
-        setGolHecho(true);
-        setGolg(gol + 1);
-        console.log("GOL ", gol);
+    const notGoal = () => {
+        setGolHecho(false);
     };
+
+    const winMatch = () => {
+        // Función para que cuando los goles sean dos, se abra la puerta
+        // En construcción...
+    };
+
+    const handleGoals = () => {
+        if (!cooldown) {
+          setGolg(gol + 1);
+          setGolHecho(true);
+          console.log("GOL ", gol);
+    
+          setCooldown(true); // Activar el cooldown
+    
+          // Desactivar el cooldown después de un segundo
+          setTimeout(() => {
+            setCooldown(false);
+          }, 1000);
+        }
+      };
 
     return (
         <>
@@ -172,7 +197,7 @@ export default function Level3() {
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
                             {/* <SpeedMenox/> */}
                             {/* <Panino/> */}
-                            <Balon isGol={golHecho} />
+                            <Balon isGol={golHecho} notIsGoal={notGoal} />
                         </Physics>
                     </Suspense>
                     <Controls />
