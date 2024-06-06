@@ -34,7 +34,6 @@ export default function Level3() {
     const [showYouLost, setShowYouLost] = useState(false);
     const [gol, setGolg] = useState(0);
     const [golHecho, setGolHecho] = useState(false);
-
     const [fueraMapa, setFueraMapa] = useState(false);
 
     const saveDataUser = async (valueUser) => {
@@ -142,8 +141,8 @@ export default function Level3() {
     };
 
     const handleGoals = () => {
-        setGolg((gol) => gol + 1);
         setGolHecho(true);
+        setGolg(gol + 1);
         console.log("GOL ", gol);
     };
 
@@ -173,7 +172,7 @@ export default function Level3() {
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
                             {/* <SpeedMenox/> */}
                             {/* <Panino/> */}
-                            <Balon />
+                            <Balon isGol={golHecho} />
                         </Physics>
                     </Suspense>
                     <Controls />

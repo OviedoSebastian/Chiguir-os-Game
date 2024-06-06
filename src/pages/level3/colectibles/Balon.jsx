@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
-import { RigidBody, useRigidBody, RapierRigidBody} from "@react-three/rapier";
+import { RigidBody, useRigidBody, RapierRigidBody } from "@react-three/rapier";
 
-export default function Balon({ props }) {
-  const [visible, setVisible] = useState(true);
+export default function Balon({ isGol }) {
   const refRigidBody = useRef();
+  const [visible, setVisible] = useState(true);
   const { nodes, materials } = useGLTF("/assets/models/colectables/Balon.glb");
   // const ref = useRef<RapierRigidBody>(null);
   const [balonAudio] = useState(new Audio("/assets/sounds/Balon.mp3"));
+  const [positionBalon, setPositionBalon] = useState([1.2, 3, 34]);
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     // console.log("Collision at world position", manifold.solverContactPoint(0));
@@ -19,9 +20,25 @@ export default function Balon({ props }) {
     }
   };
 
+  useEffect(() => {
+    console.log("Se hizo el golsito ignorar", isGol);
+    
+    if (isGol) {
+      console.log("me cambie, yei");
+      refRigidBody.current?.setTranslation(
+            {
+                x: 0,
+                y: 5,
+                z: 7,
+            },
+            true
+        );    
+    }
+  }, [isGol]);
+
   const radius = 0.3;
   const speed = 5;
-
+  // {[1.2, 3, 7.9]}
   return (
     <>
       {visible ? (
@@ -32,10 +49,10 @@ export default function Balon({ props }) {
           onCollisionEnter={(e) => onCollisionEnter(e)}
           name="Balon"
           restitution={1}
-          position={[1.2, 3, 7.9]}
+          position={positionBalon}
           scale={2.2}
         >
-          <group {...props} dispose={null}>
+          <group dispose={null} >
             <mesh
               geometry={nodes.Balon_1.geometry}
               material={materials.Blanco}
@@ -46,7 +63,7 @@ export default function Balon({ props }) {
             />
           </group>
 
-          
+
         </RigidBody>
       ) : null}
     </>

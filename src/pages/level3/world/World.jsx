@@ -94,10 +94,9 @@ export default function World({ finishedLevel, catchGol }) {
                 sensor
                 onIntersectionEnter={(payload) => {
                   if(payload.colliderObject.name == "Balon"){
-                    console.log("GOOOOOOL");
+                    catchGol();
                     setIntersection(true);
                     golSound.play();
-                    catchGol();
                   }
                 }}
               />
