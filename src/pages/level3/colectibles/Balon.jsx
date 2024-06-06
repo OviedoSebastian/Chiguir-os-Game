@@ -1,0 +1,57 @@
+import React, { useEffect, useRef, useState } from "react";
+import { useFrame } from "@react-three/fiber";
+import { useGLTF, useTexture } from "@react-three/drei";
+import { RigidBody, useRigidBody } from "@react-three/rapier";
+
+export default function Balon({ props }) {
+  const [visible, setVisible] = useState(true);
+  const refRigidBody = useRef();
+  const { nodes, materials } = useGLTF("/assets/models/colectables/Balon.glb")
+
+  const [balonAudio] = useState(new Audio("/assets/sounds/Balon.mp3"));
+
+  const onCollisionEnter = ({ manifold, target, other }) => {
+    // console.log("Collision at world position", manifold.solverContactPoint(0));
+
+    if (other.colliderObject.name == "character-capsule-collider") {
+      setVisible(true);
+      balonAudio.play();
+    }
+  };
+
+  const radius = 0.3;
+  const speed = 5;
+
+  return (
+    <>
+      {visible ? (
+        <RigidBody
+          ref={refRigidBody}
+          type="dynamic"
+          colliders="ball"
+          onCollisionEnter={(e) => onCollisionEnter(e)}
+          name="Balon"
+          restitution={1}
+          position={[1.2, 3, 7.9]}
+          scale={2.2}
+        >
+
+          <group {...props} dispose={null}>
+            <mesh
+              geometry={nodes.Balon_1.geometry}
+              material={materials.Blanco}
+            />
+            <mesh
+              geometry={nodes.Balon_2.geometry}
+              material={materials.Negro}
+            />
+          </group>
+
+
+        </RigidBody>
+      ) : null}
+    </>
+  );
+}
+
+useGLTF.preload("/assets/models/colectables/Balon.glb");
