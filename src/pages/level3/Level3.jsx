@@ -11,7 +11,11 @@ import Buttons from "../level1/View/Buttons";
 import { useAuth } from "../../context/AuthContext";
 import { createuser, readUser } from "../../db/users-collection";
 import Ardilla from "./characters/avatar/Ardilla";
-import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
+import {
+    createcheckpoint,
+    editCheckpoint,
+    readCheckpoint,
+} from "../../db/level2-collection";
 import CharacterHudLevel3 from "./hud/CharacterHudLevel3";
 import Portero from "./characters/avatar/Portero";
 import AvatarAthlete from "./characters/avatar/AvatarAthlete";
@@ -28,6 +32,9 @@ export default function Level3() {
     const [checkpoint, setCheckpoint] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [showYouLost, setShowYouLost] = useState(false);
+    const [gol, setGolg] = useState(0);
+    const [golHecho, setGolHecho] = useState(false);
+
     const [fueraMapa, setFueraMapa] = useState(false);
 
     const saveDataUser = async (valueUser) => {
@@ -49,7 +56,6 @@ export default function Level3() {
     };
 
     const readDataCheckpoint = async (email) => {
-
         try {
             const checkpointData = await readCheckpoint(email);
             return checkpointData;
@@ -57,7 +63,6 @@ export default function Level3() {
             console.error(error);
             return null;
         }
-
     };
 
     const savecheckpoint = () => {
@@ -70,52 +75,8 @@ export default function Level3() {
             curado: curao,
             checkpoint: checkpoint,
         });
-
     };
 
-    const loseLife = async () => {
-        // Modificar acorde al nivel
-        
-
-        // const checkpointData = await readDataCheckpoint(auth.userLogged.email);
-        // setVida((prevVida) => prevVida - 1);
-        // setCuraoCogio(false)
-        // setCuraoCogio1(false)
-        // setCuraoCogio2(false)
-
-        // if (checkpointData && checkpointData.checkpoint) {
-        //     setCurao(checkpointData.curado);
-        // } else {
-        //     setCurao(0);
-        //     console.log("No guardaste en el checkpoint :c");
-        // }
-    };
-
-    const fueraDelMapa = () => {
-        setFueraMapa(true);
-    }
-
-    const dentroDelMapa = () => {
-        setFueraMapa(false);
-    }
-
-    const finalizoNivel = () => {
-        console.log("SE TERMINOOO EL NIVEL");
-        setEndLevel(true);
-    };
-
-    const resetPoint = () => {
-        setShowYouLost(true);
-        setVida(3);
-        setCurao(0);
-        setCheckpoint(false);
-        editCheckpoint(auth.userLogged.email, {
-            vidas: 3,
-            curado: 0,
-            checkpoint: checkpoint,
-        });
-    };
-    
     useEffect(() => {
         // para saber todos los valores que se pueden recuperar por medio del
         // inicio de sesion por el correo, imprimir por oconsola lo siguiente console.log(auth.userLogged);
@@ -135,11 +96,56 @@ export default function Level3() {
                 email: email,
                 photoURL: photoURL,
             });
-
         }
     }, [auth.userLogged]);
     //////////////////////////////////////////////////////////////////////////////////
 
+    const finalizoNivel = () => {
+        console.log("SE TERMINOOO EL NIVEL");
+        setEndLevel(true);
+    };
+
+    const resetPoint = () => {
+        setShowYouLost(true);
+        setVida(3);
+        setCurao(0);
+        setGolg(0);
+        setCheckpoint(false);
+        editCheckpoint(auth.userLogged.email, {
+            vidas: 3,
+            curado: 0,
+            checkpoint: checkpoint,
+        });
+    };
+
+    const loseLife = async () => {
+        // Modificar acorde al nivel
+        // const checkpointData = await readDataCheckpoint(auth.userLogged.email);
+        // setVida((prevVida) => prevVida - 1);
+        // setCuraoCogio(false)
+        // setCuraoCogio1(false)
+        // setCuraoCogio2(false)
+        // if (checkpointData && checkpointData.checkpoint) {
+        //     setCurao(checkpointData.curado);
+        // } else {
+        //     setCurao(0);
+        //     console.log("No guardaste en el checkpoint :c");
+        // }
+    };
+
+    const fueraDelMapa = () => {
+        setFueraMapa(true);
+    };
+
+    const dentroDelMapa = () => {
+        setFueraMapa(false);
+    };
+
+    const handleGoals = () => {
+        setGolg((gol) => gol + 1);
+        setGolHecho(true);
+        console.log("GOL ", gol);
+    };
 
     return (
         <>
@@ -155,7 +161,7 @@ export default function Level3() {
                         <Lights />
                         <Environments />
                         <Physics debug={false}>
-                            <World finishedLevel={finalizoNivel} />
+                            <World finishedLevel={finalizoNivel} catchGol={handleGoals} />
                             <LimiteZone position={[0, -10, -90]} fueraDelMapa={fueraDelMapa} />
                             <AvatarAthlete
                                 vida={vida}
@@ -174,7 +180,14 @@ export default function Level3() {
                 </Canvas>
                 <Buttons />
                 <Loader />
-                <CharacterHudLevel3 vidas={vida} userInfo={userInfo} endLevel={endLevel} showYouLost={showYouLost} onContinue={onContinue} />
+                <CharacterHudLevel3
+                    vidas={vida}
+                    userInfo={userInfo}
+                    endLevel={endLevel}
+                    showYouLost={showYouLost}
+                    onContinue={onContinue}
+                    gol={gol}
+                />
             </KeyboardControls>
         </>
     );

@@ -4,7 +4,7 @@ import EndLevel from "./EndLevel";
 import OpenDoor from "./OpenDoor";
 import YouLost from "./YouLost";
 
-const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, isOpenDoor, showYouLost, onContinue }) => {
+const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, isOpenDoor, showYouLost, onContinue, gol }) => {
     const [displayText, setDisplayText] = useState("");
 
     const textToShow =
@@ -68,6 +68,18 @@ const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, isOpenDoor, showYouLost
                     />
                     <span className="hud-text">
                         {vidas}/{3}
+                    </span>
+                </div>
+
+                {/* Goles*/}
+                <div className="hud-item">
+                    <img
+                        src="./assets/icons/Balon.png"
+                        alt="laptop"
+                        className="hud-icon"
+                    />
+                    <span className="hud-text">
+                        {gol}/{2}
                     </span>
                 </div>
 

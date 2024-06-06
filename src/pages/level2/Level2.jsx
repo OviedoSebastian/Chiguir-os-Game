@@ -19,12 +19,15 @@ import Curao from "./colectibles/Curao";
 import Curao2 from "./colectibles/Curao2";
 import Curao3 from "./colectibles/Curao3";
 import AvatarGhost from "./characters/enemies/AvatarGhost";
-import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
+import {
+  createcheckpoint,
+  editCheckpoint,
+  readCheckpoint,
+} from "../../db/level2-collection";
 import CharacterHudLevel2 from "./hud/CharacterHud";
 import LimiteZone from "./world/LimiteZone";
 
-
-export default function Level2() { 
+export default function Level2() {
   const map = useMovements();
   const auth = useAuth();
   const [vida, setVida] = useState(3);
@@ -58,15 +61,13 @@ export default function Level2() {
   };
 
   const readDataCheckpoint = async (email) => {
-  
-      try {
-        const checkpointData = await readCheckpoint(email);
-        return checkpointData;
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-      
+    try {
+      const checkpointData = await readCheckpoint(email);
+      return checkpointData;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   };
 
   const savecheckpoint = () => {
@@ -79,7 +80,6 @@ export default function Level2() {
       curado: curao,
       checkpoint: checkpoint,
     });
-
   };
 
   useEffect(() => {
@@ -101,7 +101,6 @@ export default function Level2() {
         email: email,
         photoURL: photoURL,
       });
-
     }
   }, [auth.userLogged]);
   //////////////////////////////////////////////////////////////////////////////////
@@ -124,20 +123,18 @@ export default function Level2() {
   };
 
   const loseLife = async () => {
-
     const checkpointData = await readDataCheckpoint(auth.userLogged.email);
     setVida((prevVida) => prevVida - 1);
-    setCuraoCogio(false)
-    setCuraoCogio1(false)
-    setCuraoCogio2(false)
+    setCuraoCogio(false);
+    setCuraoCogio1(false);
+    setCuraoCogio2(false);
 
-    if(checkpointData && checkpointData.checkpoint){
+    if (checkpointData && checkpointData.checkpoint) {
       setCurao(checkpointData.curado);
-    }else{
+    } else {
       setCurao(0);
       console.log("No guardaste en el checkpoint :c");
     }
-    
   };
 
   const actualizarVida = (nuevaVida) => {
@@ -146,11 +143,11 @@ export default function Level2() {
 
   const fueraDelMapa = () => {
     setFueraMapa(true);
-  }
+  };
 
   const dentroDelMapa = () => {
     setFueraMapa(false);
-  }
+  };
 
   const handleCurao = () => {
     setCurao((curao) => curao + 1);
@@ -162,7 +159,6 @@ export default function Level2() {
     setCuraoCogio1(true);
   };
 
-
   const handleCurao2 = () => {
     setCurao((curao) => curao + 1);
     setCuraoCogio2(true);
@@ -173,7 +169,7 @@ export default function Level2() {
       setJumpVel(10);
     }
   }, [curao]);
-  
+
   return (
     <>
       <KeyboardControls map={map}>
@@ -190,7 +186,10 @@ export default function Level2() {
             <Environments />
             <Physics debug={false}>
               <World finishedLevel={finalizoNivel} />
-              <LimiteZone position={[135, -15, -8]} fueraDelMapa={fueraDelMapa} />
+              <LimiteZone
+                position={[135, -15, -8]}
+                fueraDelMapa={fueraDelMapa}
+              />
               {/* <AvatarEngineer /> */}
               <AvatarCientific
                 jumpHeight={jumpVel}
@@ -201,19 +200,39 @@ export default function Level2() {
               />
               <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint} />
               {/* <Ardilla position={[-15,1.28,5]}/> */}
-              <AvatarGhost position={[37, -11.6, 60]} loseLife={loseLife} changeSpeed={curao} />
-              <AvatarGhost position={[41, -11.6, -65]} loseLife={loseLife} changeSpeed={curao} />
-              <AvatarGhost position={[56.6, -10.5, 1.7]} loseLife={loseLife} changeSpeed={curao} />
+              <AvatarGhost
+                position={[37, -11.6, 60]}
+                loseLife={loseLife}
+                changeSpeed={curao}
+              />
+              <AvatarGhost
+                position={[41, -11.6, -65]}
+                loseLife={loseLife}
+                changeSpeed={curao}
+              />
+              <AvatarGhost
+                position={[56.6, -10.5, 1.7]}
+                loseLife={loseLife}
+                changeSpeed={curao}
+              />
               <Curao catchCurao={handleCurao} curaitoCogio={curaoCogio} />
-              <Curao2 catchCurao={handleCurao1} curaitoCogio={curaoCogio1}/>
-              <Curao3 catchCurao={handleCurao2} curaitoCogio={curaoCogio2}/>
+              <Curao2 catchCurao={handleCurao1} curaitoCogio={curaoCogio1} />
+              <Curao3 catchCurao={handleCurao2} curaitoCogio={curaoCogio2} />
             </Physics>
           </Suspense>
           <WelcomeText />
           <Controls />
         </Canvas>
         <Loader />
-        <CharacterHudLevel2 vidas={vida} curao={curao} userInfo={userInfo} endLevel={endLevel} jumpHeight={jumpVel} showYouLost={showYouLost} onContinue={onContinue} />
+        <CharacterHudLevel2
+          vidas={vida}
+          curao={curao}
+          userInfo={userInfo}
+          endLevel={endLevel}
+          jumpHeight={jumpVel}
+          showYouLost={showYouLost}
+          onContinue={onContinue}
+        />
       </KeyboardControls>
     </>
   );
