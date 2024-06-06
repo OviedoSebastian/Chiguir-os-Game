@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./hud.css";
 import EndLevel from "./EndLevel";
-import JumpImpulse from "./JumpImpulse";
+import OpenDoor from "./OpenDoor";
 import YouLost from "./YouLost";
 
-const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, jumpHeight, showYouLost, onContinue, gol}) => {
+const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, isOpenDoor, showYouLost, onContinue, gol }) => {
     const [displayText, setDisplayText] = useState("");
 
     const textToShow =
@@ -117,8 +117,8 @@ const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, jumpHeight, showYouLost
 
             {/* Impulso de salto activado */}
             <div>
-                {jumpHeight == 10 && (
-                    <JumpImpulse />
+                {isOpenDoor && (
+                    <OpenDoor />
                 )}
             </div>
 

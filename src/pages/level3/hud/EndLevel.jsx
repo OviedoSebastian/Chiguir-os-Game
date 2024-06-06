@@ -14,11 +14,15 @@ const EndLevel = ({}) => {
     }
 
     return (
-        <div className="end-level-container">
+        <>
+        <div >
             <Confetti
                 width={width}
                 height={height}
             />
+        </div>
+        <div className="end-level-container">
+            
             <div className="end-level-message">
                 ¡Felicidades, terminaste el nivel!
             </div>
@@ -26,6 +30,7 @@ const EndLevel = ({}) => {
                 Siguiente Nivel
             </button>
         </div>
+        </>
     );
 };
 

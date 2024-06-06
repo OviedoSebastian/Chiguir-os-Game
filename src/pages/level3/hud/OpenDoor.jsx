@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './jumpImpulse.css';
+import './openDoor.css';
 
-const JumpImpulse = () => {
+const OpenDoor = () => {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {
@@ -15,10 +15,10 @@ const JumpImpulse = () => {
     if (!visible) return null;
 
     return (
-        <div className="jump-impulse-container">
-            <p>¡Tu impulso de salto ha aumentado! Ahora puedes saltar más alto.</p>
+        <div className="open-door-container">
+            <p>¡La puerta está abierta, puedes escapar!.</p>
         </div>
     );
 };
 
-export default JumpImpulse;
+export default OpenDoor;

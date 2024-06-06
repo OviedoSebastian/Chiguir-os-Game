@@ -6,12 +6,11 @@ import {
 } from "@react-three/rapier";
 import { useRef, useState, Suspense} from "react";
 
-export default function World(finishedLevel, catchGol) {
+export default function World({ finishedLevel, catchGol }) {
   const { nodes, materials } = useGLTF("/assets/models/world/Coliseov9.glb");
   const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
   const [golSound] = useState(new Audio("/assets/sounds/Gol.mp3"));
   endSound.loop = false;
-  const trofeoRef = useRef();
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if (other.colliderObject.name == "character-capsule-collider") {
@@ -34,6 +33,22 @@ export default function World(finishedLevel, catchGol) {
 
   return (
     <>
+      <RigidBody type="fixed" position={[0,0,42]} >
+        <group >
+          <mesh rotation={[0, 0, 0]} >
+            <boxGeometry args={[10, 4, 0]} />
+            <meshStandardMaterial transparent={0} opacity={0} />
+          </mesh>
+        </group>
+      </RigidBody>
+      <RigidBody type="fixed" position={[0,0,-26]} >
+        <group >
+          <mesh rotation={[0, 0, 0]} >
+            <boxGeometry args={[10, 4, 0]} />
+            <meshStandardMaterial transparent={0} opacity={0} />
+          </mesh>
+        </group>
+      </RigidBody>
       <RigidBody type="fixed" colliders={false}>
         <group dispose={null}>
           <group>
