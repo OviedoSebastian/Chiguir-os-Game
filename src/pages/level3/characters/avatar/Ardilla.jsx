@@ -20,10 +20,8 @@ export default function Ardilla({position, savecheckpoint}) {
     // console.log("Collision at world position", other.colliderObject.name);
 
     if (other.colliderObject.name == "character-capsule-collider") {
-
       savecheckpoint();
       ardillaSound.play();
-      setPosition([-15, 1.28, 5]);
       console.log("Checkpoint");
       } else {
         console.log(

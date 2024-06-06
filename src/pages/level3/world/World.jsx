@@ -10,7 +10,7 @@ export default function World({ finishedLevel, catchGol }) {
   const { nodes, materials } = useGLTF("/assets/models/world/Coliseov9.glb");
   const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
   const [golSound] = useState(new Audio("/assets/sounds/Gol.mp3"));
-  endSound.loop = false;
+  const [intersecting, setIntersection] = useState(false);
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if (other.colliderObject.name == "character-capsule-collider") {
@@ -27,8 +27,16 @@ export default function World({ finishedLevel, catchGol }) {
     }
   };
 
-  const [intersecting, setIntersection] = useState(false);
-
+  const handleIntersectionEnter = (payload) => {
+    if (payload.colliderObject.name === "Balon") {
+      setIntersection(true);
+      golSound.play();
+      catchGol();
+    }
+  };
+  const handleIntersectionExit = () => {
+    setIntersection(false);
+  };
   // console.log("intersecting", IntersectionEnterPayload);
 
   return (
@@ -89,17 +97,11 @@ export default function World({ finishedLevel, catchGol }) {
               />
 
               <CuboidCollider 
-                position={[0.95, 2, 36.5]}
-                args={[2.1, 1, 0.2]}
+                position={[0.95, 2.1, 36]}
+                args={[2.25, 1, 0]}
                 sensor
-                onIntersectionEnter={(payload) => {
-                  if(payload.colliderObject.name == "Balon"){
-                    console.log("GOOOOOOL");
-                    setIntersection(true);
-                    golSound.play();
-                    catchGol();
-                  }
-                }}
+                onIntersectionEnter={handleIntersectionEnter}
+                onIntersectionExit={handleIntersectionExit}
               />
             </RigidBody>
 
