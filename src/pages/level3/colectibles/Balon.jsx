@@ -32,7 +32,8 @@ export default function Balon({ props }) {
           onCollisionEnter={(e) => onCollisionEnter(e)}
           name="Balon"
           restitution={1}
-          position={[1.2, 3, 7.9]}
+          position={[1.2, 3, 33]}
+          // position={[1.2, 3, 7.9]}
           scale={2.2}
         >
           <group {...props} dispose={null}>
