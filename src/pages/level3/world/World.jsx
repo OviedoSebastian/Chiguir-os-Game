@@ -1,11 +1,15 @@
 import { useGLTF } from "@react-three/drei";
-import { RigidBody } from "@react-three/rapier";
-import { useRef, useState } from "react";
+import {
+  RigidBody,
+  CuboidCollider,
+  RapierRigidBody,
+} from "@react-three/rapier";
+import { useRef, useState, Suspense} from "react";
 
-
-export default function World(finishedLevel) {
+export default function World(finishedLevel, catchGol) {
   const { nodes, materials } = useGLTF("/assets/models/world/Coliseov9.glb");
   const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
+  const [golSound] = useState(new Audio("/assets/sounds/Gol.mp3"));
   endSound.loop = false;
   const trofeoRef = useRef();
 
@@ -23,6 +27,10 @@ export default function World(finishedLevel) {
       );
     }
   };
+
+  const [intersecting, setIntersection] = useState(false);
+
+  // console.log("intersecting", IntersectionEnterPayload);
 
   return (
     <>
@@ -57,6 +65,29 @@ export default function World(finishedLevel) {
                 />
               </RigidBody>
             </group>
+
+            {/* Arcos */}
+            <RigidBody type="fixed" colliders="trimesh">
+              <mesh
+                geometry={nodes.Arcos.geometry}
+                material={materials.ArcosMat}
+              />
+
+              <CuboidCollider 
+                position={[0.95, 2, 36.5]}
+                args={[2.1, 1, 0.2]}
+                sensor
+                onIntersectionEnter={(payload) => {
+                  if(payload.colliderObject.name == "Balon"){
+                    console.log("GOOOOOOL");
+                    setIntersection(true);
+                    golSound.play();
+                    catchGol();
+                  }
+                }}
+              />
+            </RigidBody>
+
             <RigidBody type="fixed" colliders="hull">
               <group>
                 <mesh
@@ -114,10 +145,7 @@ export default function World(finishedLevel) {
                   material={materials.TechoColiseo}
                 />
               </group>
-              <mesh
-                geometry={nodes.Arcos.geometry}
-                material={materials.ArcosMat}
-              />
+
               <mesh
                 geometry={nodes.BarandasEscaleras.geometry}
                 material={materials.BarandasMat}

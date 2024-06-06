@@ -5,6 +5,7 @@ import { RigidBody } from "@react-three/rapier";
 export default function World({ finishedLevel }) {
   const { nodes, materials } = useGLTF("/assets/models/world/Bosquev8.glb");
   const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
+  const [golSound] = useState(new Audio("/assets/sounds/Gol.mp3"));
   endSound.loop = true;
   const trofeoRef = useRef();
 

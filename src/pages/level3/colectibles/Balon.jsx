@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
-import { RigidBody, useRigidBody } from "@react-three/rapier";
+import { RigidBody, useRigidBody, RapierRigidBody} from "@react-three/rapier";
 
 export default function Balon({ props }) {
   const [visible, setVisible] = useState(true);
   const refRigidBody = useRef();
-  const { nodes, materials } = useGLTF("/assets/models/colectables/Balon.glb")
-
+  const { nodes, materials } = useGLTF("/assets/models/colectables/Balon.glb");
+  // const ref = useRef<RapierRigidBody>(null);
   const [balonAudio] = useState(new Audio("/assets/sounds/Balon.mp3"));
 
   const onCollisionEnter = ({ manifold, target, other }) => {
@@ -35,7 +35,6 @@ export default function Balon({ props }) {
           position={[1.2, 3, 7.9]}
           scale={2.2}
         >
-
           <group {...props} dispose={null}>
             <mesh
               geometry={nodes.Balon_1.geometry}
@@ -47,7 +46,7 @@ export default function Balon({ props }) {
             />
           </group>
 
-
+          
         </RigidBody>
       ) : null}
     </>
