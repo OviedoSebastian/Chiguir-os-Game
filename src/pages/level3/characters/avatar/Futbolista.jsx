@@ -140,3 +140,4 @@ export default function Futbolista ({ jumpHeight, vida, resetPoint, offTheMap, d
 
 
 useGLTF.preload('/assets/models/avatars/Futbolista.glb');
+

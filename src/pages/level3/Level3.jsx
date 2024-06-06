@@ -6,8 +6,6 @@ import Environments from "./staging/Environments";
 import { Canvas } from "@react-three/fiber";
 import World from "./world/World";
 import Controls from "./controls/Controls";
-import Futbolista from "./characters/avatar/Futbolista";
-import FutbolistaEnemigo from "./characters/avatar/FutbolistaEnemigo";
 import useMovements from "../../utils/key-movements";
 import Buttons from "../level1/View/Buttons";
 import { useAuth } from "../../context/AuthContext";
@@ -15,14 +13,18 @@ import { createuser, readUser } from "../../db/users-collection";
 import Ardilla from "./characters/avatar/Ardilla";
 import { createcheckpoint, editCheckpoint, readCheckpoint } from "../../db/level2-collection";
 import CharacterHudLevel3 from "./hud/CharacterHudLevel3";
-import LimiteZone from "./world/LimiteZone";
+import Portero from "./characters/avatar/Portero";
+import AvatarAthlete from "./characters/avatar/AvatarAthlete";
+import SpeedMenox from "./colectibles/SpeedMenox";
+import Panino from "./colectibles/Panino";
+import Balon from "./colectibles/Balon";
 
 export default function Level3() {
     const map = useMovements();
     const auth = useAuth();
     const [vida, setVida] = useState(3);
     const [endLevel, setEndLevel] = useState(false);
-    const [jumpVel, setJumpVel] = useState(10);
+    const [jumpVel, setJumpVel] = useState(4);
     const [checkpoint, setCheckpoint] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [showYouLost, setShowYouLost] = useState(false);
@@ -153,18 +155,20 @@ export default function Level3() {
                     <Suspense fallback={null}>
                         <Lights />
                         <Environments />
-                        <Physics debug={true}>
+                        <Physics debug={false}>
                             <World finishedLevel={finalizoNivel} />
-                            <LimiteZone position={[0, -15, -70]} fueraDelMapa={fueraDelMapa} />
-                            <Futbolista
+                            <AvatarAthlete
                                 jumpHeight={jumpVel}
                                 vida={vida}
                                 resetPoint={resetPoint}
                                 offTheMap={fueraMapa}
                                 dentroDelMapa={dentroDelMapa}
                             />
-                            <FutbolistaEnemigo position={[0, 10, 0]} loseLife={loseLife} />
-                            <Ardilla position={[-21, 3, 5]} savecheckpoint={savecheckpoint} />
+                            <Portero position={[0.5, 2, 36]} />
+                            <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
+                            {/* <SpeedMenox/> */}
+                            {/* <Panino/> */}
+                            <Balon/>
                         </Physics>
                     </Suspense>
                     <Controls />
