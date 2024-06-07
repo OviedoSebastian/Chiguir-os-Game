@@ -23,13 +23,16 @@ import SpeedMenox from "./colectibles/SpeedMenox";
 import Panino from "./colectibles/Panino";
 import Balon from "./colectibles/Balon";
 import LimiteZone from "./world/LimiteZone";
+import Curao from "../level2/colectibles/Curao";
 
 export default function Level3() {
     const map = useMovements();
     const auth = useAuth();
     const [vida, setVida] = useState(3);
     const [speedMenox, setSpeedMenox] = useState(0);
+    const [takeSpeed, setTakeSpeed] = useState(false);
     const [panino, setPanino] = useState(0);
+    const [takePanino, setTakePanino] = useState(false);
     const [endLevel, setEndLevel] = useState(false);
     const [checkpoint, setCheckpoint] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
@@ -158,18 +161,28 @@ export default function Level3() {
 
     const handleGoals = () => {
         if (!cooldown) {
-          setGolg(gol + 1);
-          setGolHecho(true);
-          console.log("GOL ", gol);
-    
-          setCooldown(true); // Activar el cooldown
-    
-          // Desactivar el cooldown después de un segundo
-          setTimeout(() => {
-            setCooldown(false);
-          }, 1000);
+            setGolg(gol + 1);
+            setGolHecho(true);
+            console.log("GOL ", gol);
+
+            setCooldown(true); // Activar el cooldown
+
+            // Desactivar el cooldown después de un segundo
+            setTimeout(() => {
+                setCooldown(false);
+            }, 1000);
         }
-      };
+    };
+
+    const handleSpeedMenox = () => {
+        setSpeedMenox((speedMenox) => speedMenox + 1);
+        setTakeSpeed(true);
+    };
+
+    const handlePanino = () => {
+        setPanino((panino) => panino + 1);
+        setTakePanino(true);
+    };
 
     return (
         <>
@@ -186,7 +199,7 @@ export default function Level3() {
                         <Environments />
                         <Physics debug={false}>
                             <World finishedLevel={finalizoNivel} catchGol={handleGoals} />
-                            <LimiteZone position={[0, -10, -90]} fueraDelMapa={fueraDelMapa} />
+                            <LimiteZone position={[0, -10, 0]} fueraDelMapa={fueraDelMapa} />
                             <AvatarAthlete
                                 vida={vida}
                                 resetPoint={resetPoint}
@@ -195,9 +208,9 @@ export default function Level3() {
                             />
                             <Portero position={[0.5, 2, 36]} />
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
-                            {/* <SpeedMenox/> */}
-                            {/* <Panino/> */}
-                            <Balon isGol={golHecho} notIsGoal={notGoal} />
+                            {/* <SpeedMenox catchSpeed={handleSpeedMenox} takeSpeedMenox={takeSpeed} /> */}
+                            {/* <Panino catchPanino={handlePanino} takePanino={takePanino} />  */}
+                            <Balon isGol={golHecho} notIsGoal={notGoal} gol={gol} />
                         </Physics>
                     </Suspense>
                     <Controls />
@@ -211,6 +224,8 @@ export default function Level3() {
                     showYouLost={showYouLost}
                     onContinue={onContinue}
                     gol={gol}
+                    speedMenox={speedMenox}
+                    panino={panino}
                 />
             </KeyboardControls>
         </>

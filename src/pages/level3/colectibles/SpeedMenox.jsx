@@ -1,31 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF, useTexture } from "@react-three/drei";
-import { RigidBody, useRigidBody } from "@react-three/rapier";
+import { useGLTF } from "@react-three/drei";
+import { RigidBody } from "@react-three/rapier";
 
 export default function SpeedMenox({
-  props,
-  catchCurao,
-  posicion,
-  positionCurao,
-  curaitoCogio,
+  catchSpeed,
+  takeSpeedMenox,
 }) {
   const { nodes, materials } = useGLTF(
     "/assets/models/colectables/speedMenox.glb"
   );
   const [position, setPosition] = useState([5, 3, 5]);
-  const [numeroDeBotellas, setNumeroDeBotellas] = useState(0);
-  const [curaoBro, setCuraoBro] = useState(false);
   const [visible, setVisible] = useState(true);
   const refRigidBody = useRef();
+  const radius = 0.3;
+  const speed = 5;
 
   useEffect(() => {
-    if (curaitoCogio) {
+    if (takeSpeedMenox) {
       setVisible(false);
     } else {
       setVisible(true);
     }
-  }, [curaitoCogio]);
+  }, [takeSpeedMenox]);
 
   const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
 
@@ -35,12 +32,9 @@ export default function SpeedMenox({
     if (other.colliderObject.name == "character-capsule-collider") {
       setVisible(false);
       curaoSound.play();
-      catchCurao();
+      catchSpeed();
     }
   };
-
-  const radius = 0.3;
-  const speed = 5;
 
   useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
@@ -67,10 +61,10 @@ export default function SpeedMenox({
           type="fixed"
           colliders="cuboid"
           onCollisionEnter={(e) => onCollisionEnter(e)}
-          name="Curao"
-          position={posicion}
+          name="SpeedMenox"
+          position={[5, 3, 5]}
         >
-          <group {...props} dispose={null}>
+          <group dispose={null} ref={refRigidBody} >
             <mesh
               geometry={nodes.Speed.geometry}
               material={materials.SpeedMenoxColor}

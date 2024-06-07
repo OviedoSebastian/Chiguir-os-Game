@@ -13,7 +13,7 @@ export default function LimiteZone({ position, fueraDelMapa }) {
     return (
         <RigidBody type="fixed" position={position} onCollisionEnter={(e) => onCollisionEnter(e)}>
             <mesh ref={squareRef} rotation={[0, 0, 0]} >
-                <boxGeometry args={[100, 1, 80]} />
+                <boxGeometry args={[150, 1, 250]} />
                 <meshStandardMaterial transparent={0} opacity={0} />
             </mesh>
         </RigidBody>

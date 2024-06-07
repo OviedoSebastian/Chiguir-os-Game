@@ -42,7 +42,7 @@ export default function AvatarCientific({ vida, resetPoint, offTheMap, dentroDel
                 {
                     x: 0,
                     y: 10,
-                    z: -60,
+                    z: -50,
                 },
                 true
             );
