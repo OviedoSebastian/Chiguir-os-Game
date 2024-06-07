@@ -23,6 +23,8 @@ import SpeedMenox from "./colectibles/SpeedMenox";
 import Panino from "./colectibles/Panino";
 import Balon from "./colectibles/Balon";
 import LimiteZone from "./world/LimiteZone";
+import { Perf } from "r3f-perf";
+
 
 export default function Level3() {
     const map = useMovements();
@@ -194,7 +196,7 @@ export default function Level3() {
                         position: [0, 1, 0],
                     }}
                 >
-                    {/* <Perf position="top-left" /> */}
+                    <Perf position="top-left" />
                     <Suspense fallback={null}>
                         <Lights />
                         <Environments />
@@ -210,7 +212,7 @@ export default function Level3() {
                             <Portero position={[0.5, 2, 36]} />
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
                             <SpeedMenox catchSpeed={handleSpeedMenox} />
-                            {/* <Panino catchPanino={handlePanino} takePanino={takePanino} />  */}
+                            <Panino catchPanino={handlePanino} takePanino={takePanino} /> 
                             <Balon isGol={golHecho} notIsGoal={notGoal} gol={gol} />
                         </Physics>
                     </Suspense>

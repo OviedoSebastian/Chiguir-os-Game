@@ -21,10 +21,8 @@ export default function Balon({ isGol, notIsGoal, gol }) {
   };
 
   useEffect(() => {
-    console.log("Se hizo el golsito ignorar", isGol);
     
     if (isGol) {
-      console.log("me cambie, yei");
       refRigidBody.current?.setTranslation(
             {
                 x: 0,
@@ -38,8 +36,6 @@ export default function Balon({ isGol, notIsGoal, gol }) {
   }, [isGol]);
 
   useEffect(() => {
-    console.log("Se hizo el golsito ignorar", isGol);
-    
     if (gol == 2) {
       setVisible(false)
     }

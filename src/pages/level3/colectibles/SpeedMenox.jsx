@@ -7,6 +7,7 @@ export default function SpeedMenox({ catchSpeed, }) {
 
   const { nodes, materials } = useGLTF( "/assets/models/colectables/speedMenox_less.glb" );
   const [position, setPosition] = useState([1.2, 3.2, 50]);
+  // const [position, setPosition] = useState([1.2, 3.2, 50]);
   const [visible, setVisible] = useState(true);
   const [collisionCount, setCollisionCount] = useState(0);
   const refRigidBody = useRef();
@@ -17,20 +18,20 @@ export default function SpeedMenox({ catchSpeed, }) {
 
 
   const onCollisionEnter = ({ manifold, target, other }) => {
-
-    const currentTime = performance.now(); // Obtener la marca de tiempo actual
+    const currentTime = performance.now();
     const timeSinceLastCollision = currentTime - lastCollisionTime.current;
 
-    if (other.colliderObject.name === "character-capsule-collider" & timeSinceLastCollision > 1000) {
-      setCollisionCount((prevCount) => prevCount + 1);
+    if ( (other.colliderObject.name === "character-capsule-collider") && (timeSinceLastCollision > 1000) ) {
+      lastCollisionTime.current = currentTime;
+      setCollisionCount(collisionCount + 1);
       curaoSound.play();
       catchSpeed();
       
       if (collisionCount === 0) {
         console.log("Primera recoleccion");
+        setPosition([1, 8, -35]);
         // Change position after the first collision
-        setPosition([1, 8, -35]); // Set the new position as desired
-      } else if (collisionCount >= 1) {
+      } else if (collisionCount === 1) {
         // Hide after the second collision
         console.log("Segunda recoleccion");
         setVisible(false);
@@ -39,20 +40,21 @@ export default function SpeedMenox({ catchSpeed, }) {
   };
 
   useFrame(({ clock }) => {
-    const elapsedTime = clock.getElapsedTime();
-    const angle = elapsedTime * speed;
-    const x = Math.sin(angle) * radius;
-    const y = Math.cos(angle) * radius;
-    // refRigidBody.current.rotation.y = angle;
+    if (refRigidBody.current && visible) {
+      const elapsedTime = clock.getElapsedTime();
+      const angle = elapsedTime * speed;
+      const x = Math.sin(angle) * radius;
+      const y = Math.cos(angle) * radius;
 
-    refRigidBody.current?.setTranslation(
-      {
-        x: position[0],
-        y: position[1] + y,
-        z: position[2],
-      },
-      true
-    );
+      refRigidBody.current.setTranslation(
+        {
+          x: position[0],
+          y: position[1] + y,
+          z: position[2],
+        },
+        true
+      );
+    }
   });
 
   return (

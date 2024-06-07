@@ -29,6 +29,7 @@ export default function Panino({ props, catchPanino, takePanino, }) {
       setVisible(false);
       curaoSound.play();
       catchPanino();
+
     }
   };
 
