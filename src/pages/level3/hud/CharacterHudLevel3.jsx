@@ -4,7 +4,7 @@ import EndLevel from "./EndLevel";
 import OpenDoor from "./OpenDoor";
 import YouLost from "./YouLost";
 
-const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, isOpenDoor, showYouLost, onContinue, gol }) => {
+const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, showYouLost, onContinue, gol, speedMenox, panino }) => {
     const [displayText, setDisplayText] = useState("");
 
     const textToShow =
@@ -55,7 +55,7 @@ const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, isOpenDoor, showYouLost
                         className="hud-icon"
                     />
                     <span className="hud-text">
-                        {vidas}/{3}
+                        {speedMenox}/{2}
                     </span>
                 </div>
 
@@ -67,7 +67,7 @@ const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, isOpenDoor, showYouLost
                         className="hud-icon"
                     />
                     <span className="hud-text">
-                        {vidas}/{3}
+                        {panino}/{4}
                     </span>
                 </div>
 
@@ -115,9 +115,9 @@ const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, isOpenDoor, showYouLost
                 )}
             </div>
 
-            {/* Impulso de salto activado */}
+            {/* Puerta abierta */}
             <div>
-                {isOpenDoor && (
+                {gol == 2 && (
                     <OpenDoor />
                 )}
             </div>

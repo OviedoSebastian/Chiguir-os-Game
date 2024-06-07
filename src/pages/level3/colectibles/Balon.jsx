@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody, useRigidBody, RapierRigidBody } from "@react-three/rapier";
 
-export default function Balon({ isGol, notIsGoal }) {
+export default function Balon({ isGol, notIsGoal, gol }) {
   const refRigidBody = useRef();
   const [visible, setVisible] = useState(true);
   const { nodes, materials } = useGLTF("/assets/models/colectables/Balon.glb");
@@ -37,8 +37,14 @@ export default function Balon({ isGol, notIsGoal }) {
     }
   }, [isGol]);
 
-  const radius = 0.3;
-  const speed = 5;
+  useEffect(() => {
+    console.log("Se hizo el golsito ignorar", isGol);
+    
+    if (gol == 2) {
+      setVisible(false)
+    }
+  }, [gol]);
+
   // {[1.2, 3, 7.9]}
   return (
     <>

@@ -1,31 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF, useTexture } from "@react-three/drei";
-import { RigidBody, useRigidBody } from "@react-three/rapier";
+import { useGLTF } from "@react-three/drei";
+import { RigidBody } from "@react-three/rapier";
 
 export default function Panino({
   props,
-  catchCurao,
-  posicion,
-  positionCurao,
-  curaitoCogio,
+  catchPanino,
+  takePanino,
 }) {
   const { nodes, materials } = useGLTF(
     "/assets/models/colectables/Panino.glb"
   );
   const [position, setPosition] = useState([5, 3, 5]);
-  const [numeroDeBotellas, setNumeroDeBotellas] = useState(0);
-  const [curaoBro, setCuraoBro] = useState(false);
   const [visible, setVisible] = useState(true);
   const refRigidBody = useRef();
 
   useEffect(() => {
-    if (curaitoCogio) {
+    if (takePanino) {
       setVisible(false);
     } else {
       setVisible(true);
     }
-  }, [curaitoCogio]);
+  }, [takePanino]);
 
   const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
 
@@ -35,7 +31,7 @@ export default function Panino({
     if (other.colliderObject.name == "character-capsule-collider") {
       setVisible(false);
       curaoSound.play();
-      catchCurao();
+      catchPanino();
     }
   };
 
@@ -67,10 +63,13 @@ export default function Panino({
           type="fixed"
           colliders="cuboid"
           onCollisionEnter={(e) => onCollisionEnter(e)}
-          name="Curao"
-          position={posicion}
+          name="Panino"
+          position={[-5, 3, -5]}
         >
-          <group {...props} dispose={null}>
+          <group {...props}
+            dispose={null}
+            ref={refRigidBody}
+            rotation={[0, 2, 0]} >
             <mesh
               geometry={nodes.PaninoPan.geometry}
               material={materials.Pan}

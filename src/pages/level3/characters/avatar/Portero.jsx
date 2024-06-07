@@ -3,7 +3,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 
-export default function Portero({position}) {
+export default function Portero({ position }) {
 
   const porteroRef = useRef();
   const refPorteroRigidBody = useRef();
