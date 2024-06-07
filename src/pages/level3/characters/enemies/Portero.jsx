@@ -15,12 +15,13 @@ export default function Portero({ position, changeSpeed }) {
   const maxDistance = 1.5; // Maximum distance to move left and right
   const initialPosition = position ? position[0] : 0;
   const [speedPortero, setSpeedPortero] = useState(0.2) // Adjust the speedPortero as needed
+  
 
   useEffect(() => {
     if (changeSpeed === 1){
       setSpeedPortero(0.1)
     }else if(changeSpeed === 2){
-      setSpeedPortero(0.001)
+      setSpeedPortero(0.005)
     }
   },[changeSpeed])
 
