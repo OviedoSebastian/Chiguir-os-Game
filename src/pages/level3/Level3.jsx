@@ -178,7 +178,6 @@ export default function Level3() {
 
     const handleSpeedMenox = () => {
         setSpeedMenox((speedMenox) => speedMenox + 1);
-        setTakeSpeed(true);
     };
 
     const handlePanino = () => {
@@ -210,7 +209,7 @@ export default function Level3() {
                             />
                             <Portero position={[0.5, 2, 36]} />
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
-                            {/* <SpeedMenox catchSpeed={handleSpeedMenox} takeSpeedMenox={takeSpeed} /> */}
+                            <SpeedMenox catchSpeed={handleSpeedMenox} />
                             {/* <Panino catchPanino={handlePanino} takePanino={takePanino} />  */}
                             <Balon isGol={golHecho} notIsGoal={notGoal} gol={gol} />
                         </Physics>

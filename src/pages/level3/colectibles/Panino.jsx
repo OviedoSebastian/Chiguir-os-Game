@@ -3,11 +3,8 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
-export default function Panino({
-  props,
-  catchPanino,
-  takePanino,
-}) {
+export default function Panino({ props, catchPanino, takePanino, }) {
+
   const { nodes, materials } = useGLTF(
     "/assets/models/colectables/Panino.glb"
   );
