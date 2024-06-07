@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
-export default function SpeedMenox({ catchSpeed, }) {
+export default function SpeedMenox({ catchSpeed }) {
 
   const { nodes, materials } = useGLTF( "/assets/models/colectables/speedMenox_less.glb" );
   const [position, setPosition] = useState([1.2, 3.2, 50]);
@@ -15,7 +15,31 @@ export default function SpeedMenox({ catchSpeed, }) {
   const speed = 5;
   const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
   const lastCollisionTime = useRef(0); // Referencia para almacenar la marca de tiempo de la última colisión
+  const requestRef = useRef();
 
+  const animate = () => {
+    if (refRigidBody.current && visible) {
+      const elapsedTime = Date.now() / 1000; // Tiempo en segundos
+      const angle = elapsedTime * speed;
+      const x = Math.sin(angle) * radius;
+      const y = Math.cos(angle) * radius;
+
+      refRigidBody.current.setTranslation(
+        {
+          x: position[0],
+          y: position[1] + y,
+          z: position[2],
+        },
+        true
+      );
+    }
+    requestRef.current = requestAnimationFrame(animate);
+  };
+
+  useEffect(() => {
+    requestRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestRef.current);
+  }, [visible, position]);
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     const currentTime = performance.now();
@@ -39,23 +63,6 @@ export default function SpeedMenox({ catchSpeed, }) {
     }
   };
 
-  useFrame(({ clock }) => {
-    if (refRigidBody.current && visible) {
-      const elapsedTime = clock.getElapsedTime();
-      const angle = elapsedTime * speed;
-      const x = Math.sin(angle) * radius;
-      const y = Math.cos(angle) * radius;
-
-      refRigidBody.current.setTranslation(
-        {
-          x: position[0],
-          y: position[1] + y,
-          z: position[2],
-        },
-        true
-      );
-    }
-  });
 
   return (
     <>
@@ -66,9 +73,9 @@ export default function SpeedMenox({ catchSpeed, }) {
           colliders="cuboid"
           onCollisionEnter={(e) => onCollisionEnter(e)}
           name="SpeedMenox"
-          position={[5, 3, 5]}
+          position={[20, 2, -27]}
         >
-          <group>
+          <group dispose={null} ref={refRigidBody} >
             <mesh
               geometry={nodes.geometry_0.geometry}
               material={materials.Material_0}

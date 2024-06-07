@@ -3,8 +3,11 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
-export default function Panino({ props, catchPanino, takePanino, }) {
-
+export default function Panino({
+  props,
+  catchPanino,
+  takePanino,
+}) {
   const { nodes, materials } = useGLTF(
     "/assets/models/colectables/Panino.glb"
   );
@@ -29,29 +32,12 @@ export default function Panino({ props, catchPanino, takePanino, }) {
       setVisible(false);
       curaoSound.play();
       catchPanino();
-
     }
   };
 
   const radius = 0.3;
   const speed = 5;
 
-  useFrame(({ clock }) => {
-    const elapsedTime = clock.getElapsedTime();
-    const angle = elapsedTime * speed;
-    const x = Math.sin(angle) * radius;
-    const y = Math.cos(angle) * radius;
-    // refRigidBody.current.rotation.y = angle;
-
-    refRigidBody.current?.setTranslation(
-      {
-        x: position[0],
-        y: position[1] + y,
-        z: position[2],
-      },
-      true
-    );
-  });
 
   return (
     <>
