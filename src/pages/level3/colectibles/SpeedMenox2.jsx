@@ -8,7 +8,7 @@ export default function SpeedMenox2({
     takeSpeedMenox,
 }) {
     const { nodes, materials } = useGLTF(
-        "/assets/models/colectables/speedMenox.glb"
+        "/assets/models/colectables/speedMenox_less.glb"
     );
     const [position, setPosition] = useState([5, 3, 5]);
     const [visible, setVisible] = useState(true);
@@ -62,13 +62,14 @@ export default function SpeedMenox2({
                     type="fixed"
                     colliders="cuboid"
                     onCollisionEnter={(e) => onCollisionEnter(e)}
-                    name="SpeedMenox"
+                    name="SpeedMenox2"
                     position={[-21, 2, 43]}
                 >
                     <group dispose={null} ref={refRigidBody} >
                         <mesh
-                            geometry={nodes.Speed.geometry}
-                            material={materials.SpeedMenoxColor}
+                            geometry={nodes.geometry_0.geometry}
+                            material={materials.Material_0}
+                            position={[-0.002, 0.56, 0.011]}
                         />
                     </group>
                 </RigidBody>
@@ -77,4 +78,4 @@ export default function SpeedMenox2({
     );
 }
 
-useGLTF.preload("/assets/models/colectables/speedMenox.glb");
+useGLTF.preload("/assets/models/colectables/speedMenox_less.glb");
