@@ -35,7 +35,8 @@ export default function Panino({ props, catchPanino, takePanino, }) {
   const radius = 0.3;
   const speed = 5;
 
-  useFrame(({ clock }) => {
+  // Esta helper afecta el rendimiento del nivel
+  /*  useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
     const angle = elapsedTime * speed;
     const x = Math.sin(angle) * radius;
@@ -50,7 +51,7 @@ export default function Panino({ props, catchPanino, takePanino, }) {
       },
       true
     );
-  });
+  }); */
 
   return (
     <>
@@ -61,7 +62,7 @@ export default function Panino({ props, catchPanino, takePanino, }) {
           colliders="cuboid"
           onCollisionEnter={(e) => onCollisionEnter(e)}
           name="Panino"
-          position={[-5, 3, -5]}
+          position={[-5, 2, -5]}
         >
           <group {...props}
             dispose={null}

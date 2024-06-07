@@ -23,6 +23,10 @@ import SpeedMenox from "./colectibles/SpeedMenox";
 import Panino from "./colectibles/Panino";
 import Balon from "./colectibles/Balon";
 import LimiteZone from "./world/LimiteZone";
+import SpeedMenox2 from "./colectibles/SpeedMenox2";
+import Panino2 from "./colectibles/Panino2";
+import Panino3 from "./colectibles/Panino3";
+import Panino4 from "./colectibles/Panino4";
 
 export default function Level3() {
     const map = useMovements();
@@ -30,8 +34,12 @@ export default function Level3() {
     const [vida, setVida] = useState(3);
     const [speedMenox, setSpeedMenox] = useState(0);
     const [takeSpeed, setTakeSpeed] = useState(false);
+    const [takeSpeed2, setTakeSpeed2] = useState(false);
     const [panino, setPanino] = useState(0);
     const [takePanino, setTakePanino] = useState(false);
+    const [takePanino2, setTakePanino2] = useState(false);
+    const [takePanino3, setTakePanino3] = useState(false);
+    const [takePanino4, setTakePanino4] = useState(false);
     const [endLevel, setEndLevel] = useState(false);
     const [checkpoint, setCheckpoint] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
@@ -39,7 +47,7 @@ export default function Level3() {
     const [gol, setGolg] = useState(0);
     const [golHecho, setGolHecho] = useState(false);
     const [cooldown, setCooldown] = useState(false);
-
+    const [openDoor, setOpenDoor] = useState(false);
     const [fueraMapa, setFueraMapa] = useState(false);
 
     const saveDataUser = async (valueUser) => {
@@ -118,20 +126,21 @@ export default function Level3() {
         setSpeedMenox(0);
         setGolg(0);
         setCheckpoint(false);
+        setOpenDoor(false);
         editCheckpoint(auth.userLogged.email, {
             vidas: 3,
             panino: 0,
             speedMenox: 0,
             gol: 0,
             checkpoint: checkpoint,
-            
+
         });
     };
 
     const loseLife = async () => {
         //Modificar acorde al nivel
         const checkpointData = await readDataCheckpoint(auth.userLogged.email);
-        setVida( vida - 1);
+        setVida(vida - 1);
         if (checkpointData && checkpointData.checkpoint) {
             setPanino(checkpointData.panino);
             setSpeedMenox(checkpointData.speedMenox);
@@ -146,6 +155,7 @@ export default function Level3() {
 
     const fueraDelMapa = () => {
         setFueraMapa(true);
+        loseLife();
     };
 
     const dentroDelMapa = () => {
@@ -154,11 +164,6 @@ export default function Level3() {
 
     const notGoal = () => {
         setGolHecho(false);
-    };
-
-    const winMatch = () => {
-        // Función para que cuando los goles sean dos, se abra la puerta
-        // En construcción...
     };
 
     const handleGoals = () => {
@@ -176,13 +181,40 @@ export default function Level3() {
         }
     };
 
+    useEffect(() => {
+        if (gol == 2 && panino == 4) {
+            setOpenDoor(true);
+        }
+    }, [gol, panino]);
+
     const handleSpeedMenox = () => {
-        setSpeedMenox((speedMenox) => speedMenox + 1);
+        setSpeedMenox(speedMenox + 1);
+        setTakeSpeed(true);
+    };
+
+    const handleSpeedMenox2 = () => {
+        setSpeedMenox(speedMenox + 1);
+        setTakeSpeed2(true);
     };
 
     const handlePanino = () => {
-        setPanino((panino) => panino + 1);
+        setPanino(panino + 1);
         setTakePanino(true);
+    };
+
+    const handlePanino2 = () => {
+        setPanino(panino + 1);
+        setTakePanino2(true);
+    };
+
+    const handlePanino3 = () => {
+        setPanino(panino + 1);
+        setTakePanino3(true);
+    };
+
+    const handlePanino4 = () => {
+        setPanino(panino + 1);
+        setTakePanino4(true);
     };
 
     return (
@@ -199,7 +231,7 @@ export default function Level3() {
                         <Lights />
                         <Environments />
                         <Physics debug={false}>
-                            <World finishedLevel={finalizoNivel} catchGol={handleGoals} />
+                            <World finishedLevel={finalizoNivel} catchGol={handleGoals} openDoor={openDoor} />
                             <LimiteZone position={[0, -10, 0]} fueraDelMapa={fueraDelMapa} />
                             <AvatarAthlete
                                 vida={vida}
@@ -209,8 +241,12 @@ export default function Level3() {
                             />
                             <Portero position={[0.5, 2, 36]} />
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
-                            <SpeedMenox catchSpeed={handleSpeedMenox} />
-                            {/* <Panino catchPanino={handlePanino} takePanino={takePanino} />  */}
+                            <SpeedMenox catchSpeed={handleSpeedMenox} takeSpeedMenox={takeSpeed} />
+                            <SpeedMenox2 catchSpeed={handleSpeedMenox2} takeSpeedMenox={takeSpeed2} />
+                            <Panino catchPanino={handlePanino} takePanino={takePanino} />
+                            <Panino2 catchPanino={handlePanino2} takePanino={takePanino2} />
+                            <Panino3 catchPanino={handlePanino3} takePanino={takePanino3} />
+                            <Panino4 catchPanino={handlePanino4} takePanino={takePanino4} />
                             <Balon isGol={golHecho} notIsGoal={notGoal} gol={gol} />
                         </Physics>
                     </Suspense>
@@ -227,6 +263,7 @@ export default function Level3() {
                     gol={gol}
                     speedMenox={speedMenox}
                     panino={panino}
+                    openDoor={openDoor}
                 />
             </KeyboardControls>
         </>

@@ -5,8 +5,9 @@ import {
   RapierRigidBody,
 } from "@react-three/rapier";
 import { useRef, useState, Suspense} from "react";
+import OpenDoor from "../hud/OpenDoor";
 
-export default function World({ finishedLevel, catchGol }) {
+export default function World({ finishedLevel, catchGol, openDoor }) {
   const { nodes, materials } = useGLTF("/assets/models/world/Coliseov9.glb");
   const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
   const [golSound] = useState(new Audio("/assets/sounds/Gol.mp3"));
@@ -184,11 +185,12 @@ export default function World({ finishedLevel, catchGol }) {
                 geometry={nodes.Columna.geometry}
                 material={materials.Columna}
               />
-              <mesh
+              {openDoor && (<mesh
                 geometry={nodes.PuertaAbierta.geometry}
                 material={materials.Fence}
-              />
-
+              />)}
+              
+              
               <mesh
                 geometry={nodes.Flechas.geometry}
                 material={materials.flechas}
@@ -197,7 +199,10 @@ export default function World({ finishedLevel, catchGol }) {
                 geometry={nodes.PaninoF.geometry}
                 material={materials.PaninoF}
               />
-              {/* <mesh geometry={nodes.PuertaCerrada.geometry} material={materials.Fence} /> */}
+              {!openDoor && (
+                <mesh geometry={nodes.PuertaCerrada.geometry} material={materials.Fence} />
+              )}
+              
 
               <mesh
                 geometry={nodes["1I"].geometry}
