@@ -7,6 +7,7 @@ export default function useMovements(){
         leftward: "leftward",
         rightward: "rightward",
         jump: "jump",
+        dance: "dance",
         exit: "exit",
         run: "run"
     }
@@ -18,6 +19,7 @@ export default function useMovements(){
             {name: MOVEMENTS.leftward, keys: ["KeyA", "ArrowLeft"]},
             {name: MOVEMENTS.rightward, keys: ["KeyD", "ArrowRight"]},
             {name: MOVEMENTS.jump, keys: ["Space"]},
+            {name: MOVEMENTS.dance, keys: ["KeyQ"]},
             {name: MOVEMENTS.exit, keys: ["Escape"]},
             {name: MOVEMENTS.run, keys: ["Shift"]}
         ]
