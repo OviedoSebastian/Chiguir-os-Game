@@ -4,11 +4,12 @@ import EndLevel from "./EndLevel";
 import OpenDoor from "./OpenDoor";
 import YouLost from "./YouLost";
 
-const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, showYouLost, onContinue, gol, speedMenox, panino }) => {
+const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, showYouLost, onContinue, gol, speedMenox, panino, openDoor }) => {
     const [displayText, setDisplayText] = useState("");
 
-    const textToShow =
-        "¡Bienvenidos al Coliseo!";
+    const textToShow = 
+    "¡Bienvenidos al Coliseo! Tu misión es hacer dos (2) goles y recoger cuatro (4) paninos dispersos por el mapa para abrir la puerta de escape. ¡Buena suerte!";
+
     const currentIndexRef = useRef(0);
 
     useEffect(() => {
@@ -117,7 +118,7 @@ const CharacterHudLevel3 = ({ vidas, userInfo, endLevel, showYouLost, onContinue
 
             {/* Puerta abierta */}
             <div>
-                {gol == 2 && (
+                {openDoor && (
                     <OpenDoor />
                 )}
             </div>

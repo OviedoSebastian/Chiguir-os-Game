@@ -38,8 +38,9 @@ export default function Balon({ isGol, notIsGoal, gol }) {
   }, [isGol]);
 
   useEffect(() => {
-    console.log("Se hizo el golsito ignorar", isGol);
-    
+    if(gol == 0) {
+      setVisible(true)
+    }
     if (gol == 2) {
       setVisible(false)
     }

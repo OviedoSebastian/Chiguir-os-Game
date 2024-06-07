@@ -36,7 +36,8 @@ export default function SpeedMenox({
     }
   };
 
-  useFrame(({ clock }) => {
+  // Esta función afecta el rendimiento del nivel
+  /*  useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
     const angle = elapsedTime * speed;
     const x = Math.sin(angle) * radius;
@@ -51,7 +52,7 @@ export default function SpeedMenox({
       },
       true
     );
-  });
+  }); */
 
   return (
     <>
@@ -62,7 +63,7 @@ export default function SpeedMenox({
           colliders="cuboid"
           onCollisionEnter={(e) => onCollisionEnter(e)}
           name="SpeedMenox"
-          position={[5, 3, 5]}
+          position={[20, 2, -27]}
         >
           <group dispose={null} ref={refRigidBody} >
             <mesh

@@ -38,7 +38,8 @@ export default function Panino({
   const radius = 0.3;
   const speed = 5;
 
-  useFrame(({ clock }) => {
+  // Esta helper afecta el rendimiento del nivel
+  /*  useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
     const angle = elapsedTime * speed;
     const x = Math.sin(angle) * radius;
@@ -53,7 +54,7 @@ export default function Panino({
       },
       true
     );
-  });
+  }); */
 
   return (
     <>
