@@ -3,7 +3,7 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 
-export default function Portero({ position }) {
+export default function Portero({ position, changeSpeed }) {
 
   const porteroRef = useRef();
   const refPorteroRigidBody = useRef();
@@ -12,9 +12,18 @@ export default function Portero({ position }) {
   );
   const { actions } = useAnimations(animations, porteroRef);
   const [direction, setDirection] = useState(1); // 1 for right, -1 for left
-  const speed = 0.02; // Adjust the speed as needed
   const maxDistance = 1.5; // Maximum distance to move left and right
   const initialPosition = position ? position[0] : 0;
+  const [speedPortero, setSpeedPortero] = useState(0.2) // Adjust the speedPortero as needed
+
+  useEffect(() => {
+    if (changeSpeed === 1){
+      setSpeedPortero(0.1)
+    }else if(changeSpeed === 2){
+      setSpeedPortero(0.001)
+    }
+  },[changeSpeed])
+
 
   useEffect(() => {
     actions.Idle.play(); // Reproduce la animación por defecto al cargar
@@ -26,12 +35,12 @@ export default function Portero({ position }) {
       const currentPosition = refPorteroRigidBody.current.translation();
       
       // Calculate new position
-      let newPositionX = currentPosition.x + direction * speed;
+      let newPositionX = currentPosition.x + direction * speedPortero;
 
       // Check boundaries and reverse direction if necessary
       if (newPositionX > initialPosition + maxDistance || newPositionX < initialPosition - maxDistance) {
         setDirection(-direction);
-        newPositionX = currentPosition.x + direction * speed; // Apply the reverse direction
+        newPositionX = currentPosition.x + direction * speedPortero; // Apply the reverse direction
       }
 
       // Update the position of the rigid body

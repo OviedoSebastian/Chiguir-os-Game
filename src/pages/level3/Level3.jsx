@@ -23,7 +23,7 @@ import SpeedMenox from "./colectibles/SpeedMenox";
 import Panino from "./colectibles/Panino";
 import Balon from "./colectibles/Balon";
 import LimiteZone from "./world/LimiteZone";
-import SpeedMenox2 from "./colectibles/SpeedMenox2";
+import { Perf } from "r3f-perf";
 import Panino2 from "./colectibles/Panino2";
 import Panino3 from "./colectibles/Panino3";
 import Panino4 from "./colectibles/Panino4";
@@ -33,8 +33,6 @@ export default function Level3() {
     const auth = useAuth();
     const [vida, setVida] = useState(3);
     const [speedMenox, setSpeedMenox] = useState(0);
-    const [takeSpeed, setTakeSpeed] = useState(false);
-    const [takeSpeed2, setTakeSpeed2] = useState(false);
     const [panino, setPanino] = useState(0);
     const [takePanino, setTakePanino] = useState(false);
     const [takePanino2, setTakePanino2] = useState(false);
@@ -133,7 +131,6 @@ export default function Level3() {
             speedMenox: 0,
             gol: 0,
             checkpoint: checkpoint,
-
         });
     };
 
@@ -189,12 +186,6 @@ export default function Level3() {
 
     const handleSpeedMenox = () => {
         setSpeedMenox(speedMenox + 1);
-        setTakeSpeed(true);
-    };
-
-    const handleSpeedMenox2 = () => {
-        setSpeedMenox(speedMenox + 1);
-        setTakeSpeed2(true);
     };
 
     const handlePanino = () => {
@@ -226,7 +217,7 @@ export default function Level3() {
                         position: [0, 1, 0],
                     }}
                 >
-                    {/* <Perf position="top-left" /> */}
+                    <Perf position="top-left" />
                     <Suspense fallback={null}>
                         <Lights />
                         <Environments />
@@ -241,8 +232,7 @@ export default function Level3() {
                             />
                             <Portero position={[0.5, 2, 36]} />
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
-                            <SpeedMenox catchSpeed={handleSpeedMenox} takeSpeedMenox={takeSpeed} />
-                            <SpeedMenox2 catchSpeed={handleSpeedMenox2} takeSpeedMenox={takeSpeed2} />
+                            <SpeedMenox catchSpeed={handleSpeedMenox} changeSpeed={panino}/>
                             <Panino catchPanino={handlePanino} takePanino={takePanino} />
                             <Panino2 catchPanino={handlePanino2} takePanino={takePanino2} />
                             <Panino3 catchPanino={handlePanino3} takePanino={takePanino3} />

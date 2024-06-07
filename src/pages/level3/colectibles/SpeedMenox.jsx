@@ -3,10 +3,11 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
-export default function SpeedMenox({ catchSpeed, takeSpeedMenox }) {
+export default function SpeedMenox({ catchSpeed }) {
 
   const { nodes, materials } = useGLTF( "/assets/models/colectables/speedMenox_less.glb" );
   const [position, setPosition] = useState([1.2, 3.2, 50]);
+  // const [position, setPosition] = useState([1.2, 3.2, 50]);
   const [visible, setVisible] = useState(true);
   const [collisionCount, setCollisionCount] = useState(0);
   const refRigidBody = useRef();
@@ -14,42 +15,54 @@ export default function SpeedMenox({ catchSpeed, takeSpeedMenox }) {
   const speed = 5;
   const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
   const lastCollisionTime = useRef(0); // Referencia para almacenar la marca de tiempo de la última colisión
+  const requestRef = useRef();
 
-  useEffect(() => {
-    if (takeSpeedMenox) {
-      setVisible(false);
-    } else {
-      setVisible(true);
+  const animate = () => {
+    if (refRigidBody.current && visible) {
+      const elapsedTime = Date.now() / 1000; // Tiempo en segundos
+      const angle = elapsedTime * speed;
+      const x = Math.sin(angle) * radius;
+      const y = Math.cos(angle) * radius;
+
+      refRigidBody.current.setTranslation(
+        {
+          x: position[0],
+          y: position[1] + y,
+          z: position[2],
+        },
+        true
+      );
     }
-  }, [takeSpeedMenox]);
-
-  const onCollisionEnter = ({ manifold, target, other }) => {
-
-    if (other.colliderObject.name == "character-capsule-collider") {
-      setVisible(false);
-      curaoSound.play();
-      catchSpeed();
-    }
-    
+    requestRef.current = requestAnimationFrame(animate);
   };
 
-  // Esta función afecta el rendimiento del nivel
-  /*  useFrame(({ clock }) => {
-    const elapsedTime = clock.getElapsedTime();
-    const angle = elapsedTime * speed;
-    const x = Math.sin(angle) * radius;
-    const y = Math.cos(angle) * radius;
-    // refRigidBody.current.rotation.y = angle;
+  useEffect(() => {
+    requestRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestRef.current);
+  }, [visible, position]);
 
-    refRigidBody.current?.setTranslation(
-      {
-        x: position[0],
-        y: position[1] + y,
-        z: position[2],
-      },
-      true
-    );
-  }); */
+  const onCollisionEnter = ({ manifold, target, other }) => {
+    const currentTime = performance.now();
+    const timeSinceLastCollision = currentTime - lastCollisionTime.current;
+
+    if ( (other.colliderObject.name === "character-capsule-collider") && (timeSinceLastCollision > 1000) ) {
+      lastCollisionTime.current = currentTime;
+      setCollisionCount(collisionCount + 1);
+      curaoSound.play();
+      catchSpeed();
+      
+      if (collisionCount === 0) {
+        console.log("Primera recoleccion");
+        setPosition([1, 8, -35]);
+        // Change position after the first collision
+      } else if (collisionCount === 1) {
+        // Hide after the second collision
+        console.log("Segunda recoleccion");
+        setVisible(false);
+      }
+    }
+  };
+
 
   return (
     <>
