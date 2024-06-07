@@ -11,6 +11,7 @@ export default function Panino2({ props, catchPanino, takePanino, }) {
     const [position, setPosition] = useState([5, 3, 5]);
     const [visible, setVisible] = useState(true);
     const refRigidBody = useRef();
+    const [paninoSound] = useState(new Audio("/assets/sounds/QueRico.mp3"));
 
     useEffect(() => {
         if (takePanino) {
@@ -27,7 +28,7 @@ export default function Panino2({ props, catchPanino, takePanino, }) {
 
         if (other.colliderObject.name == "character-capsule-collider") {
             setVisible(false);
-            curaoSound.play();
+            paninoSound.play();
             catchPanino();
         }
     };

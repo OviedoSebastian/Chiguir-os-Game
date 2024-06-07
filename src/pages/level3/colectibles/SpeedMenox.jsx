@@ -13,7 +13,7 @@ export default function SpeedMenox({ catchSpeed }) {
   const refRigidBody = useRef();
   const radius = 0.3;
   const speed = 5;
-  const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
+  const [speedMenoxSound] = useState(new Audio("/assets/sounds/speedMenoxSound.mp3"));
   const lastCollisionTime = useRef(0); // Referencia para almacenar la marca de tiempo de la última colisión
   const requestRef = useRef();
 
@@ -48,7 +48,7 @@ export default function SpeedMenox({ catchSpeed }) {
     if ( (other.colliderObject.name === "character-capsule-collider") && (timeSinceLastCollision > 1000) ) {
       lastCollisionTime.current = currentTime;
       setCollisionCount(collisionCount + 1);
-      curaoSound.play();
+      speedMenoxSound.play();
       catchSpeed();
       
       if (collisionCount === 0) {
