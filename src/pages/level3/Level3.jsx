@@ -17,13 +17,12 @@ import {
     readCheckpoint,
 } from "../../db/level3-collection";
 import CharacterHudLevel3 from "./hud/CharacterHudLevel3";
-import Portero from "./characters/avatar/Portero";
+import Portero from "./characters/enemies/Portero";
 import AvatarAthlete from "./characters/avatar/AvatarAthlete";
 import SpeedMenox from "./colectibles/SpeedMenox";
 import Panino from "./colectibles/Panino";
 import Balon from "./colectibles/Balon";
 import LimiteZone from "./world/LimiteZone";
-import Curao from "../level2/colectibles/Curao";
 
 export default function Level3() {
     const map = useMovements();
@@ -87,7 +86,7 @@ export default function Level3() {
 
     useEffect(() => {
         // para saber todos los valores que se pueden recuperar por medio del
-        // inicio de sesion por el correo, imprimir por oconsola lo siguiente console.log(auth.userLogged);
+        // inicio de sesion por el correo, imprimir por consola lo siguiente console.log(auth.userLogged);
         if (auth.userLogged) {
             const { displayName, email, photoURL } = auth.userLogged;
             // console.log(displayName, email); //Verificar los datos a guardar
@@ -109,7 +108,6 @@ export default function Level3() {
     //////////////////////////////////////////////////////////////////////////////////
 
     const finalizoNivel = () => {
-        console.log("SE TERMINOOO EL NIVEL");
         setEndLevel(true);
     };
 
@@ -122,24 +120,28 @@ export default function Level3() {
         setCheckpoint(false);
         editCheckpoint(auth.userLogged.email, {
             vidas: 3,
-            curado: 0,
+            panino: 0,
+            speedMenox: 0,
+            gol: 0,
             checkpoint: checkpoint,
+            
         });
     };
 
     const loseLife = async () => {
-        // Modificar acorde al nivel
-        // const checkpointData = await readDataCheckpoint(auth.userLogged.email);
-        // setVida((prevVida) => prevVida - 1);
-        // setCuraoCogio(false)
-        // setCuraoCogio1(false)
-        // setCuraoCogio2(false)
-        // if (checkpointData && checkpointData.checkpoint) {
-        //     setCurao(checkpointData.curado);
-        // } else {
-        //     setCurao(0);
-        //     console.log("No guardaste en el checkpoint :c");
-        // }
+        //Modificar acorde al nivel
+        const checkpointData = await readDataCheckpoint(auth.userLogged.email);
+        setVida( vida - 1);
+        if (checkpointData && checkpointData.checkpoint) {
+            setPanino(checkpointData.panino);
+            setSpeedMenox(checkpointData.speedMenox);
+            setGolg(checkpointData.gol);
+        } else {
+            setPanino(0);
+            setSpeedMenox(0);
+            setGolg(0);
+            console.log("No guardaste en el checkpoint :c");
+        }
     };
 
     const fueraDelMapa = () => {
