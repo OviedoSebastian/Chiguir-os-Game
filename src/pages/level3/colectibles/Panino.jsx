@@ -11,7 +11,7 @@ export default function Panino({
   const { nodes, materials } = useGLTF(
     "/assets/models/colectables/Panino.glb"
   );
-  const [position, setPosition] = useState([5, 3, 5]);
+  const [position, setPosition] = useState([10, 5, 0]);
   const [visible, setVisible] = useState(true);
   const refRigidBody = useRef();
   const [paninoSound] = useState(new Audio("/assets/sounds/QueRico.mp3"));
@@ -24,7 +24,6 @@ export default function Panino({
     }
   }, [takePanino]);
 
-  const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     // console.log("Collision at world position", manifold.solverContactPoint(0));
@@ -36,9 +35,6 @@ export default function Panino({
     }
   };
 
-  const radius = 0.3;
-  const speed = 5;
-
 
   return (
     <>
@@ -49,7 +45,7 @@ export default function Panino({
           colliders="cuboid"
           onCollisionEnter={(e) => onCollisionEnter(e)}
           name="Panino"
-          position={[-5, 3, -5]}
+          position={[-30, 9, 40]}
         >
           <group {...props}
             dispose={null}

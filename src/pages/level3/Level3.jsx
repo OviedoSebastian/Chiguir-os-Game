@@ -27,6 +27,8 @@ import { Perf } from "r3f-perf";
 import Panino2 from "./colectibles/Panino2";
 import Panino3 from "./colectibles/Panino3";
 import Panino4 from "./colectibles/Panino4";
+import FutbolistaEnemigo from "./characters/enemies/FutbolistaEnemigo";
+import FutbolistaEnemigo2 from "./characters/enemies/FutbolistaEnemigo2";
 
 export default function Level3() {
     const map = useMovements();
@@ -47,6 +49,15 @@ export default function Level3() {
     const [cooldown, setCooldown] = useState(false);
     const [openDoor, setOpenDoor] = useState(false);
     const [fueraMapa, setFueraMapa] = useState(false);
+
+    const [posicion1, setPosicion1] = useState([10, 1.2, 30]);
+    const [posicion2, setPosicion2] = useState([0.5, 1.2, 30]);
+    const [posicion3, setPosicion3] = useState([-10, 1.2, 30]);
+    const [posicion4, setPosicion4] = useState([5, 1.2, 21]);
+    const [posicion5, setPosicion5] = useState([-5, 1.2, 21]);
+    const [posicion6, setPosicion6] = useState([10, 1.2, 12]);
+    const [posicion7, setPosicion7] = useState([0.5, 1.2, 15]);
+    const [posicion8, setPosicion8] = useState([-10, 1.2, 12]);
 
     const saveDataUser = async (valueUser) => {
         await createuser(valueUser);
@@ -186,6 +197,7 @@ export default function Level3() {
 
     const handleSpeedMenox = () => {
         setSpeedMenox(speedMenox + 1);
+        setPosicion1([0, 1000, 0]);
     };
 
     const handlePanino = () => {
@@ -231,6 +243,20 @@ export default function Level3() {
                                 dentroDelMapa={dentroDelMapa}
                             />
                             <Portero position={[0.5, 2, 36]} />
+                            <FutbolistaEnemigo position={posicion1}  loseLife={loseLife} />
+                            <FutbolistaEnemigo position={posicion2}  loseLife={loseLife} />
+                            <FutbolistaEnemigo position={posicion3}  loseLife={loseLife} />
+
+                            <FutbolistaEnemigo position={posicion4} loseLife={loseLife} />
+                            <FutbolistaEnemigo position={posicion5} loseLife={loseLife} />
+
+                            <FutbolistaEnemigo position={posicion6}  loseLife={loseLife} />
+                            <FutbolistaEnemigo position={posicion7}  loseLife={loseLife} />
+                            <FutbolistaEnemigo position={posicion8}  loseLife={loseLife} />
+                            {/* <FutbolistaEnemigo position={[0.5, 1.2, 20]}  loseLife={loseLife} />
+                            <FutbolistaEnemigo position={[0.5, 1.2, 12]}  loseLife={loseLife} />
+                            <FutbolistaEnemigo2 position={[0.5, 1.2, 25]}  loseLife={loseLife} />
+                            <FutbolistaEnemigo2 position={[0.5, 1.2, 16]}  loseLife={loseLife} /> */}
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
                             <SpeedMenox catchSpeed={handleSpeedMenox} changeSpeed={panino}/>
                             <Panino catchPanino={handlePanino} takePanino={takePanino} />
