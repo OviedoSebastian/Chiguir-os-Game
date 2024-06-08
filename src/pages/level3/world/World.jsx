@@ -4,7 +4,7 @@ import {
   CuboidCollider,
   RapierRigidBody,
 } from "@react-three/rapier";
-import { useRef, useState, Suspense} from "react";
+import { useRef, useState, Suspense } from "react";
 import OpenDoor from "../hud/OpenDoor";
 
 export default function World({ finishedLevel, catchGol, openDoor }) {
@@ -42,7 +42,20 @@ export default function World({ finishedLevel, catchGol, openDoor }) {
 
   return (
     <>
-      <RigidBody type="fixed" position={[0,0,42]} >
+      {!openDoor && (
+        <RigidBody type="fixed" colliders="cuboid">
+          <mesh geometry={nodes.PuertaCerrada.geometry} material={materials.Fence} />
+        </RigidBody>
+      )}
+
+      {openDoor && (
+        <RigidBody type="fixed" colliders="cuboid">
+          <mesh
+            geometry={nodes.PuertaAbierta.geometry}
+            material={materials.Fence}
+          />
+        </RigidBody>)}
+      <RigidBody type="fixed" position={[0, 0, 42]} >
         <group >
           <mesh rotation={[0, 0, 0]} >
             <boxGeometry args={[10, 4, 0]} />
@@ -50,7 +63,7 @@ export default function World({ finishedLevel, catchGol, openDoor }) {
           </mesh>
         </group>
       </RigidBody>
-      <RigidBody type="fixed" position={[0,0,-26]} >
+      <RigidBody type="fixed" position={[0, 0, -26]} >
         <group >
           <mesh rotation={[0, 0, 0]} >
             <boxGeometry args={[10, 4, 0]} />
@@ -97,7 +110,7 @@ export default function World({ finishedLevel, catchGol, openDoor }) {
                 material={materials.ArcosMat}
               />
 
-              <CuboidCollider 
+              <CuboidCollider
                 position={[0.95, 2.1, 36]}
                 args={[2.25, 1, 0]}
                 sensor
@@ -185,12 +198,9 @@ export default function World({ finishedLevel, catchGol, openDoor }) {
                 geometry={nodes.Columna.geometry}
                 material={materials.Columna}
               />
-              {openDoor && (<mesh
-                geometry={nodes.PuertaAbierta.geometry}
-                material={materials.Fence}
-              />)}
-              
-              
+
+
+
               <mesh
                 geometry={nodes.Flechas.geometry}
                 material={materials.flechas}
@@ -199,10 +209,8 @@ export default function World({ finishedLevel, catchGol, openDoor }) {
                 geometry={nodes.PaninoF.geometry}
                 material={materials.PaninoF}
               />
-              {!openDoor && (
-                <mesh geometry={nodes.PuertaCerrada.geometry} material={materials.Fence} />
-              )}
-              
+
+
 
               <mesh
                 geometry={nodes["1I"].geometry}

@@ -4,7 +4,7 @@ import { useAnimations, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 
-export default function FutbolistaEnemigo({ position, loseLife, changeSpeed }) {
+export default function FutbolistaEnemigo({ position, loseLife, isAttack }) {
   const avatarFutbolistaUscRef = useRef();
   const avatarFutbolistaUscBodyRef = useRef();
   const { avatar, setAvatar } = useAvatar();
@@ -22,42 +22,36 @@ export default function FutbolistaEnemigo({ position, loseLife, changeSpeed }) {
   const initialPosition = position ? position[0] : 0;
   const [speedJugadorUSC, setSpeedJugadorUSC] = useState(0.4);
 
-  useEffect(() => {
-    if (changeSpeed === 1) {
-      setSpeedJugadorUSC(0.1);
-    } else if (changeSpeed === 2) {
-      setSpeedJugadorUSC(0.005);
-    }
-  }, [changeSpeed]);
+  
 
-//   useFrame(() => {
-//     if (avatarFutbolistaUscBodyRef.current) {
-//       // Get current position
-//       const currentPosition = avatarFutbolistaUscBodyRef.current.translation();
+  //   useFrame(() => {
+  //     if (avatarFutbolistaUscBodyRef.current) {
+  //       // Get current position
+  //       const currentPosition = avatarFutbolistaUscBodyRef.current.translation();
 
-//       // Calculate new position
-//       let newPositionX = currentPosition.x + direction * speedJugadorUSC;
+  //       // Calculate new position
+  //       let newPositionX = currentPosition.x + direction * speedJugadorUSC;
 
-//       // Check boundaries and reverse direction if necessary
-//       if (
-//         newPositionX > initialPosition + maxDistance ||
-//         newPositionX < initialPosition - maxDistance
-//       ) {
-//         setDirection(-direction);
-//         newPositionX = currentPosition.x + direction * speedJugadorUSC; // Apply the reverse direction
-//       }
+  //       // Check boundaries and reverse direction if necessary
+  //       if (
+  //         newPositionX > initialPosition + maxDistance ||
+  //         newPositionX < initialPosition - maxDistance
+  //       ) {
+  //         setDirection(-direction);
+  //         newPositionX = currentPosition.x + direction * speedJugadorUSC; // Apply the reverse direction
+  //       }
 
-//       // Update the position of the rigid body
-//       avatarFutbolistaUscBodyRef.current.setTranslation(
-//         {
-//           x: newPositionX,
-//           y: currentPosition.y,
-//           z: currentPosition.z,
-//         },
-//         true
-//       );
-//     }
-//   });
+  //       // Update the position of the rigid body
+  //       avatarFutbolistaUscBodyRef.current.setTranslation(
+  //         {
+  //           x: newPositionX,
+  //           y: currentPosition.y,
+  //           z: currentPosition.z,
+  //         },
+  //         true
+  //       );
+  //     }
+  //   });
 
 
   const onCollisionEnter = ({ manifold, target, other }) => {
@@ -77,45 +71,50 @@ export default function FutbolistaEnemigo({ position, loseLife, changeSpeed }) {
   };
 
   return (
-    <RigidBody
-      ref={avatarFutbolistaUscBodyRef}
-      type="fixed"
-      position={position}
-      rotation={[0, Math.PI / 2, 0]}
-      onCollisionEnter={(e) => onCollisionEnter(e)}
-    >
-      <group ref={avatarFutbolistaUscRef} name="Scene">
-        <group>
-          <mesh
-            geometry={nodes.Futbolista2_Body.geometry}
-            material={materials.Camiseta_mat}
-          />
-          <mesh
-            geometry={nodes.Futbolista2_Mochito.geometry}
-            material={materials.Mochito_mat}
-          />
-          <mesh
-            geometry={nodes.Futbolista2_Shoes.geometry}
-            material={materials.Shoes_mat}
-          />
-          <mesh
-            geometry={nodes.Futbolista2_Hair.geometry}
-            material={materials.hair_mat}
-            position={[0, 0.078, 0]}
-            scale={[0.874, 0.933, 1]}
-          />
-          <mesh
-            geometry={nodes.Futbolista2_Hands.geometry}
-            material={materials["piel.001"]}
-            position={[-0.01, 0.519, -0.017]}
-          />
-          <mesh
-            geometry={nodes.Futbolista2_Head.geometry}
-            material={materials.piel}
-          />
-        </group>
-      </group>
-    </RigidBody>
+    <>
+      {isAttack ? (
+        <RigidBody
+          ref={avatarFutbolistaUscBodyRef}
+          type="fixed"
+          position={position}
+          rotation={[0, Math.PI / 2, 0]}
+          onCollisionEnter={(e) => onCollisionEnter(e)}
+        >
+          <group ref={avatarFutbolistaUscRef} name="Scene">
+            <group>
+              <mesh
+                geometry={nodes.Futbolista2_Body.geometry}
+                material={materials.Camiseta_mat}
+              />
+              <mesh
+                geometry={nodes.Futbolista2_Mochito.geometry}
+                material={materials.Mochito_mat}
+              />
+              <mesh
+                geometry={nodes.Futbolista2_Shoes.geometry}
+                material={materials.Shoes_mat}
+              />
+              <mesh
+                geometry={nodes.Futbolista2_Hair.geometry}
+                material={materials.hair_mat}
+                position={[0, 0.078, 0]}
+                scale={[0.874, 0.933, 1]}
+              />
+              <mesh
+                geometry={nodes.Futbolista2_Hands.geometry}
+                material={materials["piel.001"]}
+                position={[-0.01, 0.519, -0.017]}
+              />
+              <mesh
+                geometry={nodes.Futbolista2_Head.geometry}
+                material={materials.piel}
+              />
+            </group>
+          </group>
+        </RigidBody>
+      ): null}
+    </>
+
   );
 }
 

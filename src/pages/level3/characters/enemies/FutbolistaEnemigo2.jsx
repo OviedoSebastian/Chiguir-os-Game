@@ -8,9 +8,10 @@ export default function FutbolistaEnemigo2({
   position,
   loseLife,
   changeSpeed,
+  isAttack
 }) {
-  const avatarFutbolistaUscRef = useRef();
-  const avatarFutbolistaUscBodyRef = useRef();
+  const avatarFutbolistaUscRef2 = useRef();
+  const avatarFutbolistaUscBodyRef2 = useRef();
   const { avatar, setAvatar } = useAvatar();
   const { nodes, materials, animations } = useGLTF(
     "/assets/models/avatars/futbolista_usc.glb"
@@ -37,7 +38,7 @@ export default function FutbolistaEnemigo2({
   }, [changeSpeed]);
 
 
-  useFrame(({ clock }) => {
+ /* useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
     const angle = elapsedTime * speedJugadorUSC;
     const x = Math.cos(angle) * radius;
@@ -51,7 +52,7 @@ export default function FutbolistaEnemigo2({
       },
       true
     );
-  });
+  });*/
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if (other.colliderObject.name == "character-capsule-collider") {
@@ -70,14 +71,16 @@ export default function FutbolistaEnemigo2({
   };
 
   return (
+    <>
+    {isAttack ? (
     <RigidBody
-      ref={avatarFutbolistaUscBodyRef}
+      ref={avatarFutbolistaUscBodyRef2}
       type="fixed"
       position={position}
       rotation={[0, Math.PI / 2, 0]}
       onCollisionEnter={(e) => onCollisionEnter(e)}
     >
-      <group ref={avatarFutbolistaUscRef} name="Scene">
+      <group ref={avatarFutbolistaUscRef2} name="Scene">
         <group>
           <mesh
             geometry={nodes.Futbolista2_Body.geometry}
@@ -109,6 +112,8 @@ export default function FutbolistaEnemigo2({
         </group>
       </group>
     </RigidBody>
+    ): null}
+    </>
   );
 }
 

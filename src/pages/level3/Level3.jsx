@@ -49,6 +49,8 @@ export default function Level3() {
     const [cooldown, setCooldown] = useState(false);
     const [openDoor, setOpenDoor] = useState(false);
     const [fueraMapa, setFueraMapa] = useState(false);
+    const [isAttack1, setIsAttack1] = useState(true);
+    const [isAttack2, setIsAttack2] = useState(true);
 
     const [posicion1, setPosicion1] = useState([10, 1.2, 30]);
     const [posicion2, setPosicion2] = useState([0.5, 1.2, 30]);
@@ -190,10 +192,17 @@ export default function Level3() {
     };
 
     useEffect(() => {
-        if (gol == 2 && panino == 4) {
+        if(speedMenox == 1) {
+            setIsAttack1(false);
+        }
+        if(speedMenox == 2){
+            setIsAttack2(false);
+        }
+
+        if (gol >= 2 && panino >= 4) {
             setOpenDoor(true);
         }
-    }, [gol, panino]);
+    }, [gol, panino, speedMenox]);
 
     const handleSpeedMenox = () => {
         setSpeedMenox(speedMenox + 1);
@@ -220,6 +229,10 @@ export default function Level3() {
         setTakePanino4(true);
     };
 
+    useEffect(() => {
+        
+    }, [gol, panino]);
+
     return (
         <>
             <KeyboardControls map={map}>
@@ -243,22 +256,23 @@ export default function Level3() {
                                 dentroDelMapa={dentroDelMapa}
                             />
                             <Portero position={[0.5, 2, 36]} />
-                            <FutbolistaEnemigo position={posicion1}  loseLife={loseLife} />
-                            <FutbolistaEnemigo position={posicion2}  loseLife={loseLife} />
-                            <FutbolistaEnemigo position={posicion3}  loseLife={loseLife} />
+                            <FutbolistaEnemigo position={posicion1}  loseLife={loseLife} isAttack={true} />
+                            {/* <FutbolistaEnemigo2 position={posicion1}  loseLife={loseLife} isAttack={isAttack} /> */}
+                            <FutbolistaEnemigo position={posicion2}  loseLife={loseLife} isAttack={isAttack1} />
+                            <FutbolistaEnemigo position={posicion3}  loseLife={loseLife} isAttack={true}  />
 
-                            <FutbolistaEnemigo position={posicion4} loseLife={loseLife} />
-                            <FutbolistaEnemigo position={posicion5} loseLife={loseLife} />
+                            <FutbolistaEnemigo position={posicion4} loseLife={loseLife} isAttack={isAttack1}  />
+                            <FutbolistaEnemigo position={posicion5} loseLife={loseLife} isAttack={isAttack2} />
 
-                            <FutbolistaEnemigo position={posicion6}  loseLife={loseLife} />
-                            <FutbolistaEnemigo position={posicion7}  loseLife={loseLife} />
-                            <FutbolistaEnemigo position={posicion8}  loseLife={loseLife} />
+                            <FutbolistaEnemigo position={posicion6}  loseLife={loseLife} isAttack={true} />
+                            <FutbolistaEnemigo position={posicion7}  loseLife={loseLife} isAttack={isAttack2} />
+                            <FutbolistaEnemigo position={posicion8}  loseLife={loseLife} isAttack={true} />
                             {/* <FutbolistaEnemigo position={[0.5, 1.2, 20]}  loseLife={loseLife} />
                             <FutbolistaEnemigo position={[0.5, 1.2, 12]}  loseLife={loseLife} />
                             <FutbolistaEnemigo2 position={[0.5, 1.2, 25]}  loseLife={loseLife} />
                             <FutbolistaEnemigo2 position={[0.5, 1.2, 16]}  loseLife={loseLife} /> */}
                             <Ardilla position={[-15, 3, 0]} savecheckpoint={savecheckpoint} />
-                            <SpeedMenox catchSpeed={handleSpeedMenox} changeSpeed={panino}/>
+                            <SpeedMenox catchSpeed={handleSpeedMenox} />
                             <Panino catchPanino={handlePanino} takePanino={takePanino} />
                             <Panino2 catchPanino={handlePanino2} takePanino={takePanino2} />
                             <Panino3 catchPanino={handlePanino3} takePanino={takePanino3} />
