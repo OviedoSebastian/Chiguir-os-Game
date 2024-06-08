@@ -63,7 +63,7 @@ export default function Panino4({ props, catchPanino, takePanino, }) {
                     colliders="cuboid"
                     onCollisionEnter={(e) => onCollisionEnter(e)}
                     name="Panino"
-                    position={[20, 2, -15]}
+                    position={[44.5, 11, 58]}
                 >
                     <group {...props}
                         dispose={null}

@@ -4,7 +4,11 @@ import { useAnimations, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import { useFrame } from "@react-three/fiber";
 
-export default function FutbolistaEnemigo({ position, loseLife, changeSpeed }) {
+export default function FutbolistaEnemigo2({
+  position,
+  loseLife,
+  changeSpeed,
+}) {
   const avatarFutbolistaUscRef = useRef();
   const avatarFutbolistaUscBodyRef = useRef();
   const { avatar, setAvatar } = useAvatar();
@@ -15,12 +19,14 @@ export default function FutbolistaEnemigo({ position, loseLife, changeSpeed }) {
 
   // refRigidBody.current.rotation.y = Math.cos(clock.getElapsedTime());
 
-  const [silvatoSound] = useState(new Audio("/assets/sounds/silvato.mp3"));
+  const [soundGhost] = useState(new Audio("/assets/sounds/Boo.mp3"));
 
-  const [direction, setDirection] = useState(1); // 1 for right, -1 for left
-  const maxDistance = 15; // Maximum distance to move left and right
-  const initialPosition = position ? position[0] : 0;
-  const [speedJugadorUSC, setSpeedJugadorUSC] = useState(0.4);
+  const [speedJugadorUSC, setSpeedJugadorUSC] = useState(1);
+
+  const radius = 15;
+  const speed = 1;
+
+  // refRigidBody.current.rotation.y = Math.cos(clock.getElapsedTime());
 
   useEffect(() => {
     if (changeSpeed === 1) {
@@ -30,39 +36,26 @@ export default function FutbolistaEnemigo({ position, loseLife, changeSpeed }) {
     }
   }, [changeSpeed]);
 
-//   useFrame(() => {
-//     if (avatarFutbolistaUscBodyRef.current) {
-//       // Get current position
-//       const currentPosition = avatarFutbolistaUscBodyRef.current.translation();
 
-//       // Calculate new position
-//       let newPositionX = currentPosition.x + direction * speedJugadorUSC;
+  useFrame(({ clock }) => {
+    const elapsedTime = clock.getElapsedTime();
+    const angle = elapsedTime * speedJugadorUSC;
+    const x = Math.cos(angle) * radius;
+    avatarFutbolistaUscBodyRef.current.rotation.y = Math.cos(elapsedTime);
 
-//       // Check boundaries and reverse direction if necessary
-//       if (
-//         newPositionX > initialPosition + maxDistance ||
-//         newPositionX < initialPosition - maxDistance
-//       ) {
-//         setDirection(-direction);
-//         newPositionX = currentPosition.x + direction * speedJugadorUSC; // Apply the reverse direction
-//       }
-
-//       // Update the position of the rigid body
-//       avatarFutbolistaUscBodyRef.current.setTranslation(
-//         {
-//           x: newPositionX,
-//           y: currentPosition.y,
-//           z: currentPosition.z,
-//         },
-//         true
-//       );
-//     }
-//   });
-
+    avatarFutbolistaUscBodyRef.current?.setTranslation(
+      {
+        x: position[0] + x,
+        y: position[1],
+        z: position[2],
+      },
+      true
+    );
+  });
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if (other.colliderObject.name == "character-capsule-collider") {
-      silvatoSound.play();
+      soundGhost.play();
       // Resta una vida
       loseLife();
     } else {

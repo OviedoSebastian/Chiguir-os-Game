@@ -7,7 +7,7 @@ const YouLost = ({ onContinue }) => {
     const navigate = useNavigate();
 
     const continuar = () => {
-        onContinue();
+        window.location.reload();
     };
 
     const salir = () => {
