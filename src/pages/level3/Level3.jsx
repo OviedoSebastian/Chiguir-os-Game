@@ -23,7 +23,6 @@ import SpeedMenox from "./colectibles/SpeedMenox";
 import Panino from "./colectibles/Panino";
 import Balon from "./colectibles/Balon";
 import LimiteZone from "./world/LimiteZone";
-import { Perf } from "r3f-perf";
 import Panino2 from "./colectibles/Panino2";
 import Panino3 from "./colectibles/Panino3";
 import Panino4 from "./colectibles/Panino4";
@@ -242,7 +241,6 @@ export default function Level3() {
                         position: [0, 1, 0],
                     }}
                 >
-                    <Perf position="top-left" />
                     <Suspense fallback={null}>
                         <Lights />
                         <Environments />
