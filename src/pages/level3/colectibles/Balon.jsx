@@ -41,7 +41,7 @@ export default function Balon({ isGol, notIsGoal, gol }) {
     }
   }, [gol]);
 
-  // {[1.2, 3, 7.9]}
+  // {[1.2, 3, 7.9]} Posición inicial del balón
   return (
     <>
       {visible ? (
