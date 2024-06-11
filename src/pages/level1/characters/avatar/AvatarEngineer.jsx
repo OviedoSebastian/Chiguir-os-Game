@@ -61,7 +61,7 @@ export default function AvatarEngineer({ jumpHeight, vida, resetPoint }) {
             camMaxDis={-4}
             maxVelLimit={5}
             jumpVel={jumpVel}
-            position={[20, 5, -30]}
+            position={[20, 10, -30]}
         >
             <group ref={avatarEngineerRef} name="Scene" position-y={-0.82}>
                 <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>

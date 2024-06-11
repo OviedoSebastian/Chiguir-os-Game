@@ -1,46 +1,55 @@
-import { OrbitControls, useKeyboardControls } from "@react-three/drei";
+import { useKeyboardControls } from "@react-three/drei";
 import { useAvatar } from "../../../context/AvatarContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 
 export default function Controls() {
 
   const { avatar, setAvatar } = useAvatar();
-  const [sub, get] = useKeyboardControls()
-
-  const [runSound] = useState(new Audio("/assets/sounds/run.wav"))
-  const [jumpSound] = useState(new Audio("/assets/sounds/jump.wav"));
-
-  const [play, setPlay] = useState(false)
-  const [isRunning, setIsRunning] = useState(false);
+  const [sub, get] = useKeyboardControls();
+  const [sounds, setSounds] = useState({
+    run: new Audio("/assets/sounds/run.wav"),
+    walk: new Audio("/assets/sounds/walk.wav"),
+    jump: new Audio("/assets/sounds/jump.wav"),
+  });
+  const [play, setPlay] = useState(false);
   const [isJumping, setIsJumping] = useState(false);
+  // const position = avatar.rigidBodyAvatarRef?.translation();
 
-  // SOLO DEJA LOS SONIDOS DE SALTAR Y CORRER
-  // IMPLEMENTAR LOS SONIDOS DE CAMINAR Y CORRER FUE MUY DIFICILLLLLLLLLLLLLLLLLLLL
-  
-  // Caminar
+  // Walk
   useEffect(() => {
     const unsubscribe = sub(
       (state) => state.forward || state.backward || state.leftward || state.rightward,
       (pressed) => {
         setAvatar({ ...avatar, animation: pressed ? "Walk" : "Idle" });
+        if (pressed) {
+          sounds.walk.play();
+        } else {
+          sounds.walk.pause();
+        }
       }
     );
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, get]);
 
-  // Correr
+  // Run
   useEffect(() => {
     const unsubscribe = sub(
       (state) => (state.forward || state.backward || state.leftward || state.rightward) && state.run,
       (pressed) => {
         setAvatar({ ...avatar, animation: pressed ? "Running" : "Idle" });
+        if (pressed) {
+          sounds.run.play();
+        } else {
+          setAvatar({ ...avatar, animation: "Walk" });
+          sounds.run.pause();
+        }
       }
     );
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, get]);
 
-  // Saltar
+  // Jump
   useEffect(() => {
     const unsubscribe = sub(
       (state) => state.jump && !isJumping,
@@ -56,40 +65,42 @@ export default function Controls() {
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, isJumping]);
 
+  // Dance
+  useEffect(() => {
+    const unsubscribe = sub(
+      (state) => state.dance,
+      () => {
+        setAvatar({ ...avatar, animation: "Dance" });
+      }
+    );
+    return () => unsubscribe();
+  }, [avatar, setAvatar, sub, get]);
+
   useEffect(() => {
     if (play) {
-      runSound.currentTime = 0;
-      //runSound.volume = Math.random()
-      runSound.play()
+      sounds.run.currentTime = 0;
+      sounds.run.play();
     } else {
-      runSound.pause()
+      sounds.run.pause();
     }
-  }, [play])
+  }, [play]);
 
-  useEffect(() => {
-    if (isJumping) {
-      jumpSound.currentTime = 0;
-      jumpSound.volume = Math.random()
-      jumpSound.play()
-    } else {
-      jumpSound.pause()
-    }
-  }, [isJumping])
-
-  useFrame((state, delta) => {
-    const { forward, backward, leftward, rightward } = get()
+  useFrame(() => {
+    const { forward, backward, leftward, rightward } = get();
     if (forward || backward || leftward || rightward) {
-      setPlay(true)
+      if (avatar.animation === "Walk") {
+        sounds.walk.play();
+      } else if (avatar.animation === "Running") {
+        sounds.run.play();
+      }
     } else {
-      setPlay(false)
+      sounds.walk.pause();
+      sounds.run.pause();
     }
-    const pressed = get().back
-  })
+  });
+
+
   return (
-
     null
-  )
+  );
 }
-
-
-

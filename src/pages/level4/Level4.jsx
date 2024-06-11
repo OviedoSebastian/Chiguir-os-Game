@@ -1,61 +1,63 @@
-import { KeyboardControls, OrbitControls } from "@react-three/drei";
+import { KeyboardControls } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useState } from "react";
-import WelcomeText from "./abstractions/WelcomeText";
 import Lights from "./lights/Lights";
 import Environments from "./staging/Environments";
 import { Canvas } from "@react-three/fiber";
 import World from "./world/World";
 import Controls from "./controls/Controls";
 import AvatarCientific from "./characters/avatar/AvatarCientific";
-import AvatarEngineer from "./characters/avatar/AvatarEngineer";
 import useMovements from "../../utils/key-movements";
-import Ecctrl, { EcctrlAnimation } from "ecctrl";
-import CharacterHud from "../hud/CharacterHud"
+import LoadingScreen from "./hud/LoadingScreen";
+import Buttons from "./hud/Buttons";
+import CharacterHudLv4 from "./hud/CharacterHudLv4";
 
 export default function Level4() {
 
     const map = useMovements();
 
-    const actualizarVida = (nuevaVida) => {
-        setVida(nuevaVida);
+    const [life, setLife] = useState(3);
+    const [endLevel, setEndLevel] = useState(false);
+    const [checkpoint, setCheckpoint] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
+    const [showYouLost, setShowYouLost] = useState(false);
+    const [cooldown, setCooldown] = useState(false);
+    const [panino, setPanino] = useState(0);
+
+    const onContinue = () => {
+        setShowYouLost(false);
     };
-    const [vida, setVida] = useState(50);
-    const vidasPerdidas = 2;
+
+    const endingLevel = () => {
+        setEndLevel(true);
+    };
 
     return (
-        
         <KeyboardControls map={map} >
             <Canvas
                 camera={{
                     position: [0, 1, 0]
                 }}
             >
-                {/* <Perf position="top-left" /> */}
-                <Suspense fallback={null}>
+                <Suspense fallback={<LoadingScreen />}>
                     <Lights />
                     <Environments />
                     <Physics debug={false}>
                         <World />
-                        <Ecctrl
-                            capsuleHalfHeight={0.5}
-                            floatingDis={0.2}
-                            camInitDis={-3}
-                            camMaxDis={-4}
-                            maxVelLimit={5} 
-                            jumpVel={1} 
-                            position={[12, 2, -11.5]}
-                        >
-                            <AvatarEngineer />
-                            {/* <AvatarCientific /> */}
-                        </Ecctrl>
+                        <AvatarCientific />
                     </Physics>
-                    
                 </Suspense>
-                <WelcomeText />
                 <Controls />
             </Canvas>
-            <CharacterHud vida={vida} vidasPerdidas={vidasPerdidas} actualizarVida={actualizarVida} />
+            <Buttons />
+            <CharacterHudLv4
+                lifes={life}
+                userInfo={userInfo}
+                endLevel={endLevel}
+                showYouLost={showYouLost}
+                panino={panino}
+                onContinue={onContinue}
+            />
         </KeyboardControls>
 
     )
