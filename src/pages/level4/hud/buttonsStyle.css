@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'FontPixelSplitter';
+    src: url('../../../../public/assets/fonts/PixelSplitter-Bold.ttf') format('truetype');
+}
+:root {
+    font-family: 'FontPixelSplitter', Arial;
+}
+
+.button-container {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 9999;
+  padding: 20px 0; /* Añade algo de espacio vertical */
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-between; /* Cambia a space-between para separar los botones */
+  width: 20%; /* Ajusta el ancho según necesites */
+  max-width: 600px; /* Establece un máximo según tus necesidades */
+}
+
+.button-levels {
+  cursor: pointer; /* Hace que el mouse cambie a un cursor de mano al pasar sobre el botón */
+  transition: transform 0.3s; /* Transición suave para efectos de hover */
+}
+
+.button-levels img {
+  width: 60px; /* Ajusta el tamaño de las imágenes de los botones */
+  height: auto; /* Mantiene la proporción */
+  display: block;
+}
+
+.button-levels:hover {
+  transform: scale(1.5); /* Efecto de hover para hacer el botón ligeramente más grande */
+}
