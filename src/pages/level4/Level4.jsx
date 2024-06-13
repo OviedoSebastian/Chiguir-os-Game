@@ -73,9 +73,7 @@ export default function Level4() {
                             {players[0]?.urlAvatar && (
                                 <AvatarCientific urlModel={players[0].urlAvatar} />
                             )}
-                            {players[1]?.urlAvatar && (
-                                <AvatarEngineer urlModel={players[1].urlAvatar} />
-                            )}
+                            <AvatarEngineer urlModel={players[1]?.urlAvatar} />
                     </Physics>
                 </Suspense>
                 <Controls />
