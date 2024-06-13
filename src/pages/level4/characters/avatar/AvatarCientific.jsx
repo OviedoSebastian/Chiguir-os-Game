@@ -3,14 +3,24 @@ import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import Ecctrl from "ecctrl";
 
-export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDelMapa }) {
+export default function AvatarCientific({ urlModel, vida, resetPoint,  offTheMap, dentroDelMapa }) {
 
     const avatarCientificRef = useRef();
     const rigidBodyAvatarCientificRef = useRef();
     const { avatar, setAvatar } = useAvatar();
-    const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Cientific.glb');
-
+    const { nodes, materials, animations } = useGLTF(urlModel);
     const { actions } = useAnimations(animations, avatarCientificRef);
+
+    useEffect(() => {
+        setAvatar({
+            ...avatar,
+            avatarRef: avatarCientificRef?.current,
+            rigidBodyAvatarRef: rigidBodyAvatarCientificRef?.current
+
+        });
+
+    }, [avatarCientificRef?.current, rigidBodyAvatarCientificRef?.current]);
+
 
     useEffect(() => {
        
@@ -50,16 +60,6 @@ export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDe
             dentroDelMapa();
         }
     }, [offTheMap]);
-
-    useEffect(() => {
-        setAvatar({
-            ...avatar,
-            avatarRef: avatarCientificRef?.current,
-            rigidBodyAvatarRef: rigidBodyAvatarCientificRef?.current
-
-        });
-
-    }, [avatarCientificRef?.current, rigidBodyAvatarCientificRef?.current]);
 
     return (
         <Ecctrl
