@@ -3,12 +3,12 @@ import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import Ecctrl from "ecctrl";
 
-export default function AvatarCientific({ urlModel, vida, resetPoint,  offTheMap, dentroDelMapa }) {
+export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDelMapa }) {
 
     const avatarCientificRef = useRef();
     const rigidBodyAvatarCientificRef = useRef();
     const { avatar, setAvatar } = useAvatar();
-    const { nodes, materials, animations } = useGLTF(urlModel);
+    const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Cientific.glb');
     const { actions } = useAnimations(animations, avatarCientificRef);
 
     useEffect(() => {
@@ -70,7 +70,6 @@ export default function AvatarCientific({ urlModel, vida, resetPoint,  offTheMap
             camMaxDis={-4}
             maxVelLimit={6}
             jumpVel={10}
-            //position={[-75, 85, 10]}
             position={[12, 12, -11]}
         >
             <group ref={avatarCientificRef} name="Scene" position-y={-0.82}>
