@@ -2,6 +2,7 @@ import { useKeyboardControls } from "@react-three/drei";
 import { useAvatar } from "../../../context/AvatarContext";
 import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import { socket } from "../../../socket/socket-manager";
 
 export default function Controls() {
 
@@ -22,6 +23,7 @@ export default function Controls() {
       (state) => state.forward || state.backward || state.leftward || state.rightward,
       (pressed) => {
         setAvatar({ ...avatar, animation: pressed ? "Walk" : "Idle" });
+        socket.emit("change-animation", {animation: pressed ? "Walk" : "Idle"})
         if (pressed) {
           sounds.walk.play();
         } else {
@@ -38,6 +40,7 @@ export default function Controls() {
       (state) => (state.forward || state.backward || state.leftward || state.rightward) && state.run,
       (pressed) => {
         setAvatar({ ...avatar, animation: pressed ? "Running" : "Idle" });
+        socket.emit("change-animation", {animation: pressed ? "Runnning" : "Idle"})
         if (pressed) {
           sounds.run.play();
         } else {
@@ -55,9 +58,11 @@ export default function Controls() {
       (state) => state.jump && !isJumping,
       () => {
         setAvatar({ ...avatar, animation: "Jump" });
+        socket.emit("change-animation", {animation: "Jump" })
         setIsJumping(true);
         setTimeout(() => {
           setAvatar({ ...avatar, animation: "Idle" });
+          socket.emit("change-animation", {animation: "Idle" })
           setIsJumping(false);
         }, 1000); // Duración de la animación de salto en milisegundos (1 segundo)
       }
@@ -71,23 +76,22 @@ export default function Controls() {
       (state) => state.dance,
       () => {
         setAvatar({ ...avatar, animation: "Dance" });
+        socket.emit("change-animation", {animation: "Dance" })
       }
     );
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, get]);
 
-  useEffect(() => {
-    if (play) {
-      sounds.run.currentTime = 0;
-      sounds.run.play();
-    } else {
-      sounds.run.pause();
-    }
-  }, [play]);
-
   useFrame(() => {
-    const { forward, backward, leftward, rightward } = get();
-    if (forward || backward || leftward || rightward) {
+    const { forward, backward, leftward, rightward, run, jump } = get();
+    if (forward || backward || leftward || rightward || run || jump) {
+
+      // Envio del movimiento del personaje al servidor
+      socket.emit("moving-player", {
+        position: avatar.rigidBodyAvatarRef?.translation(),
+        rotation: avatar.rigidBodyAvatarRef?.rotation(),
+      })
+
       if (avatar.animation === "Walk") {
         sounds.walk.play();
       } else if (avatar.animation === "Running") {
