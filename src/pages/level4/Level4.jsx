@@ -70,10 +70,8 @@ export default function Level4() {
                     <Environments />
                     <Physics debug={false} timeStep="vary">
                         <World />
-                            {players[0]?.urlAvatar && (
-                                <AvatarCientific urlModel={players[0].urlAvatar} />
-                            )}
-                            <AvatarEngineer urlModel={players[1]?.urlAvatar} />
+                            <AvatarCientific />
+                            <AvatarEngineer />
                     </Physics>
                 </Suspense>
                 <Controls />
