@@ -70,9 +70,10 @@ export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDe
             camMaxDis={-4}
             maxVelLimit={6}
             jumpVel={10}
-            position={[12, 12, -11]}
+            position={[12, 8, -10]}
+            // position={[12, 8, -11]}
         >
-            <group ref={avatarCientificRef} name="Scene" position-y={-0.82}>
+            <group ref={avatarCientificRef} name="Scene" position-y={-0.80}>
                 <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
                     <skinnedMesh
                         name="Caot_botons"

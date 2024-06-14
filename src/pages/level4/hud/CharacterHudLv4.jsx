@@ -77,11 +77,11 @@ const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, p
             )}
 
             {/* Mapa */}
-            <div class="hud-map">
-                <a href="#large-map" class="map-link">
-                    <img src="./assets/images/mapa.png" alt="mapa" class="hud-mapa" />
+            <div className="hud-map">
+                <a href="#large-map" className="map-link">
+                    <img src="./assets/images/mapa.png" alt="mapa" className="hud-mapa" />
                 </a>
-                <span class="map-text">Mapa</span>
+                <span className="map-text">Mapa</span>
             </div>
 
             {/* Termino el nivel */}
@@ -98,25 +98,25 @@ const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, p
                 )}
             </div>
 
-            <div id="large-map" class="overlay">
-                <a href="#" class="close-overlay">
+            <div id="large-map" className="overlay">
+                <a href="#" className="close-overlay">
                     &times;
                 </a>
                 <img
                     src="./assets/images/mapa.png"
                     alt="mapa grande"
-                    class="large-map"
+                    className="large-map"
                 />
             </div>
 
-            <div id="large-map" class="overlay">
-                <a href="#" class="close-overlay">
+            <div id="large-map" className="overlay">
+                <a href="#" className="close-overlay">
                     &times;
                 </a>
                 <img
                     src="./assets/images/Fondo.png"
                     alt="mapa grande"
-                    class="large-map"
+                    className="large-map"
                 />
             </div>
 
