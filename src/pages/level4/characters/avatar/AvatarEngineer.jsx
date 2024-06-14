@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useAnimations, useGLTF } from "@react-three/drei";
-import { CuboidCollider, RigidBody, vec3 } from "@react-three/rapier";
+import { CuboidCollider, RigidBody, quat, vec3 } from "@react-three/rapier";
 import { socket } from "../../../../socket/socket-manager";
 
 export default function AvatarEngineer() {
     const avatarEngineerRef = useRef();
     const rigidBodyAvatarEngineerRef = useRef();
     const position = vec3();
+    const rotation = quat();
     const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Engineer.glb');
-    const [animation, setAnimation] = useState('Running');
+    const [animation, setAnimation] = useState('Dance');
     const { actions } = useAnimations(animations, avatarEngineerRef);
+
+  
 
     useEffect(() => {
         if (actions && animation) {
@@ -22,7 +25,9 @@ export default function AvatarEngineer() {
     
     socket.on("updates-values-transform-player", (player) =>{
         position.set( player.position.x, player.position.y, player.position.z )
+        rotation.set( player.rotation.x, player.rotation.y, player.rotation.z, player.rotation.w )
         rigidBodyAvatarEngineerRef.current?.setTranslation(position, true)
+        rigidBodyAvatarEngineerRef.current?.setRotation(rotation, true)
     })
 
     socket.on("update-animation", (animation)=>{
@@ -33,13 +38,13 @@ export default function AvatarEngineer() {
     })
 
     return (
-        <RigidBody ref={rigidBodyAvatarEngineerRef} colliders={false} type="fixed" position={[15, 5, -11]}>
+        <RigidBody ref={rigidBodyAvatarEngineerRef} colliders={false} type="fixed" position={[ 6, 1.2, -11.5]}>
             <group ref={avatarEngineerRef} name="Scene" position-y={-0.82}>
                 {/* <mesh>
                     <sphereGeometry args={[1,32,32]} />
                     <meshStandardMaterial color='blue' />
                 </mesh> */}
-                <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
+                <group name="Armature" rotation={[Math.PI / 2, 0, 5]} scale={0.002}>
                 {nodes.Engineer_eyes && (
                         <skinnedMesh
                             name="Engineer_eyes"
@@ -136,7 +141,7 @@ export default function AvatarEngineer() {
                     )}
                 </group>
             </group>
-        <CuboidCollider args={[ 1, 1, 1 ]} />
+        <CuboidCollider args={[ 0.2, 0.74, 0.4 ]} />
       </RigidBody> 
     )
 }
