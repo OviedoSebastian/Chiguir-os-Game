@@ -70,7 +70,7 @@ export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDe
             camMaxDis={-4}
             maxVelLimit={6}
             jumpVel={10}
-            position={[12, 8, -10]}
+            position={[12, 20, -10]}
             // position={[12, 8, -11]}
         >
             <group ref={avatarCientificRef} name="Scene" position-y={-0.80}>
