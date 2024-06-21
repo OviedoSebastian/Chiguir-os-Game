@@ -2,11 +2,7 @@ const Lights = () => {
     
 
     return <>
-        <ambientLight color={"black"} intensity={100} />
-        {/* <directionalLight 
-            position={[10, 10, 5]} 
-            castShadow={true}  
-        /> */}
+        <ambientLight color={"white"} intensity={1} />
 
         <pointLight
             position={[5.9, 0, -11.5]}

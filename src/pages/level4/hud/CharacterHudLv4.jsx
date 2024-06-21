@@ -7,7 +7,7 @@ const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, p
     const [displayText, setDisplayText] = useState("");
 
     const textToShow = 
-    "HOLI BRO";
+    "Para entrar en los tuneles subterraneos ve al salon de clase y atravieza la puerta, me faltan los interiores y ponerle textura a los edificios";
 
     const currentIndexRef = useRef(0);
 
