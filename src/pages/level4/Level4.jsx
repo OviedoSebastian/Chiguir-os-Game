@@ -17,6 +17,11 @@ import Buttons from "./hud/Buttons";
 import CharacterHudLv4 from "./hud/CharacterHudLv4";
 import AvatarCientific from "./characters/avatar/AvatarCientific";
 import AvatarEngineer from "./characters/avatar/AvatarEngineer";
+import {
+    createcheckpoint,
+    editCheckpoint,
+    readCheckpoint,
+} from "../../db/level4-collection";
 
 
 export default function Level4() {
@@ -55,6 +60,28 @@ export default function Level4() {
     useEffect(()=>{
         socket.emit("player-connected")
     }, [])
+
+    const readDataCheckpoint = async (email) => {
+        try {
+            const checkpointData = await readCheckpoint(email);
+            return checkpointData;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const savecheckpoint = () => {
+        setCheckpoint(true);
+        const { email } = auth.userLogged;
+        // console.log(displayName, email); //Verificar los datos a guardar
+        saveDatacheckpoint({
+            email: email,
+            vidas: vida,
+            // Agregar los recolectables que se vaan a utilizar
+            checkpoint: checkpoint,
+        });
+    };
 
 
     useEffect(() => {
