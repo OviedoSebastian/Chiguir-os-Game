@@ -6,26 +6,37 @@ import { color } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function World(props) {
   const [intersecting, setIntersection] = useState(false);
+  const EspinasRef = useRef();
+  const [Boton] = useState(new Audio("/assets/sounds/Boton.mp3"));
 
   const { nodes, materials } = useGLTF(
     "/assets/models/world/Plazoleta.v28.glb"
   );
 
-  const handleIntersectionEnter = (payload, manifold) => {
-    console.log("Entra")
-    console.log(payload.colliderObject.name)
-    if (payload.colliderObject.name === "character-capsule-collider") {
-      setIntersection(true);
-    }
+  const handleIntersectionEnter = () => {
+    console.log("Entra");
+    setIntersection(true);
+    console.log(intersecting);
+    const position = EspinasRef.current.translation();
+    EspinasRef.current.setTranslation({
+      x: position.x,
+      y: position.y,
+      z: position.z + 10,
+    });
+    console.log(position);
   };
 
   const handleIntersectionExit = () => {
-    console.log("Sale")
+    console.log("Sale");
     setIntersection(false);
+    console.log(intersecting);
+    const position = EspinasRef.current.translation();
+    EspinasRef.current.setTranslation({ x: 0, y: 0, z: 0 });
+    console.log(position);
   };
 
   const TocaBoton = ({ manifold }) => {
-    console.log("Collision at world position", manifold.solverContactPoint(0));
+    Boton.play();
   };
 
   const TocaEspinas = ({ manifold, target, other }) => {
@@ -37,6 +48,31 @@ export default function World(props) {
       <group>
         <RigidBody type="fixed" colliders="trimesh">
           <group>
+            <group>
+
+              {/* Birrrete */}
+              <mesh
+                geometry={nodes.Sphere001.geometry}
+                material={materials.Naranja}
+              />
+              <mesh
+                geometry={nodes.Sphere001_1.geometry}
+                material={materials.Negro}
+              />
+              <mesh
+                geometry={nodes.Sphere001_2.geometry}
+                material={materials.Amarillo}
+              />
+              <mesh
+                geometry={nodes.Sphere001_3.geometry}
+                material={materials.Negro2}
+              />
+              <mesh
+                geometry={nodes.Sphere001_4.geometry}
+                material={materials["Amarillo.001"]}
+              />
+              
+            </group>
             <group>
               <mesh
                 geometry={nodes.map_10osm_buildings009.geometry}
@@ -1874,39 +1910,11 @@ export default function World(props) {
               </group>
             </group>
           </group>
-          <group>
-            <mesh
-              geometry={nodes.Sphere001.geometry}
-              material={materials.Naranja}
-            />
-            <mesh
-              geometry={nodes.Sphere001_1.geometry}
-              material={materials.Negro}
-            />
-            <mesh
-              geometry={nodes.Sphere001_2.geometry}
-              material={materials.Amarillo}
-            />
-            <mesh
-              geometry={nodes.Sphere001_3.geometry}
-              material={materials.Negro2}
-            />
-            <mesh
-              geometry={nodes.Sphere001_4.geometry}
-              material={materials["Amarillo.001"]}
-            />
-          </group>
-
-          <group>
-            <mesh
-              geometry={nodes.PisoTrampa.geometry}
-              material={materials["Floor.001"]}
-            />
-          </group>
         </RigidBody>
 
         {/* Espinas  */}
         <RigidBody
+          ref={EspinasRef}
           type="fixed"
           colliders="hull"
           onCollisionEnter={(e) => TocaEspinas(e)}
@@ -1921,7 +1929,7 @@ export default function World(props) {
         {/* Boton  */}
         <RigidBody
           type="fixed"
-          colliders="cuboid"
+          colliders={false}
           onCollisionEnter={(e) => TocaBoton(e)}
           name="Botones"
         >
@@ -1939,15 +1947,29 @@ export default function World(props) {
           />
 
           <CuboidCollider
-            // position={[3.9, -7.11, 8.9]}
-            position={[ 10, 1.2, -11.5]}
-            args={[0.2, 0.2, 0.2]}
-            // sensor
+            position={[3.9, -7.11, 8.9]}
+            args={[0.3, 0.3, 0.3]}
+            sensor
             onIntersectionEnter={handleIntersectionEnter}
             onIntersectionExit={handleIntersectionExit}
-            onCollisionEnter={TocaBoton}
+          />
+
+          <CuboidCollider
+            position={[-18, -6.6, 25.5]}
+            // position={[ 10, 1.2, -11.5]}
+            args={[0.3, 0.3, 0.3]}
+            sensor
+            onIntersectionEnter={handleIntersectionEnter}
+            onIntersectionExit={handleIntersectionExit}
           />
         </RigidBody>
+
+        <group>
+          <mesh
+            geometry={nodes.PisoTrampa.geometry}
+            material={materials["Floor.001"]}
+          />
+        </group>
 
         <mesh
           geometry={nodes.PuertaAbiertaEdificio.geometry}
