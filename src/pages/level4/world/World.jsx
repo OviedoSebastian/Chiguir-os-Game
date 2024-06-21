@@ -1,12 +1,36 @@
 import { useGLTF, useTexture } from "@react-three/drei";
-import { RigidBody } from "@react-three/rapier";
+import { RigidBody, CuboidCollider } from "@react-three/rapier";
+import { useRef, useState, Suspense } from "react";
 import { RepeatWrapping } from "three";
 import { color } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function World(props) {
+  const [intersecting, setIntersection] = useState(false);
+
   const { nodes, materials } = useGLTF(
     "/assets/models/world/Plazoleta.v28.glb"
   );
+
+  const handleIntersectionEnter = (payload, manifold) => {
+    console.log("Entra")
+    console.log(payload.colliderObject.name)
+    if (payload.colliderObject.name === "character-capsule-collider") {
+      setIntersection(true);
+    }
+  };
+
+  const handleIntersectionExit = () => {
+    console.log("Sale")
+    setIntersection(false);
+  };
+
+  const TocaBoton = ({ manifold }) => {
+    console.log("Collision at world position", manifold.solverContactPoint(0));
+  };
+
+  const TocaEspinas = ({ manifold, target, other }) => {
+    console.log("Collision at world position", manifold.solverContactPoint(0));
+  };
 
   return (
     <group {...props} dispose={null}>
@@ -1694,10 +1718,6 @@ export default function World(props) {
               </group>
             </group>
           </group>
-
-          
-
-          
         </RigidBody>
 
         <RigidBody type="fixed" colliders="cuboid">
@@ -1877,7 +1897,34 @@ export default function World(props) {
             />
           </group>
 
-          {/* Boton  */}
+          <group>
+            <mesh
+              geometry={nodes.PisoTrampa.geometry}
+              material={materials["Floor.001"]}
+            />
+          </group>
+        </RigidBody>
+
+        {/* Espinas  */}
+        <RigidBody
+          type="fixed"
+          colliders="hull"
+          onCollisionEnter={(e) => TocaEspinas(e)}
+          name="Espinas"
+        >
+          <mesh
+            geometry={nodes.Espinas.geometry}
+            material={materials["Spike.001"]}
+          />
+        </RigidBody>
+
+        {/* Boton  */}
+        <RigidBody
+          type="fixed"
+          colliders="cuboid"
+          onCollisionEnter={(e) => TocaBoton(e)}
+          name="Botones"
+        >
           <mesh
             castShadow
             receiveShadow
@@ -1891,25 +1938,16 @@ export default function World(props) {
             material={materials.Boton}
           />
 
-          
+          <CuboidCollider
+            // position={[3.9, -7.11, 8.9]}
+            position={[ 10, 1.2, -11.5]}
+            args={[0.2, 0.2, 0.2]}
+            // sensor
+            onIntersectionEnter={handleIntersectionEnter}
+            onIntersectionExit={handleIntersectionExit}
+            onCollisionEnter={TocaBoton}
+          />
         </RigidBody>
-
-        <RigidBody type="fixed" colliders="hull">              
-        <group>
-            <mesh
-              geometry={nodes.Espinas.geometry}
-              material={materials["Spike.001"]}
-            />
-          </group>
-
-          <group>
-            <mesh
-              geometry={nodes.PisoTrampa.geometry}
-              material={materials["Floor.001"]}
-            />
-          </group>
-
-          </RigidBody>
 
         <mesh
           geometry={nodes.PuertaAbiertaEdificio.geometry}
@@ -1924,35 +1962,32 @@ export default function World(props) {
           material={materials.Puerta}
         />
 
-<mesh geometry={nodes["1"].geometry} material={materials["1"]} />
-          <mesh geometry={nodes.Andres.geometry} material={materials.Andres} />
-          <mesh geometry={nodes.Camilo.geometry} material={materials.Camilo} />
-          <mesh
-            geometry={nodes.Created.geometry}
-            material={materials.Created}
-          />
-          <mesh geometry={nodes.Kevin.geometry} material={materials.Kevin} />
-          <mesh geometry={nodes.Sebas.geometry} material={materials.Sebas} />
-          <mesh
-            geometry={nodes.univalle.geometry}
-            material={materials.univalle}
-          />
-          <mesh
-            geometry={nodes.BotonMensaje.geometry}
-            material={materials.BotonMensaje}
-          />
-          <mesh geometry={nodes["5"].geometry} material={materials["5"]} />
-          <mesh geometry={nodes["10"].geometry} material={materials["10"]} />
-          <mesh geometry={nodes["12"].geometry} material={materials["12"]} />
-          <mesh geometry={nodes.CURAO.geometry} material={materials.CURAO} />
-          <mesh
-            geometry={nodes.LaberintoMapa.geometry}
-            material={materials.LaberintoMapa}
-          />
-          <mesh
-            geometry={nodes.chiguirosIcon.geometry}
-            material={materials.chiguirosIcon}
-          />
+        <mesh geometry={nodes["1"].geometry} material={materials["1"]} />
+        <mesh geometry={nodes.Andres.geometry} material={materials.Andres} />
+        <mesh geometry={nodes.Camilo.geometry} material={materials.Camilo} />
+        <mesh geometry={nodes.Created.geometry} material={materials.Created} />
+        <mesh geometry={nodes.Kevin.geometry} material={materials.Kevin} />
+        <mesh geometry={nodes.Sebas.geometry} material={materials.Sebas} />
+        <mesh
+          geometry={nodes.univalle.geometry}
+          material={materials.univalle}
+        />
+        <mesh
+          geometry={nodes.BotonMensaje.geometry}
+          material={materials.BotonMensaje}
+        />
+        <mesh geometry={nodes["5"].geometry} material={materials["5"]} />
+        <mesh geometry={nodes["10"].geometry} material={materials["10"]} />
+        <mesh geometry={nodes["12"].geometry} material={materials["12"]} />
+        <mesh geometry={nodes.CURAO.geometry} material={materials.CURAO} />
+        <mesh
+          geometry={nodes.LaberintoMapa.geometry}
+          material={materials.LaberintoMapa}
+        />
+        <mesh
+          geometry={nodes.chiguirosIcon.geometry}
+          material={materials.chiguirosIcon}
+        />
       </group>
     </group>
   );
