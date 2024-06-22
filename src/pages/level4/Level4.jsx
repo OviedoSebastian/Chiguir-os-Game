@@ -193,7 +193,6 @@ export default function Level4() {
         }
     }, [auth.userLogged]);
 
-
     //Desconecta el socket cuando cierra la ventana
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -230,7 +229,6 @@ export default function Level4() {
         };
     }, []);
 
-
     useEffect(() => {
         // Listener for updates from the server
         socket.on('update-endlevel', (data) => {
@@ -266,12 +264,7 @@ export default function Level4() {
                         <SpeedMenox catchObject={handleCollectables} />
                         <Pocion catchObject={handleCollectables} />
                         <Radio catchObject={handleCollectables} />
-                        <Molotov position={[35, -0, -11.5]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100} isDecrease={collectables} />
-                        <Capucho position={[35, -0, -11.5]} loseLife={loseLife} />
-
-                        <Molotov position={[-35, -0, -18]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100} isDecrease={collectables} />
-                        <Capucho2 position={[-35, -0, -18]} loseLife={loseLife} />
-
+                        
                         <Molotov position={[11, -0, 40]} loseLife={loseLife} direccion={"z"} sentido={-1} distancia={38} isDecrease={collectables} />
                         <Capucho3 position={[11, -0, 40]} loseLife={loseLife} rotation={[0, Math.PI, 0]} />
                         <Ardilla position={[-5.3, 1, 21]} savecheckpoint={savecheckpoint} />

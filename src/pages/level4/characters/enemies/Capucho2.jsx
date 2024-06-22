@@ -10,7 +10,7 @@ export default function Capucho2({ position, loseLife, rotation }) {
   const [molotovSound] = useState(new Audio("/assets/sounds/Molotov.mp3"));
 
   const { nodes, materials, animations } = useGLTF(
-    "/assets/models/avatars/Capucho.glb"
+    "/assets/models/avatars/capucho.glb"
   );
   const { actions } = useAnimations(animations, capuchoRef);
   const initialPosition = position ? position[0] : 0;
