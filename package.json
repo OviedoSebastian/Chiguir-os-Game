@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest"
+    "test": "jest",
+    "test:level1": "jest src/test-render/__test__/Level1.test.jsx"
   },
   "keywords": [],
   "author": "",

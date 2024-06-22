@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import Experience from "./Experience";
 import "./styles.css";
-import { createRoot } from "react-dom/client";
+import { createRoot } from "react-dom";
 
 const root = createRoot(document.getElementById("root"));
 
