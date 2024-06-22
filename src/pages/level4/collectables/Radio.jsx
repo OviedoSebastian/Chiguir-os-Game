@@ -42,14 +42,27 @@ export default function Radio({ props, catchObject }) {
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if (other.colliderObject.name == "character-capsule-collider") {
-      // setVisible(false);
-      console.log("Tomaste el Radio");
+      setVisible(false);
+      socket.emit('update-radio', { visible: false });
       radioSound.play();
       catchObject();
     }
   };
 
+  useEffect(() => {
+    // Listener for updates from the server
+    socket.on('update-radio', (data) => {
+      setVisible(data.visible);
+    });
+
+    return () => {
+      socket.off('update-radio');
+    };
+  }, []);
+
   return (
+    <>
+    {visible ?
     <RigidBody
       ref={refRigidBody}
       type="fixed"
@@ -67,6 +80,8 @@ export default function Radio({ props, catchObject }) {
         />
       </group>
     </RigidBody>
+    : null }
+    </>
   );
 }
 

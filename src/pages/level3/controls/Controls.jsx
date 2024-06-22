@@ -11,13 +11,12 @@ export default function Controls() {
     run: new Audio("/assets/sounds/run.wav"),
     walk: new Audio("/assets/sounds/walk.wav"),
     jump: new Audio("/assets/sounds/jump.wav"),
-    // Agrega más sonidos aquí si es necesario
   });
   const [play, setPlay] = useState(false);
   const [isJumping, setIsJumping] = useState(false);
   // const position = avatar.rigidBodyAvatarRef?.translation();
 
-  // Caminar
+  // Walk
   useEffect(() => {
     const unsubscribe = sub(
       (state) => state.forward || state.backward || state.leftward || state.rightward,
@@ -33,7 +32,7 @@ export default function Controls() {
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, get]);
 
-  // Correr
+  // Run
   useEffect(() => {
     const unsubscribe = sub(
       (state) => (state.forward || state.backward || state.leftward || state.rightward) && state.run,
@@ -42,6 +41,7 @@ export default function Controls() {
         if (pressed) {
           sounds.run.play();
         } else {
+          setAvatar({ ...avatar, animation: "Walk" });
           sounds.run.pause();
         }
       }
@@ -49,48 +49,37 @@ export default function Controls() {
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, get]);
 
-  // Saltar
+  // Jump
   useEffect(() => {
     const unsubscribe = sub(
-        (state) => state.jump && !isJumping,
-        () => {
-            setAvatar({ ...avatar, animation: "Jump" });
-            setIsJumping(true);
-            setTimeout(() => {
-                setAvatar({ ...avatar, animation: "Idle" });
-                setIsJumping(false);
-            }, 1000); // Duración de la animación de salto en milisegundos (1 segundo)
-        }
+      (state) => state.jump && !isJumping,
+      () => {
+        setAvatar({ ...avatar, animation: "Jump" });
+        setIsJumping(true);
+        setTimeout(() => {
+          setAvatar({ ...avatar, animation: "Idle" });
+          setIsJumping(false);
+        }, 1000); // Duración de la animación de salto en milisegundos (1 segundo)
+      }
     );
     return () => unsubscribe();
-}, [avatar, setAvatar, sub, isJumping]);
+  }, [avatar, setAvatar, sub, isJumping]);
 
-// Bailar
-useEffect(() => {
-  const unsubscribe = sub(
+  // Dance
+  useEffect(() => {
+    const unsubscribe = sub(
       (state) => state.dance,
       () => {
-          setAvatar({ ...avatar, animation: "Dance" });
+        setAvatar({ ...avatar, animation: "Dance" });
       }
-  );
-  return () => unsubscribe();
-}, [avatar, setAvatar, sub, get]);
+    );
+    return () => unsubscribe();
+  }, [avatar, setAvatar, sub, get]);
 
+  useFrame(() => {
+    const { forward, backward, leftward, rightward, run, jump } = get();
+    if (forward || backward || leftward || rightward || run || jump) {
 
-
-  useEffect(() => {
-    if (play) {
-      sounds.run.currentTime = 0;
-      sounds.run.volume = Math.random()
-      sounds.run.play()
-    } else {
-      sounds.run.pause()
-    }
-  }, [play]);
-
-  useFrame((state, delta) => {
-    const { forward, backward, leftward, rightward } = get();
-    if (forward || backward || leftward || rightward) {
       if (avatar.animation === "Walk") {
         sounds.walk.play();
       } else if (avatar.animation === "Running") {
@@ -101,9 +90,9 @@ useEffect(() => {
       sounds.run.pause();
     }
   });
-  
+
 
   return (
     null
-  )
+  );
 }

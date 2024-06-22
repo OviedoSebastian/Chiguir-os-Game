@@ -3,7 +3,7 @@ import './hud.css';
 
 const CharacterHud = ({ vidas, radio, potion }) => {
     const [displayText, setDisplayText] = useState('');
-    const textToShow = 'Holi';
+    const textToShow = 'Te encontraron haciendo cosas indebidas (arrojando basura por el campo). <br><br>Dirígete hacía el final de la isla para poder escapar.<br>Recoge todas las recompensas para poder obtener ayuda y evita ser atrapado por los azulitos. <br><br>¡Suerte en tu escape! ;D';
     const currentIndexRef = useRef(0);
 
     useEffect(() => {

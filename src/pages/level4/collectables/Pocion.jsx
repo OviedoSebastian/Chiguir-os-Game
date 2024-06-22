@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
+import { socket } from "../../../socket/socket-manager";
 
 export default function Pocion({ props, catchObject }) {
   const { nodes, materials } = useGLTF("/assets/models/colectables/muestraQuimica.glb");
@@ -12,14 +13,14 @@ export default function Pocion({ props, catchObject }) {
   const radius = 0.3;
   const speed = 5;
 
-  
+
   const animate = () => {
     if (refRigidBody.current && visible) {
       const elapsedTime = Date.now() / 1000; // Tiempo en segundos
       const angle = elapsedTime * speed;
       const x = Math.sin(angle) * radius;
       const y = Math.cos(angle) * radius;
-      
+
       // Actualiza la posición y la rotación
       refRigidBody.current.setTranslation(
         {
@@ -29,12 +30,12 @@ export default function Pocion({ props, catchObject }) {
         },
         true
       );
-      
+
       refRigidBody.current.setRotation({ x: 0, y: angle, z: 0 }, true);
     }
     requestRef.current = requestAnimationFrame(animate);
   };
-  
+
   useEffect(() => {
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current);
@@ -42,38 +43,52 @@ export default function Pocion({ props, catchObject }) {
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if (other.colliderObject.name == "character-capsule-collider") {
-      // setVisible(false);
-      console.log("Tomaste la Poción");
+      setVisible(false);
+      socket.emit('update-pocion', { visible: false });
       potionSound.play();
       catchObject();
-      // pendiente funcionalidades
     }
   };
-  
+
+  useEffect(() => {
+    // Listener for updates from the server
+    socket.on('update-pocion', (data) => {
+      setVisible(data.visible);
+    });
+
+    return () => {
+      socket.off('update-pocion');
+    };
+  }, []);
+
   return (
-    <RigidBody
-      ref={refRigidBody}
-      type="fixed"
-      colliders="cuboid"
-      onCollisionEnter={(e) => onCollisionEnter(e)}
-      name="Pocion"
-      position={position}
-      >
-      <group {...props} dispose={null} ref={refRigidBody}>
-        <mesh
-          castShadow={true}
-          receiveShadow
-          geometry={nodes.Muestra_1.geometry}
-          material={materials.Glass}
-        />
-        <mesh
-          castShadow={true}
-          receiveShadow
-          geometry={nodes.Muestra_2.geometry}
-          material={materials.Liquids}
-        />
-      </group>
-    </RigidBody>
+    <>
+      {visible ?
+        <RigidBody
+          ref={refRigidBody}
+          type="fixed"
+          colliders="cuboid"
+          onCollisionEnter={(e) => onCollisionEnter(e)}
+          name="Pocion"
+          position={position}
+        >
+          <group {...props} dispose={null} ref={refRigidBody}>
+            <mesh
+              castShadow={true}
+              receiveShadow
+              geometry={nodes.Muestra_1.geometry}
+              material={materials.Glass}
+            />
+            <mesh
+              castShadow={true}
+              receiveShadow
+              geometry={nodes.Muestra_2.geometry}
+              material={materials.Liquids}
+            />
+          </group>
+        </RigidBody>
+        : null}
+    </>
   );
 }
 

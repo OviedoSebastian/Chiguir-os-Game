@@ -7,7 +7,6 @@ export default function Controls() {
 
   const { avatar, setAvatar } = useAvatar();
   const [sub, get] = useKeyboardControls();
-  const [runSound] = useState(new Audio("/assets/sounds/run.wav"));
   const [sounds, setSounds] = useState({
     run: new Audio("/assets/sounds/run.wav"),
     walk: new Audio("/assets/sounds/walk.wav"),
@@ -15,8 +14,9 @@ export default function Controls() {
   });
   const [play, setPlay] = useState(false);
   const [isJumping, setIsJumping] = useState(false);
+  // const position = avatar.rigidBodyAvatarRef?.translation();
 
-  // Caminar
+  // Walk
   useEffect(() => {
     const unsubscribe = sub(
       (state) => state.forward || state.backward || state.leftward || state.rightward,
@@ -32,7 +32,7 @@ export default function Controls() {
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, get]);
 
-  // Correr
+  // Run
   useEffect(() => {
     const unsubscribe = sub(
       (state) => (state.forward || state.backward || state.leftward || state.rightward) && state.run,
@@ -41,6 +41,7 @@ export default function Controls() {
         if (pressed) {
           sounds.run.play();
         } else {
+          setAvatar({ ...avatar, animation: "Walk" });
           sounds.run.pause();
         }
       }
@@ -48,37 +49,37 @@ export default function Controls() {
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, get]);
 
-  // Saltar
+  // Jump
   useEffect(() => {
     const unsubscribe = sub(
       (state) => state.jump && !isJumping,
       () => {
         setAvatar({ ...avatar, animation: "Jump" });
         setIsJumping(true);
-        sounds.jump.play();
         setTimeout(() => {
           setAvatar({ ...avatar, animation: "Idle" });
           setIsJumping(false);
-        }, 500); // Duración de la animación de salto en milisegundos (1 segundo)
+        }, 1000); // Duración de la animación de salto en milisegundos (1 segundo)
       }
     );
     return () => unsubscribe();
   }, [avatar, setAvatar, sub, isJumping]);
 
-
+  // Dance
   useEffect(() => {
-    if (play) {
-      sounds.run.currentTime = 0;
-      sounds.run.volume = Math.random()
-      sounds.run.play()
-    } else {
-      sounds.run.pause()
-    }
-  }, [play]);
+    const unsubscribe = sub(
+      (state) => state.dance,
+      () => {
+        setAvatar({ ...avatar, animation: "Dance" });
+      }
+    );
+    return () => unsubscribe();
+  }, [avatar, setAvatar, sub, get]);
 
-  useFrame((state, delta) => {
-    const { forward, backward, leftward, rightward } = get();
-    if (forward || backward || leftward || rightward) {
+  useFrame(() => {
+    const { forward, backward, leftward, rightward, run, jump } = get();
+    if (forward || backward || leftward || rightward || run || jump) {
+
       if (avatar.animation === "Walk") {
         sounds.walk.play();
       } else if (avatar.animation === "Running") {
@@ -89,26 +90,9 @@ export default function Controls() {
       sounds.run.pause();
     }
   });
-  
-
-  // useFrame(() => {
-  //   if (avatar.rigidBodyAvatarRef?.translation().y <= -10) {
-  //     console.log(avatar.rigidBodyAvatarRef?.translation().y);
-              
-  //     avatar.rigidBodyAvatarRef.current?.setTranslation(
-  //         {
-  //             x: 20,
-  //             y: 5,
-  //             z: -30,
-  //         },
-  //         false
-  //     );
-  // }
-  // });
-
 
 
   return (
     null
-  )
+  );
 }
