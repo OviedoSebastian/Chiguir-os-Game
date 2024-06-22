@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
-import { useFrame } from '@react-three/fiber'
 
 export default function Ardilla({savecheckpoint}) {
   const group = useRef();
