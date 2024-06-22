@@ -48,6 +48,10 @@ export default function Level4() {
         await createuser(valueUser);
     };
 
+    const saveDatacheckpoint = async (valueUser) => {
+        await createcheckpoint(valueUser);
+    };
+
     // Recupera la informacion del usuario en la BD
     const readDataUser = async (email) => {
         await readUser(email)
@@ -69,14 +73,12 @@ export default function Level4() {
         setIsLoseLife(true);
         setLife(life - 1);
         TimeLife();
-        // if (checkpointData && checkpointData.checkpoint) {
-        //     setPanino(checkpointData.panino);
-        //     setSpeedMenox(checkpointData.speedMenox);
-        // } else {
-        //     setPanino(0);
-        //     setSpeedMenox(0);
-        //     console.log("No guardaste en el checkpoint :c");
-        // }
+        if (checkpointData && checkpointData.checkpoint) {
+            setCollectables(checkpointData.collectables);
+        } else {
+            setCollectables(0);
+            console.log("No guardaste en el checkpoint :c");
+        }
     };
 
     const resetPoint = () => {
@@ -272,7 +274,7 @@ export default function Level4() {
 
                         <Molotov position={[11, -0, 40]} loseLife={loseLife} direccion={"z"} sentido={-1} distancia={38} isDecrease={collectables} />
                         <Capucho3 position={[11, -0, 40]} loseLife={loseLife} rotation={[0, Math.PI, 0]} />
-                        <Ardilla position={[-5.3, 1.4, 21]} savecheckpoint={savecheckpoint} />
+                        <Ardilla position={[-5.3, 1, 21]} savecheckpoint={savecheckpoint} />
                         <AvatarCientific vida={life} resetPoint={resetPoint} />
                         <AvatarEngineer vida={life} resetPoint={resetPoint} />
                     </Physics>
