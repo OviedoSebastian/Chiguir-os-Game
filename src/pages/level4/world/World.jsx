@@ -6,7 +6,7 @@ import { color } from "three/examples/jsm/nodes/Nodes.js";
 import { socket } from "../../../socket/socket-manager";
 
 
-export default function World(finishedLevel) {
+export default function World({finishedLevel, loseLife}) {
   const [intersecting, setIntersection] = useState(false);
   const EspinasRef = useRef();
   const [originalPosition, setOriginalPosition] = useState(null);
@@ -74,7 +74,7 @@ export default function World(finishedLevel) {
   };
 
   const TocaEspinas = ({ manifold, target, other }) => {
-    console.log("Collision at world position", manifold.solverContactPoint(0));
+    loseLife();
   };
 
   const Gana = () => {
