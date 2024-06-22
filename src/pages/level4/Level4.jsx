@@ -23,6 +23,10 @@ import Curao from "./collectables/Curao";
 import Pocion from "./collectables/Pocion";
 import Radio from "./collectables/Radio";
 import { createcheckpoint, editCheckpoint, readCheckpoint, } from "../../db/level4-collection";
+import Capucho from "./characters/enemies/Capucho";
+import Molotov from "./characters/enemies/Molotov";
+import Capucho2 from "./characters/enemies/Capucho2";
+import Capucho3 from "./characters/enemies/Capucho3";
 
 export default function Level4() {
     const map = useMovements();
@@ -75,7 +79,7 @@ export default function Level4() {
     const resetPoint = () => {
         setShowYouLost(true);
         setLife(3);
-        setCollectable(0);
+        setCollectables(0);
         setCheckpoint(false);
         editCheckpoint(auth.userLogged.email, {
             vidas: 3,
@@ -226,6 +230,14 @@ export default function Level4() {
                         <SpeedMenox catchObject={handleCollectables} />
                         <Pocion catchObject={handleCollectables} />
                         <Radio catchObject={handleCollectables} />
+                        <Molotov position={[35, -0, -11.5]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100} />
+                        <Capucho position={[35, -0, -11.5]} loseLife={loseLife} />
+
+                        <Molotov position={[-35, -0, -18]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100} />
+                        <Capucho2 position={[-35, -0, -18]} loseLife={loseLife} />
+
+                        <Molotov position={[11, -0, 40]} loseLife={loseLife} direccion={"z"} sentido={-1} distancia={38} />
+                        <Capucho3 position={[11, -0, 40]} loseLife={loseLife} rotation={[0, Math.PI, 0]} />
                         <AvatarCientific vida={life} resetPoint={resetPoint} />
                         <AvatarEngineer vida={life} resetPoint={resetPoint} />
                     </Physics>

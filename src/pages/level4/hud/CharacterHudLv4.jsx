@@ -7,8 +7,8 @@ import YouLost from "./YouLost";
 const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, collectables, openDoor }) => {
     const [displayText, setDisplayText] = useState("");
 
-    const textToShow =
-        "Para entrar en los tuneles subterraneos ve al salon de clase y atravieza la puerta, me faltan los interiores y ponerle textura a los edificios";
+    const textToShow = 
+    "¡Bienvenido al nivel final, la plazoleta! Aquí, junto a tu compañero, deberás recolectar todos los objetos que has visto hasta ahora, superar obstáculos y resolver enigmas para alcanzar tu tan deseada graduación. ¡Buena suerte!";
 
     const currentIndexRef = useRef(0);
 
