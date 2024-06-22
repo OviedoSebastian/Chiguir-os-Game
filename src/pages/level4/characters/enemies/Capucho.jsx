@@ -41,7 +41,7 @@ export default function Capucho({ position, loseLife, rotation }) {
       ref={refCapuchoRigidBody}
       type="fixed"
       colliders="cuboid"
-      name="Capucho3"
+      name="Capucho"
       position={position}
       rotation={rotation}
       onCollisionEnter={(e) => onCollisionEnter(e)}
