@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "strict": true,
+    "jsx": "react", // Habilita el soporte para JSX
+    "esModuleInterop": true, // Habilita la interoperabilidad de módulos de estilo ECMAScript
+    "allowSyntheticDefaultImports": true, // Permite importar módulos que no tienen exportaciones por defecto
+    "resolveJsonModule": true, // Permite importar archivos JSON como módulos
+    "types": ["jest","node"],
+    "skipLibCheck": true,
+    "paths": {
+      "@react-three/fiber": ["./node_modules/@react-three/fiber"],
+    }
+  },
+  "include": ["src"], // Rutas de los archivos que deben ser incluidos en la compilación
+  "exclude": ["node_modules"] // Rutas de los archivos que deben ser excluidos de la compilación
+}
