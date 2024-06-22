@@ -82,7 +82,7 @@ export default function AvatarCientific({ vida, resetPoint, offTheMap, dentroDel
             camInitDis={-3}
             camMaxDis={-4}
             maxVelLimit={6}
-            position={[12, 4, -10]}
+            position={[12, 6, -10]}
             jumpVel={14}
             name="avatar-cientific"
         // position={[12, 8, -11]}
