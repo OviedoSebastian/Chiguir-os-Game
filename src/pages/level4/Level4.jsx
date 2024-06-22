@@ -271,7 +271,7 @@ export default function Level4() {
                         <Capucho2 position={[-35, -0, -18]} loseLife={loseLife} />
 
                         <Molotov position={[11, -0, 40]} loseLife={loseLife} direccion={"z"} sentido={-1} distancia={38} isDecrease={collectables} />
-                        {/*<Capucho3 position={[11, -0, 40]} loseLife={loseLife} rotation={[0, Math.PI, 0]} /> */}
+                        <Capucho3 position={[11, -0, 40]} loseLife={loseLife} rotation={[0, Math.PI, 0]} />
                         <Ardilla position={[-5.3, 1, 21]} savecheckpoint={savecheckpoint} />
                         <AvatarCientific vida={life} resetPoint={resetPoint} />
                         <AvatarEngineer vida={life} resetPoint={resetPoint} />
