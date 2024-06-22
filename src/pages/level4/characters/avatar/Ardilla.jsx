@@ -3,26 +3,25 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
 export default function Ardilla({ position, savecheckpoint }) {
-
-  const ardillaRef = useRef();
-  const refArdillaRigidBody = useRef();
+  const group = useRef();
   const { nodes, materials, animations } = useGLTF(
     "/assets/models/villains/pericardilla.glb"
   );
-  const { actions } = useAnimations(animations, ardillaRef);
-  const [ardillaSound] = useState(new Audio("/assets/sounds/jajaja.wav"));
+  const { actions } = useAnimations(animations, group);
+  const [runSound] = useState(new Audio("/assets/sounds/jajaja.wav"));
+  const refRigidBody = useRef();
 
   useEffect(() => {
     actions.dance.play(); // Reproduce la animación por defecto al cargar
   }, [actions.defaultAnimation]);
 
   const onCollisionEnter = ({ manifold, target, other }) => {
-    // console.log("Collision at world position", other.colliderObject.name);
+    // console.log("Collision at world position", manifold.solverContactPoint(0));
 
     if (other.colliderObject.name == "character-capsule-collider") {
-      savecheckpoint();
-      ardillaSound.play();
       console.log("Checkpoint");
+      savecheckpoint();
+      runSound.play();
       } else {
         console.log(
           // this rigid body's Object3D
@@ -32,29 +31,31 @@ export default function Ardilla({ position, savecheckpoint }) {
           other.rigidBodyObject
         );
       }
-  };
+    };
 
 
   return (
     <RigidBody
-      ref={refArdillaRigidBody}
+      ref={refRigidBody}
       type="fixed"
       colliders="cuboid"
       position={position}
       onCollisionEnter={(e) => onCollisionEnter(e)}
       name="Ardilla"
     >
-        <group ref={ardillaRef} dispose={null}name="Scene" position-y={-1.5}>
-          <group name="Armature" rotation={[Math.PI / 2, 0, 5]} dispose={null} scale={0.01}>
-            <skinnedMesh
-              name="pericardilla"
-              geometry={nodes.pericardilla.geometry}
-              material={materials.pericardillaMat}
-              skeleton={nodes.pericardilla.skeleton}
-            />
-            <primitive object={nodes.mixamorigHips} />
+      <group ref={group} dispose={null}>
+        <group name="Scene">
+        <group name="Armature" rotation={[Math.PI / 2, 0, 1.6]} scale={0.01}>
+          <skinnedMesh
+            name="pericardilla"
+            geometry={nodes.pericardilla.geometry}
+            material={materials.pericardillaMat}
+            skeleton={nodes.pericardilla.skeleton}
+          />
+          <primitive object={nodes.mixamorigHips} />
         </group>
         </group>
+      </group>
     </RigidBody>
   );
 }

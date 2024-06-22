@@ -3,7 +3,7 @@ import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import { socket } from "../../../socket/socket-manager";
 
-export default function Radio({ props, catchObject }) {
+export default function Radio({ props, catchObject, curaito }) {
   const { nodes, materials } = useGLTF("/assets/models/colectables/radio.glb");
   const [radioSound] = useState(new Audio("/assets/sounds/recolect_object1.wav"));
   const [position, setPosition] = useState([-17, 0, -14]);
