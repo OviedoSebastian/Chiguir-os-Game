@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
+import { socket } from "../../../socket/socket-manager";
 
 export default function Panino({ catchObject }) {
     const { nodes, materials } = useGLTF("/assets/models/colectables/Panino.glb");
@@ -41,14 +42,23 @@ export default function Panino({ catchObject }) {
 
     const onCollisionEnter = ({ manifold, target, other }) => {
         if (other.colliderObject.name === "character-capsule-collider") {
-            // setVisible(false);
-            console.log("Tomaste el panino");
+            setVisible(false);
+            socket.emit('update-panino', { visible: false });
             paninoSound.play();
             catchObject();
-            // setVisible(false);
-            // catchObject();
         }
     };
+
+    useEffect(() => {
+        // Listener for updates from the server
+        socket.on('update-panino', (data) => {
+            setVisible(data.visible);
+        });
+
+        return () => {
+            socket.off('update-panino');
+        };
+    }, []);
 
     return (
         <>

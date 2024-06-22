@@ -3,8 +3,10 @@ import "./hud.css";
 import EndLevel from "./EndLevel";
 import OpenDoor from "./OpenDoor";
 import YouLost from "./YouLost";
+import LoseLife from "./LoseLife";
+import Info1 from "./Info1";
 
-const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, collectables, openDoor }) => {
+const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, collectables, openDoor, isLoseLife, info1 }) => {
     const [displayText, setDisplayText] = useState("");
 
     const textToShow = 
@@ -95,6 +97,20 @@ const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, c
             <div>
                 {endLevel && (
                     <EndLevel />
+                )}
+            </div>
+
+            {/* Perdiste una vida */}
+            <div>
+                {isLoseLife && (
+                    <LoseLife />
+                )}
+            </div>
+
+            {/* Información 1 */}
+            <div>
+                {info1 && (
+                    <Info1 />
                 )}
             </div>
 

@@ -4,7 +4,7 @@ import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import { Vector3 } from 'three';
 
-export default function Molotov({ props, position, loseLife, direccion, sentido, distancia }) {
+export default function Molotov({ props, position, loseLife, direccion, sentido, distancia, isDecrease }) {
   const { nodes, materials } = useGLTF("/assets/models/colectables/molotov.glb");
   const [visible, setVisible] = useState(true);
   const refRigidBody = useRef();
@@ -12,7 +12,7 @@ export default function Molotov({ props, position, loseLife, direccion, sentido,
 
   const travelDistance = distancia; // Distance to travel before resetting
   const initialPosition = new Vector3(position[0], position[1], position[2]);
-  const [speed, setSpeed] = useState(0.5); // Adjust the speed as needed
+  const [speed, setSpeed] = useState(0.8); // Adjust the speed as needed
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if (other.colliderObject.name === "character-capsule-collider") {
@@ -29,6 +29,14 @@ export default function Molotov({ props, position, loseLife, direccion, sentido,
       );
     }
   };
+
+  useEffect(() => {
+    if(isDecrease === 2) {
+      setSpeed(0.5);
+    } else if(isDecrease > 3) {
+      setSpeed(0.2)
+    }
+  }, [isDecrease]);
 
   useFrame(() => {
     if (refRigidBody.current) {

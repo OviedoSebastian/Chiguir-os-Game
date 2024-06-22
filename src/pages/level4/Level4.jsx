@@ -27,6 +27,7 @@ import Capucho from "./characters/enemies/Capucho";
 import Molotov from "./characters/enemies/Molotov";
 import Capucho2 from "./characters/enemies/Capucho2";
 import Capucho3 from "./characters/enemies/Capucho3";
+import Ardilla from "./characters/avatar/Ardilla";
 
 export default function Level4() {
     const map = useMovements();
@@ -38,6 +39,8 @@ export default function Level4() {
     const [showYouLost, setShowYouLost] = useState(false);
     const [collectables, setCollectables] = useState(0);
     const [openDoor, setOpenDoor] = useState(false);
+    const [isLoseLife, setIsLoseLife] = useState(false);
+    const [info1, setInfo1] = useState(false);
     const [players] = useAtom(playersAtom); //Recupera toda la información enviada por el socket, Se encuentra sin uso
 
     // Crea el usuario en la BD
@@ -57,15 +60,15 @@ export default function Level4() {
     };
 
     const finalizoNivel = () => {
-        console.log("Finalizo");
         setEndLevel(true);
     };
 
     const loseLife = async () => {
         //Modificar acorde al nivel
         const checkpointData = await readDataCheckpoint(auth.userLogged.email);
-        console.log("Pierde una vida");
+        setIsLoseLife(true);
         setLife(life - 1);
+        TimeLife();
         // if (checkpointData && checkpointData.checkpoint) {
         //     setPanino(checkpointData.panino);
         //     setSpeedMenox(checkpointData.speedMenox);
@@ -110,9 +113,15 @@ export default function Level4() {
         saveDatacheckpoint({
             email: email,
             vidas: vida,
-            // Agregar los recolectables que se vaan a utilizar
+            collectables: collectables,
             checkpoint: checkpoint,
         });
+    };
+
+    const TimeLife = () => {
+        setTimeout(() => {
+            setIsLoseLife(false);
+        }, 8000)
     };
 
     useEffect(() => {
@@ -202,9 +211,34 @@ export default function Level4() {
     useEffect(() => {
         if (collectables >= 5) {
             setOpenDoor(true);
+        } else if (collectables === 1) {
+            setInfo1(true);
         }
+
     }, [collectables]);
 
+    useEffect(() => {
+        // Listener for updates from the server
+        socket.on('update-collectables', (newCollectables) => {
+            setCollectables(newCollectables);
+        });
+
+        return () => {
+            socket.off('update-collectables');
+        };
+    }, []);
+
+
+    useEffect(() => {
+        // Listener for updates from the server
+        socket.on('update-endlevel', (data) => {
+            setEndLevel(data.endLevel);
+        });
+
+        return () => {
+            socket.off('update-endlevel');
+        };
+    }, []);
 
     const handleCollectables = () => {
         const newCollectables = collectables + 1;
@@ -230,14 +264,15 @@ export default function Level4() {
                         <SpeedMenox catchObject={handleCollectables} />
                         <Pocion catchObject={handleCollectables} />
                         <Radio catchObject={handleCollectables} />
-                        <Molotov position={[35, -0, -11.5]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100} />
+                        <Molotov position={[35, -0, -11.5]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100} isDecrease={collectables} />
                         <Capucho position={[35, -0, -11.5]} loseLife={loseLife} />
 
-                        <Molotov position={[-35, -0, -18]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100} />
+                        <Molotov position={[-35, -0, -18]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100} isDecrease={collectables} />
                         <Capucho2 position={[-35, -0, -18]} loseLife={loseLife} />
 
-                        <Molotov position={[11, -0, 40]} loseLife={loseLife} direccion={"z"} sentido={-1} distancia={38} />
+                        <Molotov position={[11, -0, 40]} loseLife={loseLife} direccion={"z"} sentido={-1} distancia={38} isDecrease={collectables} />
                         <Capucho3 position={[11, -0, 40]} loseLife={loseLife} rotation={[0, Math.PI, 0]} />
+                        <Ardilla position={[-5.3, 1.4, 21]} savecheckpoint={savecheckpoint} />
                         <AvatarCientific vida={life} resetPoint={resetPoint} />
                         <AvatarEngineer vida={life} resetPoint={resetPoint} />
                     </Physics>
@@ -253,6 +288,8 @@ export default function Level4() {
                 collectables={collectables}
                 onContinue={onContinue}
                 openDoor={openDoor}
+                isLoseLife={isLoseLife}
+                info1={info1}
             />
         </KeyboardControls>
     );

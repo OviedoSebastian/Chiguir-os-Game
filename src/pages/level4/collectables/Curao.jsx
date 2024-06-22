@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
+import { socket } from "../../../socket/socket-manager";
 
 export default function Curao({ catchObject }) {
   const { nodes, materials } = useGLTF("/assets/models/colectables/curao.glb");
@@ -51,12 +52,23 @@ export default function Curao({ catchObject }) {
 
   const onCollisionEnter = ({ manifold, target, other }) => {
     if ((other.colliderObject.name === "character-capsule-collider")) {
-      // setVisible(false);
-      console.log("Tomaste el Curao");
+      setVisible(false);
+      socket.emit('update-curao', { visible: false });
       curaoSound.play();
       catchObject();
     }
   };
+
+  useEffect(() => {
+    // Listener for updates from the server
+    socket.on('update-curao', (data) => {
+      setVisible(data.visible);
+    });
+
+    return () => {
+      socket.off('update-curao');
+    };
+  }, []);
 
   return (
     <>
