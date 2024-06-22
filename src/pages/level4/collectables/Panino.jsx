@@ -1,40 +1,54 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
-export default function Panino({
-    props,
-    catchPanino,
-    takePanino,
-}) {
-    const { nodes, materials } = useGLTF(
-        "/assets/models/colectables/Panino.glb"
-    );
-    const [position, setPosition] = useState([10, 5, 0]);
+export default function Panino({ catchObject }) {
+    const { nodes, materials } = useGLTF("/assets/models/colectables/Panino.glb");
+    const [paninoSound] = useState(new Audio("/assets/sounds/QueRico.mp3"));
+    const [position, setPosition] = useState([14, 3.2, -47.2]);
     const [visible, setVisible] = useState(true);
     const refRigidBody = useRef();
-    const [paninoSound] = useState(new Audio("/assets/sounds/QueRico.mp3"));
+    const requestRef = useRef();
+    const radius = 0.3;
+    const speed = 5;
 
-    useEffect(() => {
-        if (takePanino) {
-            setVisible(false);
-        } else {
-            setVisible(true);
+    const animate = () => {
+        if (refRigidBody.current && visible) {
+            const elapsedTime = Date.now() / 1000; // Tiempo en segundos
+            const angle = elapsedTime * speed;
+            const x = Math.sin(angle) * radius;
+            const y = Math.cos(angle) * radius;
+
+            // Actualiza la posición y la rotación
+            refRigidBody.current.setTranslation(
+                {
+                    x: position[0],
+                    y: position[1] + y,
+                    z: position[2],
+                },
+                true
+            );
+
+            refRigidBody.current.setRotation({ x: 0, y: angle, z: 0 }, true);
         }
-    }, [takePanino]);
-
-
-    const onCollisionEnter = ({ manifold, target, other }) => {
-        // console.log("Collision at world position", manifold.solverContactPoint(0));
-
-        if (other.colliderObject.name == "character-capsule-collider") {
-            setVisible(false);
-            paninoSound.play();
-            // catchPanino();
-        }
+        requestRef.current = requestAnimationFrame(animate);
     };
 
+    useEffect(() => {
+        requestRef.current = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(requestRef.current);
+    }, [visible, position]);
+
+    const onCollisionEnter = ({ manifold, target, other }) => {
+        if (other.colliderObject.name === "character-capsule-collider") {
+            // setVisible(false);
+            console.log("Tomaste el panino");
+            paninoSound.play();
+            catchObject();
+            // setVisible(false);
+            // catchObject();
+        }
+    };
 
     return (
         <>
@@ -45,12 +59,9 @@ export default function Panino({
                     colliders="cuboid"
                     onCollisionEnter={(e) => onCollisionEnter(e)}
                     name="Panino"
-                    position={[14, 9, -10]}
+                    position={[14, 3, -47.2]}
                 >
-                    <group {...props}
-                        dispose={null}
-                        ref={refRigidBody}
-                        rotation={[0, 2, 0]} >
+                    <group dispose={null} ref={refRigidBody}>
                         <mesh
                             geometry={nodes.PaninoPan.geometry}
                             material={materials.Pan}

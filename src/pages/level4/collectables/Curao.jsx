@@ -1,55 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
-import { useGLTF, useTexture } from "@react-three/drei";
-import { RigidBody, useRigidBody } from "@react-three/rapier";
+import { useGLTF } from "@react-three/drei";
+import { RigidBody } from "@react-three/rapier";
 
-export default function Curao({
-  props,
-  catchCurao,
-  curaitoCogio,
-  player
-}) {
+export default function Curao({ catchObject }) {
   const { nodes, materials } = useGLTF("/assets/models/colectables/curao.glb");
-  const [position, setPosition] = useState([10, 2, -10]);
-  const [numeroDeBotellas, setNumeroDeBotellas] = useState(0);
-  const [curaoBro, setCuraoBro] = useState(false);
+  const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
+  const [position, setPosition] = useState([-3, 6, -5]);
   const [visible, setVisible] = useState(true);
   const refRigidBody = useRef();
-  
-
-  useEffect(() => {
-    if (curaitoCogio) {
-      setVisible(false);
-    } else {
-      setVisible(true);
-    }
-  }, [curaitoCogio]);
-
-  const [curaoSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
-
-  const onCollisionEnter = ({ manifold, target, other }) => {
-    // console.log("Collision at world position", manifold.solverContactPoint(0));
-    // Aquí se puede saber si el jugador toco el objeto, se puede sacar otra propiedad para verificar
-    // que ese jugador es el AvatarCientific?
-    if ((other.colliderObject.name === "character-capsule-collider")) {
-        console.log("Entre? xd");
-        console.log(other.rigidBodyObject.name);
-        
-      
-    }
-  };
-
+  const requestRef = useRef();
   const radius = 0.3;
   const speed = 5;
-  /*
-    useFrame(({ clock }) => {
-      const elapsedTime = clock.getElapsedTime();
+
+  const animate = () => {
+    if (refRigidBody.current && visible) {
+      const elapsedTime = Date.now() / 1000; // Tiempo en segundos
       const angle = elapsedTime * speed;
       const x = Math.sin(angle) * radius;
       const y = Math.cos(angle) * radius;
-      // refRigidBody.current.rotation.y = angle;
-  
-      refRigidBody.current?.setTranslation(
+
+      // Actualiza la posición y la rotación
+      refRigidBody.current.setTranslation(
         {
           x: position[0],
           y: position[1] + y,
@@ -57,9 +28,35 @@ export default function Curao({
         },
         true
       );
-    });
+
+      refRigidBody.current.setRotation({ x: 0, y: angle, z: 0 }, true);
+    }
+    requestRef.current = requestAnimationFrame(animate);
+  };
+
+  useEffect(() => {
+    requestRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestRef.current);
+  }, [visible, position]);
+
+  /*
+  useEffect(() => {
+    if (curaitoCogio) {
+      setVisible(false);
+    } else {
+      setVisible(true);
+    }
+  }, [curaitoCogio]);
   */
 
+  const onCollisionEnter = ({ manifold, target, other }) => {
+    if ((other.colliderObject.name === "character-capsule-collider")) {
+      // setVisible(false);
+      console.log("Tomaste el Curao");
+      curaoSound.play();
+      catchObject();
+    }
+  };
 
   return (
     <>
@@ -73,7 +70,6 @@ export default function Curao({
           position={position}
         >
           <group
-            {...props}
             dispose={null}
             ref={refRigidBody}
             rotation={[0, 2, 0]}

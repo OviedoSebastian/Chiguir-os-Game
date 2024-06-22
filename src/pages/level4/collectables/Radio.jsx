@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
+import { socket } from "../../../socket/socket-manager";
 
-export default function SpeedMenox({ catchSpeed }) {
-  const { nodes, materials } = useGLTF("/assets/models/colectables/speedMenox_less.glb");
-  const [speedMenoxSound] = useState(new Audio("/assets/sounds/CuraoSound.mp3"));
-  const [position, setPosition] = useState([-25.2, 1 , 10.3]);
+export default function Radio({ props, catchObject }) {
+  const { nodes, materials } = useGLTF("/assets/models/colectables/radio.glb");
+  const [radioSound] = useState(new Audio("/assets/sounds/recolect_object1.wav"));
+  const [position, setPosition] = useState([-17, 0, -14]);
   const [visible, setVisible] = useState(true);
   const refRigidBody = useRef();
   const requestRef = useRef();
@@ -40,36 +41,33 @@ export default function SpeedMenox({ catchSpeed }) {
   }, [visible, position]);
 
   const onCollisionEnter = ({ manifold, target, other }) => {
-    if (other.colliderObject.name === "character-capsule-collider") {
+    if (other.colliderObject.name == "character-capsule-collider") {
       // setVisible(false);
-      console.log("Tomaste el SpeedMenox");
-      curaoSound.play();
+      console.log("Tomaste el Radio");
+      radioSound.play();
       catchObject();
     }
   };
 
   return (
-    <>
-      {visible ? (
-        <RigidBody
-          ref={refRigidBody}
-          type="fixed"
-          colliders="cuboid"
-          onCollisionEnter={(e) => onCollisionEnter(e)}
-          name="SpeedMenox"
-          position={position}
-        >
-          <group dispose={null} ref={refRigidBody}>
-            <mesh
-              geometry={nodes.geometry_0.geometry}
-              material={materials.Material_0}
-              position={[-0.002, 0.56, 0.011]}
-            />
-          </group>
-        </RigidBody>
-      ) : null}
-    </>
+    <RigidBody
+      ref={refRigidBody}
+      type="fixed"
+      colliders="cuboid"
+      onCollisionEnter={(e) => onCollisionEnter(e)}
+      name="Radio"
+      position={position}
+    >
+      <group {...props} dispose={null}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Radio.geometry}
+          material={materials.Walkie_talkie}
+        />
+      </group>
+    </RigidBody>
   );
 }
 
-useGLTF.preload("/assets/models/colectables/speedMenox_less.glb");
+useGLTF.preload("/assets/models/colectables/radio.glb");

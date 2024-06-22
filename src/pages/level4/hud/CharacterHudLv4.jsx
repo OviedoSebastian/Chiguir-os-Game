@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./hud.css";
 import EndLevel from "./EndLevel";
+import OpenDoor from "./OpenDoor";
 import YouLost from "./YouLost";
 
-const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, panino }) => {
+const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, collectables, openDoor }) => {
     const [displayText, setDisplayText] = useState("");
 
-    const textToShow = 
-    "Para entrar en los tuneles subterraneos ve al salon de clase y atravieza la puerta, me faltan los interiores y ponerle textura a los edificios";
+    const textToShow =
+        "Para entrar en los tuneles subterraneos ve al salon de clase y atravieza la puerta, me faltan los interiores y ponerle textura a los edificios";
 
     const currentIndexRef = useRef(0);
 
@@ -36,7 +37,7 @@ const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, p
         <>
             <div className="hud-container">
                 {/* Vidas */}
-                <div className="hud-item">
+                <div className="hud-item2">
                     <img
                         src="./assets/icons/icon_heart.png"
                         alt="laptop"
@@ -47,15 +48,14 @@ const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, p
                     </span>
                 </div>
 
-                {/* Paninos */}
+                {/* Colectables */}
                 <div className="hud-item">
                     <img
-                        src="./assets/icons/icon_panino.png"
-                        alt="laptop"
+                        src="./assets/icons/icon_allcolectables.png"
                         className="hud-icon"
                     />
                     <span className="hud-text">
-                        {panino}/{4}
+                        {collectables}/{5}
                     </span>
                 </div>
 
@@ -82,6 +82,13 @@ const CharacterHudLv4 = ({ lifes, userInfo, endLevel, showYouLost, onContinue, p
                     <img src="./assets/images/mapa.png" alt="mapa" className="hud-mapa" />
                 </a>
                 <span className="map-text">Mapa</span>
+            </div>
+
+            {/* Puerta abierta */}
+            <div>
+                {openDoor && (
+                    <OpenDoor />
+                )}
             </div>
 
             {/* Termino el nivel */}

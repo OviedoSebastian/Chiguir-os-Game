@@ -20,23 +20,20 @@ import AvatarEngineer from "./characters/avatar/AvatarEngineer";
 import Panino from "./collectables/Panino";
 import SpeedMenox from "./collectables/SpeedMenox";
 import Curao from "./collectables/Curao";
-
-import {
-    createcheckpoint,
-    editCheckpoint,
-    readCheckpoint,
-} from "../../db/level4-collection";
+import Pocion from "./collectables/Pocion";
+import Radio from "./collectables/Radio";
+import { createcheckpoint, editCheckpoint, readCheckpoint, } from "../../db/level4-collection";
 
 export default function Level4() {
     const map = useMovements();
     const auth = useAuth();
     const [life, setLife] = useState(3);
-    const [speedMenox, setSpeedMenox] = useState(0);
     const [endLevel, setEndLevel] = useState(false);
     const [checkpoint, setCheckpoint] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [showYouLost, setShowYouLost] = useState(false);
-    const [panino, setPanino] = useState(0);
+    const [collectables, setCollectables] = useState(0);
+    const [openDoor, setOpenDoor] = useState(false);
     const [players] = useAtom(playersAtom); //Recupera toda la información enviada por el socket, Se encuentra sin uso
 
     // Crea el usuario en la BD
@@ -78,14 +75,11 @@ export default function Level4() {
     const resetPoint = () => {
         setShowYouLost(true);
         setLife(3);
-        setPanino(0);
-        setSpeedMenox(0);
+        setCollectable(0);
         setCheckpoint(false);
         editCheckpoint(auth.userLogged.email, {
             vidas: 3,
-            panino: 0,
-            speedMenox: 0,
-            gol: 0,
+            collectables: 0,
             checkpoint: checkpoint,
         });
     };
@@ -138,6 +132,7 @@ export default function Level4() {
             });
         }
     }, [auth.userLogged]);
+
 
     //Desconecta el socket cuando cierra la ventana
     useEffect(() => {
@@ -200,6 +195,19 @@ export default function Level4() {
         };
     }, []);
 
+    useEffect(() => {
+        if (collectables >= 5) {
+            setOpenDoor(true);
+        }
+    }, [collectables]);
+
+
+    const handleCollectables = () => {
+        const newCollectables = collectables + 1;
+        setCollectables(newCollectables);
+        socket.emit('update-collectables', newCollectables);
+    };
+
     return (
         <KeyboardControls map={map}>
             <Players />
@@ -212,7 +220,12 @@ export default function Level4() {
                     <Lights />
                     <Environments />
                     <Physics debug={false} timeStep="vary">
-                        <World finishedLevel={finalizoNivel} loseLife={loseLife} />
+                        <World finishedLevel={finalizoNivel} loseLife={loseLife} openDoor={openDoor} />
+                        <Panino catchObject={handleCollectables} />
+                        <Curao catchObject={handleCollectables} />
+                        <SpeedMenox catchObject={handleCollectables} />
+                        <Pocion catchObject={handleCollectables} />
+                        <Radio catchObject={handleCollectables} />
                         <AvatarCientific vida={life} resetPoint={resetPoint} />
                         <AvatarEngineer vida={life} resetPoint={resetPoint} />
                     </Physics>
@@ -225,8 +238,9 @@ export default function Level4() {
                 userInfo={userInfo}
                 endLevel={endLevel}
                 showYouLost={showYouLost}
-                panino={panino}
+                collectables={collectables}
                 onContinue={onContinue}
+                openDoor={openDoor}
             />
         </KeyboardControls>
     );

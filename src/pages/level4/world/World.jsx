@@ -1,12 +1,9 @@
-import { useGLTF, useTexture } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
-import { useRef, useState, Suspense, useEffect} from "react";
-import { RepeatWrapping } from "three";
-import { color } from "three/examples/jsm/nodes/Nodes.js";
+import { useRef, useState, useEffect} from "react";
 import { socket } from "../../../socket/socket-manager";
 
-
-export default function World({finishedLevel, loseLife}) {
+export default function World({ finishedLevel, loseLife, openDoor }) {
   const [intersecting, setIntersection] = useState(false);
   const EspinasRef = useRef();
   const [originalPosition, setOriginalPosition] = useState(null);
@@ -30,6 +27,7 @@ export default function World({finishedLevel, loseLife}) {
         EspinasRef.current.setTranslation(data.position);
       }
     });
+
 
     return () => {
       socket.off('updatePosition');
@@ -83,9 +81,20 @@ export default function World({finishedLevel, loseLife}) {
     finishedLevel();
   };
 
+  
+
 
   return (
     <group dispose={null}>
+      {!openDoor && (
+        <RigidBody type="fixed" colliders="cuboid" >
+        <mesh
+          geometry={nodes.PuertaAbiertaSalones.geometry}
+          material={materials.mat_railing_rails}
+        />
+        </RigidBody>
+      )}
+      
       <group>
         <RigidBody type="fixed" colliders="trimesh">
           <group>
@@ -2025,13 +2034,7 @@ export default function World({finishedLevel, loseLife}) {
 
 
         {/* Puerta de los salones a abrir */}
-        <mesh
-          geometry={nodes.PuertaAbiertaSalones.geometry}
-          material={materials.mat_railing_rails}
-        />
-
-
-
+        
 
         <mesh
           geometry={nodes.PuertasAbiertasLaberinto.geometry}

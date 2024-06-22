@@ -2,14 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { useAvatar } from "../../../../context/AvatarContext";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import Ecctrl from "ecctrl";
+import { useFrame } from "@react-three/fiber";
 
-export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDelMapa }) {
+export default function AvatarCientific({ vida, resetPoint, offTheMap, dentroDelMapa }) {
 
     const avatarCientificRef = useRef();
     const rigidBodyAvatarCientificRef = useRef();
     const { avatar, setAvatar } = useAvatar();
     const { nodes, materials, animations } = useGLTF('/assets/models/avatars/Cientific.glb');
     const { actions } = useAnimations(animations, avatarCientificRef);
+    // Estado para almacenar la posición del avatar
+    const [position, setPosition] = useState({ x: 0, y:0 , z: 0 });
 
     useEffect(() => {
         setAvatar({
@@ -23,7 +26,7 @@ export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDe
 
 
     useEffect(() => {
-       
+
         if (vida <= 0) {
 
             rigidBodyAvatarCientificRef.current?.setTranslation(
@@ -61,6 +64,16 @@ export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDe
         }
     }, [offTheMap]);
 
+    /*
+    // Actualiza la posición en cada frame
+    useFrame(() => {
+        if (rigidBodyAvatarCientificRef.current) {
+            const { x, y, z } = rigidBodyAvatarCientificRef.current.translation();
+            setPosition({ x, y, z });
+            console.log(position);
+        }
+    });
+    */
     return (
         <Ecctrl
             ref={rigidBodyAvatarCientificRef}
@@ -69,10 +82,10 @@ export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDe
             camInitDis={-3}
             camMaxDis={-4}
             maxVelLimit={6}
-            jumpVel={10}
-            position={[12, 10, -10]}
+            jumpVel={15}
+            position={[12,10, -10]}
             name="avatar-cientific"
-            // position={[12, 8, -11]}
+        // position={[12, 8, -11]}
         >
             <group ref={avatarCientificRef} name="Scene" position-y={-0.80}>
                 <group name="Armature" rotation={[Math.PI / 2, 0, 0]} scale={0.002}>
