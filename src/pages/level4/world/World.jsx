@@ -1,42 +1,124 @@
 import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
-import { useRef, useState, Suspense } from "react";
+import { useRef, useState, Suspense, useEffect} from "react";
 import { RepeatWrapping } from "three";
 import { color } from "three/examples/jsm/nodes/Nodes.js";
+import { socket } from "../../../socket/socket-manager";
 
-export default function World(props) {
+
+export default function World(finishedLevel) {
   const [intersecting, setIntersection] = useState(false);
+  const EspinasRef = useRef();
+  const [originalPosition, setOriginalPosition] = useState(null);
+
+  const [botonSound] = useState(new Audio("/assets/sounds/Boton.mp3"));
+  const [endSound] = useState(new Audio("/assets/sounds/finishLevel.mp3"));
 
   const { nodes, materials } = useGLTF(
-    "/assets/models/world/Plazoleta.v28.glb"
+    "/assets/models/world/Plazoleta.v31.glb"
   );
 
-  const handleIntersectionEnter = (payload, manifold) => {
-    console.log("Entra")
-    console.log(payload.colliderObject.name)
-    if (payload.colliderObject.name === "character-capsule-collider") {
-      setIntersection(true);
+  useEffect(() => {
+    if (EspinasRef.current) {
+      const position = EspinasRef.current.translation();
+      setOriginalPosition(position);
+    }
+
+    // Listener for messages from the server
+    socket.on('updatePosition', (data) => {
+      if (EspinasRef.current) {
+        EspinasRef.current.setTranslation(data.position);
+      }
+    });
+
+    return () => {
+      socket.off('updatePosition');
+    };
+  }, []);
+
+
+  const handleIntersectionEnter = () => {
+    console.log("Entra");
+    setIntersection(true);
+    console.log(intersecting);
+
+    if (EspinasRef.current) {
+      const position = EspinasRef.current.translation();
+      const newPosition = { x: position.x, y: position.y, z: position.z + 10 };
+      EspinasRef.current.setTranslation(newPosition);
+      
+      // Send the new position to the server
+      socket.emit('updatePosition', { position: newPosition });
+      
+      console.log(newPosition);
     }
   };
 
   const handleIntersectionExit = () => {
-    console.log("Sale")
+    console.log("Sale");
     setIntersection(false);
+    console.log(intersecting);
+
+    if (EspinasRef.current && originalPosition) {
+      EspinasRef.current.setTranslation(originalPosition);
+      
+      // Send the original position to the server
+      socket.emit('updatePosition', { position: originalPosition });
+      
+      console.log(originalPosition);
+    }
   };
 
-  const TocaBoton = ({ manifold }) => {
-    console.log("Collision at world position", manifold.solverContactPoint(0));
+  const TocaBoton = () => {
+    botonSound.play();
   };
 
   const TocaEspinas = ({ manifold, target, other }) => {
     console.log("Collision at world position", manifold.solverContactPoint(0));
   };
 
+  const Gana = () => {
+    console.log("Ganaste");
+    endSound.play();
+    finishedLevel();
+  };
+
+
   return (
-    <group {...props} dispose={null}>
+    <group dispose={null}>
       <group>
         <RigidBody type="fixed" colliders="trimesh">
           <group>
+            <RigidBody
+              type="fixed"
+              colliders="cuboid"
+              onCollisionEnter={(e) => Gana(e)}
+            >
+              <group>
+                {/* Birrrete */}
+                <mesh
+                  geometry={nodes.Sphere001.geometry}
+                  material={materials.Naranja}
+                />
+                <mesh
+                  geometry={nodes.Sphere001_1.geometry}
+                  material={materials.Negro}
+                />
+                <mesh
+                  geometry={nodes.Sphere001_2.geometry}
+                  material={materials.Amarillo}
+                />
+                <mesh
+                  geometry={nodes.Sphere001_3.geometry}
+                  material={materials.Negro2}
+                />
+                <mesh
+                  geometry={nodes.Sphere001_4.geometry}
+                  material={materials["Amarillo.001"]}
+                />
+              </group>
+            </RigidBody>
+
             <group>
               <mesh
                 geometry={nodes.map_10osm_buildings009.geometry}
@@ -1874,39 +1956,11 @@ export default function World(props) {
               </group>
             </group>
           </group>
-          <group>
-            <mesh
-              geometry={nodes.Sphere001.geometry}
-              material={materials.Naranja}
-            />
-            <mesh
-              geometry={nodes.Sphere001_1.geometry}
-              material={materials.Negro}
-            />
-            <mesh
-              geometry={nodes.Sphere001_2.geometry}
-              material={materials.Amarillo}
-            />
-            <mesh
-              geometry={nodes.Sphere001_3.geometry}
-              material={materials.Negro2}
-            />
-            <mesh
-              geometry={nodes.Sphere001_4.geometry}
-              material={materials["Amarillo.001"]}
-            />
-          </group>
-
-          <group>
-            <mesh
-              geometry={nodes.PisoTrampa.geometry}
-              material={materials["Floor.001"]}
-            />
-          </group>
         </RigidBody>
 
         {/* Espinas  */}
         <RigidBody
+          ref={EspinasRef}
           type="fixed"
           colliders="hull"
           onCollisionEnter={(e) => TocaEspinas(e)}
@@ -1921,7 +1975,7 @@ export default function World(props) {
         {/* Boton  */}
         <RigidBody
           type="fixed"
-          colliders="cuboid"
+          colliders={false}
           onCollisionEnter={(e) => TocaBoton(e)}
           name="Botones"
         >
@@ -1939,24 +1993,46 @@ export default function World(props) {
           />
 
           <CuboidCollider
-            // position={[3.9, -7.11, 8.9]}
-            position={[ 10, 1.2, -11.5]}
-            args={[0.2, 0.2, 0.2]}
-            // sensor
+            position={[3.9, -7.11, 8.9]}
+            args={[0.3, 0.3, 0.3]}
+            sensor
             onIntersectionEnter={handleIntersectionEnter}
             onIntersectionExit={handleIntersectionExit}
-            onCollisionEnter={TocaBoton}
+          />
+
+          <CuboidCollider
+            position={[-18, -6.6, 25.5]}
+            // position={[ 10, 1.2, -11.5]}
+            args={[0.3, 0.3, 0.3]}
+            sensor
+            onIntersectionEnter={handleIntersectionEnter}
+            onIntersectionExit={handleIntersectionExit}
           />
         </RigidBody>
+
+        <group>
+          <mesh
+            geometry={nodes.PisoTrampa.geometry}
+            material={materials["Floor.001"]}
+          />
+        </group>
 
         <mesh
           geometry={nodes.PuertaAbiertaEdificio.geometry}
           material={materials.techoE}
         />
+
+
+
+        {/* Puerta de los salones a abrir */}
         <mesh
           geometry={nodes.PuertaAbiertaSalones.geometry}
           material={materials.mat_railing_rails}
         />
+
+
+
+
         <mesh
           geometry={nodes.PuertasAbiertasLaberinto.geometry}
           material={materials.Puerta}
@@ -1993,4 +2069,4 @@ export default function World(props) {
   );
 }
 
-useGLTF.preload("/assets/models/world/Plazoleta.glb");
+useGLTF.preload("/assets/models/world/Plazoleta.v31.glb");
