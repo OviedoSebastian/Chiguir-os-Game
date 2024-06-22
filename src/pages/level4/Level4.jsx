@@ -22,6 +22,10 @@ import {
   editCheckpoint,
   readCheckpoint,
 } from "../../db/level4-collection";
+import Capucho from "./characters/enemies/Capucho";
+import Molotov from "./characters/enemies/Molotov";
+import Capucho2 from "./characters/enemies/Capucho2";
+import Capucho3 from "./characters/enemies/Capucho3";
 
 export default function Level4() {
   const map = useMovements();
@@ -166,6 +170,16 @@ export default function Level4() {
             <World finishedLevel={finalizoNivel} loseLife={loseLife} />
             <AvatarCientific vida={life} resetPoint={resetPoint} />
             <AvatarEngineer vida={life} resetPoint={resetPoint} />
+
+            <Molotov position={[35, -0, -11.5]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100}/>
+            <Capucho position={[35, -0, -11.5]} loseLife={loseLife}/>
+            
+            <Molotov position={[-35, -0, -18]} loseLife={loseLife} direccion={"z"} sentido={1} distancia={100}/>
+            <Capucho2 position={[-35, -0, -18]} loseLife={loseLife}/>
+            
+            <Molotov position={[11, -0, 40]} loseLife={loseLife} direccion={"z"} sentido={-1} distancia={38}/>
+            <Capucho3 position={[11, -0, 40]} loseLife={loseLife} rotation={[0, Math.PI , 0]}/>
+
           </Physics>
         </Suspense>
         <Controls />
