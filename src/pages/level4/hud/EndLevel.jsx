@@ -10,7 +10,7 @@ const EndLevel = ({}) => {
     const navigate = useNavigate()
 
     const onNextLevel = () => {
-        navigate("/level4")
+        navigate("/")
     }
 
     return (
@@ -24,10 +24,10 @@ const EndLevel = ({}) => {
         <div className="end-level-container">
             
             <div className="end-level-message">
-                ¡Felicidades, terminaste el nivel!
+                ¡Felicidades, terminaste el nivel, Gracias por jugar nuestro videojuego!
             </div>
             <button className="end-level-button" onClick={onNextLevel}>
-                Siguiente Nivel
+                Inicio
             </button>
         </div>
         </>

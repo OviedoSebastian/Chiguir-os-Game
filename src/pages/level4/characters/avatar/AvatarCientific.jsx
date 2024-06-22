@@ -28,9 +28,9 @@ export default function AvatarCientific({ vida, resetPoint,  offTheMap, dentroDe
 
             rigidBodyAvatarCientificRef.current?.setTranslation(
                 {
-                    x: 0,
-                    y: 10,
-                    z: 0,
+                    x: 12,
+                    y: 20,
+                    z: -10,
                 },
                 true
             );

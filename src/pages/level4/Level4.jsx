@@ -21,19 +21,23 @@ import Panino from "./collectables/Panino";
 import SpeedMenox from "./collectables/SpeedMenox";
 import Curao from "./collectables/Curao";
 
+import {
+    createcheckpoint,
+    editCheckpoint,
+    readCheckpoint,
+} from "../../db/level4-collection";
 
 export default function Level4() {
-
     const map = useMovements();
     const auth = useAuth();
     const [life, setLife] = useState(3);
+    const [speedMenox, setSpeedMenox] = useState(0);
     const [endLevel, setEndLevel] = useState(false);
     const [checkpoint, setCheckpoint] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [showYouLost, setShowYouLost] = useState(false);
     const [panino, setPanino] = useState(0);
     const [players] = useAtom(playersAtom); //Recupera toda la información enviada por el socket, Se encuentra sin uso
-    const [player, setPlayer] = useState("none")
 
     // Crea el usuario en la BD
     const saveDataUser = async (valueUser) => {
@@ -45,15 +49,111 @@ export default function Level4() {
         await readUser(email)
             .then((res) => console.log(res))
             .catch((error) => console.error(error));
-    }
+    };
 
     const onContinue = () => {
         setShowYouLost(false);
     };
 
-    const endingLevel = () => {
+    const finalizoNivel = () => {
+        console.log("Finalizo");
         setEndLevel(true);
     };
+
+    const loseLife = async () => {
+        //Modificar acorde al nivel
+        const checkpointData = await readDataCheckpoint(auth.userLogged.email);
+        console.log("Pierde una vida");
+        setLife(life - 1);
+        // if (checkpointData && checkpointData.checkpoint) {
+        //     setPanino(checkpointData.panino);
+        //     setSpeedMenox(checkpointData.speedMenox);
+        // } else {
+        //     setPanino(0);
+        //     setSpeedMenox(0);
+        //     console.log("No guardaste en el checkpoint :c");
+        // }
+    };
+
+    const resetPoint = () => {
+        setShowYouLost(true);
+        setLife(3);
+        setPanino(0);
+        setSpeedMenox(0);
+        setCheckpoint(false);
+        editCheckpoint(auth.userLogged.email, {
+            vidas: 3,
+            panino: 0,
+            speedMenox: 0,
+            gol: 0,
+            checkpoint: checkpoint,
+        });
+    };
+
+    // Conectar usuario por medio de los sockets
+    useEffect(() => {
+        socket.emit("player-connected");
+    }, []);
+
+    const readDataCheckpoint = async (email) => {
+        try {
+            const checkpointData = await readCheckpoint(email);
+            return checkpointData;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    };
+
+    const savecheckpoint = () => {
+        setCheckpoint(true);
+        const { email } = auth.userLogged;
+        // console.log(displayName, email); //Verificar los datos a guardar
+        saveDatacheckpoint({
+            email: email,
+            vidas: vida,
+            // Agregar los recolectables que se vaan a utilizar
+            checkpoint: checkpoint,
+        });
+    };
+
+    useEffect(() => {
+        // para saber todos los valores que se pueden recuperar por medio del
+        // inicio de sesion por el correo, imprimir por consola lo siguiente console.log(auth.userLogged);
+        if (auth.userLogged) {
+            const { displayName, email, photoURL } = auth.userLogged;
+            // console.log(displayName, email); //Verificar los datos a guardar
+            saveDataUser({
+                displayName: displayName,
+                email: email,
+                photoURL: photoURL,
+            });
+
+            readDataUser(email); //Recupera el usuario guardado en la BD
+
+            setUserInfo({
+                displayName: displayName,
+                email: email,
+                photoURL: photoURL,
+            });
+        }
+    }, [auth.userLogged]);
+
+    //Desconecta el socket cuando cierra la ventana
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            // Call your disconnect function here
+            disconnectSocket();
+            // Optionally, you can show a confirmation dialog
+            event.returnValue = "Are you sure you want to leave?";
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, []);
 
     // Conectar usuario por medio de los sockets
     useEffect(() => {
@@ -100,26 +200,21 @@ export default function Level4() {
         };
     }, []);
 
-
-
     return (
-        <KeyboardControls map={map} >
+        <KeyboardControls map={map}>
             <Players />
             <Canvas
                 camera={{
-                    position: [0, 1, 0]
+                    position: [0, 1, 0],
                 }}
             >
                 <Suspense fallback={<LoadingScreen />}>
                     <Lights />
                     <Environments />
                     <Physics debug={false} timeStep="vary">
-                        <World />
-                        <Panino />
-                        <SpeedMenox />
-                        <Curao />
-                        <AvatarCientific />
-                        <AvatarEngineer />
+                        <World finishedLevel={finalizoNivel} loseLife={loseLife} />
+                        <AvatarCientific vida={life} resetPoint={resetPoint} />
+                        <AvatarEngineer vida={life} resetPoint={resetPoint} />
                     </Physics>
                 </Suspense>
                 <Controls />
@@ -134,6 +229,5 @@ export default function Level4() {
                 onContinue={onContinue}
             />
         </KeyboardControls>
-
-    )
+    );
 }
