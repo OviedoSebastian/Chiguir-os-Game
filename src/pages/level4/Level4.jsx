@@ -27,6 +27,7 @@ export default function Level4() {
   const map = useMovements();
   const auth = useAuth();
   const [life, setLife] = useState(3);
+  const [speedMenox, setSpeedMenox] = useState(0);
   const [endLevel, setEndLevel] = useState(false);
   const [checkpoint, setCheckpoint] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
@@ -55,7 +56,35 @@ export default function Level4() {
     setEndLevel(true);
   };
 
-  
+  const loseLife = async () => {
+    //Modificar acorde al nivel
+    const checkpointData = await readDataCheckpoint(auth.userLogged.email);
+    console.log("Pierde una vida");
+    setLife(life - 1);
+    // if (checkpointData && checkpointData.checkpoint) {
+    //     setPanino(checkpointData.panino);
+    //     setSpeedMenox(checkpointData.speedMenox);
+    // } else {
+    //     setPanino(0);
+    //     setSpeedMenox(0);
+    //     console.log("No guardaste en el checkpoint :c");
+    // }
+  };
+
+  const resetPoint = () => {
+    setShowYouLost(true);
+    setLife(3);
+    setPanino(0);
+    setSpeedMenox(0);
+    setCheckpoint(false);
+    editCheckpoint(auth.userLogged.email, {
+      vidas: 3,
+      panino: 0,
+      speedMenox: 0,
+      gol: 0,
+      checkpoint: checkpoint,
+    });
+  };
 
   // Conectar usuario por medio de los sockets
   useEffect(() => {
@@ -134,9 +163,9 @@ export default function Level4() {
           <Lights />
           <Environments />
           <Physics debug={false} timeStep="vary">
-            <World finishedLevel={finalizoNivel} />
-            <AvatarCientific />
-            <AvatarEngineer />
+            <World finishedLevel={finalizoNivel} loseLife={loseLife} />
+            <AvatarCientific vida={life} resetPoint={resetPoint} />
+            <AvatarEngineer vida={life} resetPoint={resetPoint} />
           </Physics>
         </Suspense>
         <Controls />

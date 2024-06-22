@@ -3,7 +3,7 @@ import { useAnimations, useGLTF } from "@react-three/drei";
 import { CuboidCollider, RigidBody, quat, vec3 } from "@react-three/rapier";
 import { socket } from "../../../../socket/socket-manager";
 
-export default function AvatarEngineer() {
+export default function AvatarEngineer({ vida, resetPoint,  offTheMap, dentroDelMapa }) {
     const avatarEngineerRef = useRef();
     const rigidBodyAvatarEngineerRef = useRef();
     const position = vec3();
@@ -12,6 +12,22 @@ export default function AvatarEngineer() {
     const [animation, setAnimation] = useState('Dance');
     const { actions } = useAnimations(animations, avatarEngineerRef);
 
+
+    useEffect(() => {
+       
+        if (vida <= 0) {
+
+            rigidBodyAvatarEngineerRef.current?.setTranslation(
+                {
+                    x: 12,
+                    y: 20,
+                    z: -10,
+                },
+                true
+            );
+            resetPoint()
+        }
+    }, [vida]);
   
 
     useEffect(() => {
