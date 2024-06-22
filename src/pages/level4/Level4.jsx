@@ -17,6 +17,9 @@ import Buttons from "./hud/Buttons";
 import CharacterHudLv4 from "./hud/CharacterHudLv4";
 import AvatarCientific from "./characters/avatar/AvatarCientific";
 import AvatarEngineer from "./characters/avatar/AvatarEngineer";
+import Panino from "./collectables/Panino";
+import SpeedMenox from "./collectables/SpeedMenox";
+import Curao from "./collectables/Curao";
 
 
 export default function Level4() {
@@ -30,6 +33,7 @@ export default function Level4() {
     const [showYouLost, setShowYouLost] = useState(false);
     const [panino, setPanino] = useState(0);
     const [players] = useAtom(playersAtom); //Recupera toda la información enviada por el socket, Se encuentra sin uso
+    const [player, setPlayer] = useState("none")
 
     // Crea el usuario en la BD
     const saveDataUser = async (valueUser) => {
@@ -52,7 +56,7 @@ export default function Level4() {
     };
 
     // Conectar usuario por medio de los sockets
-    useEffect(()=>{
+    useEffect(() => {
         socket.emit("player-connected")
     }, [])
 
@@ -97,6 +101,7 @@ export default function Level4() {
     }, []);
 
 
+
     return (
         <KeyboardControls map={map} >
             <Players />
@@ -110,8 +115,11 @@ export default function Level4() {
                     <Environments />
                     <Physics debug={false} timeStep="vary">
                         <World />
-                            <AvatarCientific />
-                            <AvatarEngineer />
+                        <Panino />
+                        <SpeedMenox />
+                        <Curao />
+                        <AvatarCientific />
+                        <AvatarEngineer />
                     </Physics>
                 </Suspense>
                 <Controls />
